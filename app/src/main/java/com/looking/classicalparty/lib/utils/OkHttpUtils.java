@@ -2,6 +2,7 @@ package com.looking.classicalparty.lib.utils;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.support.graphics.drawable.BuildConfig;
 
 import com.google.gson.Gson;
 import com.google.gson.internal.$Gson$Types;
@@ -177,7 +178,7 @@ public class OkHttpUtils {
         for (Param param : params) {
             builder.add(param.key, param.value);
         }
-        builder.add("packageName", Config.PackageName).add("clientType", Config.ClientType);
+        builder.add("packageName",  BuildConfig.APPLICATION_ID).add("clientType", Config.ClientType);
         RequestBody requestBody = builder.build();
         return new Request.Builder().url(url).post(requestBody).build();
     }
@@ -194,7 +195,7 @@ public class OkHttpUtils {
             builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"" + param.key +
                     "\""), RequestBody.create(null, param.value));
         }
-        builder.addFormDataPart("packageName", Config.PackageName).addFormDataPart("clientType", Config.ClientType);
+        builder.addFormDataPart("packageName", BuildConfig.APPLICATION_ID).addFormDataPart("clientType", Config.ClientType);
         if (files != null) {
             RequestBody fileBody = null;
             for (int i = 0; i < files.length; i++) {

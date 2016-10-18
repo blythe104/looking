@@ -5,6 +5,6 @@ package com.looking.classicalparty.lib.constants;
  */
 public class Config {
 
-
+    public static final String ClientType = "android";
 
 }
