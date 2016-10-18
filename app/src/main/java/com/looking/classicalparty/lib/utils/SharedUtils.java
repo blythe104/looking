@@ -2,10 +2,11 @@ package com.looking.classicalparty.lib.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.graphics.drawable.BuildConfig;
 
-public class SharedPreferencesUtils {
+public class SharedUtils {
     //将可变的内容设置到一块，这这样可以更简便的更改
-    public static final String SP_NAME = "classical_config";
+    public static final String SP_NAME = BuildConfig.APPLICATION_ID;
     private static SharedPreferences sp;
 
     public static void saveString(Context context, String key, String value) {

@@ -220,7 +220,7 @@ public class OkHttpUtils {
 
     private List<Param> validateParam(List<Param> params) {
         if (params == null)
-            return new ArrayList<Param>();
+            return new ArrayList<>();
         else
             return params;
     }

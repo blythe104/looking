@@ -15,17 +15,17 @@ android {
     signingConfigs {
         debugConfig {
             keyAlias 'classical'
-            keyPassword System.console().readLine(" :input keyPassword : ")
+            keyPassword 'likeclassical'//System.console().readLine(" :input keyPassword : ")
             storeFile file('../classical.jks')
-            storePassword System.console().readLine(" :input storePassword : ");
+            storePassword 'likeclassical'//System.console().readLine(" :input storePassword : ");
 
         }
 
         releaseConfig {
             keyAlias 'classical'
-            keyPassword System.console().readLine(" :input keyPassword : ")
+            keyPassword 'likeclassical'//System.console().readLine(" :input keyPassword : ")
             storeFile file('../classical.jks')
-            storePassword System.console().readLine(" :input storePassword : ");
+            storePassword 'likeclassical'//System.console().readLine(" :input storePassword : ");
         }
     }
 
@@ -46,12 +46,12 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            resValue("string", "app_name", "classical")
         }
 
         debug {
             minifyEnabled false
             resValue("string", "app_name", "test-classical")
-            buildConfigField "String", "BASE_URL", ""
             signingConfig signingConfigs.debugConfig
         }
     }
