@@ -1,0 +1,75 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
+
+    defaultConfig {
+        applicationId "com.looking.classicalparty"
+        minSdkVersion 18
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+
+    signingConfigs {
+        debugConfig {
+            keyAlias 'classical'
+            keyPassword System.console().readLine(" :input keyPassword : ")
+            storeFile file('../classical.jks')
+            storePassword System.console().readLine(" :input storePassword : ");
+
+        }
+
+        releaseConfig {
+            keyAlias 'classical'
+            keyPassword System.console().readLine(" :input keyPassword : ")
+            storeFile file('../classical.jks')
+            storePassword System.console().readLine(" :input storePassword : ");
+        }
+    }
+
+    //修改生成的apk名字
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def oldFile = output.outputFile
+            if (variant.buildType.name.equals('release')) {
+                def releaseApkName = 'classical-v' + defaultConfig.versionName + '-' + productFlavors.name + '.apk'
+                output.outputFile = new File(oldFile.parent, releaseApkName)
+            } else if (variant.buildType.name.equals('debug')) {
+                def releaseApkName = getDebugApkName()
+                output.outputFile = new File(oldFile.parent, releaseApkName)
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            minifyEnabled false
+            resValue("string", "app_name", "test-classical")
+            buildConfigField "String", "BASE_URL", ""
+            signingConfig signingConfigs.debugConfig
+        }
+    }
+}
+
+
+def releaseTime() {
+    new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"));
+}
+
+def getDebugApkName() {
+    'classicalParty-v' + android.defaultConfig.versionName + '-' + "(" + releaseTime() + ")" + '-' + '01' + '.apk'
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.squareup.okhttp:okhttp:2.7.0'
+    compile 'com.google.code.gson:gson:2.6.2'
+}
