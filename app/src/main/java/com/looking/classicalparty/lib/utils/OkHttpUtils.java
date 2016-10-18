@@ -18,6 +18,8 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -246,6 +248,7 @@ public class OkHttpUtils {
             public void onFailure(Request request, IOException e) {
                 sendFailCallback(request, callback, e);
             }
+
 
             @Override
             public void onResponse(Response response) {

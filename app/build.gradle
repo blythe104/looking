@@ -15,14 +15,21 @@ android {
     signingConfigs {
         debugConfig {
             keyAlias 'classical'
+<<<<<<< HEAD
             keyPassword 'likeclassical'//System.console().readLine(" :input keyPassword : ")
             storeFile file('../classical.jks')
             storePassword 'likeclassical'//System.console().readLine(" :input storePassword : ");
+=======
+            keyPassword 'likeclassical' //System.console().readLine(" :input keyPassword : ")
+            storeFile file('../classical.jks')
+            storePassword 'likeclassical' //System.console().readLine(" :input storePassword : ");
+>>>>>>> b4c04e75eb2a040f305371fa35280f114c79f72e
 
         }
 
         releaseConfig {
             keyAlias 'classical'
+<<<<<<< HEAD
             keyPassword 'likeclassical'//System.console().readLine(" :input keyPassword : ")
             storeFile file('../classical.jks')
             storePassword 'likeclassical'//System.console().readLine(" :input storePassword : ");
@@ -40,6 +47,11 @@ android {
                 def releaseApkName = getDebugApkName()
                 output.outputFile = new File(oldFile.parent, releaseApkName)
             }
+=======
+            keyPassword 'likeclassical' //System.console().readLine(" :input keyPassword : ")
+            storeFile file('../classical.jks')
+            storePassword 'likeclassical' //System.console().readLine(" :input storePassword : ");
+>>>>>>> b4c04e75eb2a040f305371fa35280f114c79f72e
         }
     }
     buildTypes {
@@ -48,6 +60,20 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue("string", "app_name", "classical")
         }
+        //修改生成的apk名字
+        applicationVariants.all { variant ->
+            variant.outputs.each { output ->
+                def oldFile = output.outputFile
+                if (variant.buildType.name.equals('release')) {
+                    def releaseApkName = 'classical-v' + defaultConfig.versionName + '-' + productFlavors.name + '.apk'
+                    output.outputFile = new File(oldFile.parent, releaseApkName)
+                } else if (variant.buildType.name.equals('debug')) {
+                    def releaseApkName = getDebugApkName()
+                    output.outputFile = new File(oldFile.parent, releaseApkName)
+                }
+            }
+        }
+
 
         debug {
             minifyEnabled false

@@ -1,4 +1,7 @@
 <resources>
+<<<<<<< HEAD
 
+=======
+>>>>>>> b4c04e75eb2a040f305371fa35280f114c79f72e
     <string name="anim_duration">300</string>
 </resources>
