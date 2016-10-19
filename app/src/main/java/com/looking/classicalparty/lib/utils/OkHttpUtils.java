@@ -74,8 +74,8 @@ public class OkHttpUtils {
      * @param callback 请求回调
      * @param params   请求参数
      */
-    public static void post(String url, ResultCallback callback, List<Param> params) {
-        getmInstance().postRequest(url, callback, params);
+    public static void post(String url, List<Param> params, ResultCallback callback) {
+        getmInstance().postRequest(url, params, callback);
     }
 
     /**
@@ -86,8 +86,8 @@ public class OkHttpUtils {
      * @param file
      * @param fileKey
      */
-    public static void postSingleFile(String url, ResultCallback callback, File file, String fileKey) {
-        getmInstance().postFile(url, callback, file, fileKey, null);
+    public static void postSingleFile(String url, File file, String fileKey, ResultCallback callback) {
+        getmInstance().postFile(url, file, fileKey, null, callback);
     }
 
     /**
@@ -99,55 +99,9 @@ public class OkHttpUtils {
      * @param fileKey
      * @param params
      */
-    public static void postFileAndParams(String url, ResultCallback callback, File file, String fileKey, List<Param>
-            params) {
-        getmInstance().postFile(url, callback, file, fileKey, params);
-    }
-
-    private void getRequest(String url, ResultCallback callback) {
-        Request request = new Request.Builder().url(url).build();
-        deliveryResult(callback, request);
-    }
-
-    private void postRequest(String url, ResultCallback callback, List<Param> params) {
-        Request request = buildPostRequest(url, params);
-        deliveryResult(callback, request);
-    }
-
-    private void postFile(String url, ResultCallback callback, File file, String fileKey, List<Param> params) {
-        Request request = buildMultipartFormRequest(url, new File[]{file}, new String[]{fileKey}, params);
-        deliveryResult(callback, request);
-    }
-
-    private void deliveryResult(final ResultCallback callback, Request request) {
-
-        mOkHttpClient.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Request request, IOException e) {
-                sendFailCallback(request, callback, e);
-            }
-
-            @Override
-            public void onResponse(Response response) throws IOException {
-                try {
-                    String str = response.body().string();
-                    if (callback.mType == String.class) {
-                        sendSuccessCallBack(callback, str);
-                    } else {
-
-                        Object object = new Gson().fromJson(str, callback.mType);
-                        sendSuccessCallBack(callback, object);
-                    }
-                } catch (IOException e) {
-                    LogUtils.e(TAG, "convert json failure", e);
-                    sendFailCallback(response.request(), callback, e);
-                } catch (com.google.gson.JsonParseException e)//Json解析的错误
-                {
-                    sendFailCallback(response.request(), callback, e);
-                }
-
-            }
-        });
+    public static void postFileAndParams(String url, File file, String fileKey, List<Param> params, ResultCallback
+            callback) {
+        getmInstance().postFile(url, file, fileKey, params, callback);
     }
 
     private static void sendFailCallback(final Request request, final ResultCallback callback, final Exception e) {
@@ -170,59 +124,6 @@ public class OkHttpUtils {
                 }
             }
         });
-    }
-
-    private Request buildPostRequest(String url, List<Param> params) {
-        FormEncodingBuilder builder = new FormEncodingBuilder();
-        for (Param param : params) {
-            builder.add(param.key, param.value);
-        }
-        builder.add("packageName", Config.PackageName).add("clientType", Config.ClientType);
-        RequestBody requestBody = builder.build();
-        return new Request.Builder().url(url).post(requestBody).build();
-    }
-
-
-    /**********************
-     * 对外接口
-     ************************/
-
-    private Request buildMultipartFormRequest(String url, File[] files, String[] fileKeys, List<Param> params) {
-        params = validateParam(params);
-        MultipartBuilder builder = new MultipartBuilder().type(MultipartBuilder.FORM);
-        for (Param param : params) {
-            builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"" + param.key +
-                    "\""), RequestBody.create(null, param.value));
-        }
-        builder.addFormDataPart("packageName", Config.PackageName).addFormDataPart("clientType", Config.ClientType);
-        if (files != null) {
-            RequestBody fileBody = null;
-            for (int i = 0; i < files.length; i++) {
-                File file = files[i];
-                String fileName = file.getName();
-                fileBody = RequestBody.create(MediaType.parse(guessMimeType(fileName)), file);
-                builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"" +
-                        fileKeys[i] + "\"; filename=\"" + fileName + "\""), fileBody);
-            }
-        }
-        RequestBody requestBody = builder.build();
-        return new Request.Builder().url(url).post(requestBody).build();
-    }
-
-    private String guessMimeType(String path) {
-        FileNameMap fileNameMap = URLConnection.getFileNameMap();
-        String contentTypeFor = fileNameMap.getContentTypeFor(path);
-        if (contentTypeFor == null) {
-            contentTypeFor = "application/octet-stream";
-        }
-        return contentTypeFor;
-    }
-
-    private List<Param> validateParam(List<Param> params) {
-        if (params == null)
-            return new ArrayList<Param>();
-        else
-            return params;
     }
 
     private static String getFileName(String path) {
@@ -280,6 +181,100 @@ public class OkHttpUtils {
 
     }
 
+    private void getRequest(String url, ResultCallback callback) {
+        Request request = new Request.Builder().url(url).build();
+        deliveryResult(callback, request);
+    }
+
+    private void postRequest(String url, List<Param> params, ResultCallback callback) {
+        Request request = buildPostRequest(url, params);
+        deliveryResult(callback, request);
+    }
+
+    private void postFile(String url, File file, String fileKey, List<Param> params, ResultCallback callback) {
+        Request request = buildMultipartFormRequest(url, new File[]{file}, new String[]{fileKey}, params);
+        deliveryResult(callback, request);
+    }
+
+    private void deliveryResult(final ResultCallback callback, Request request) {
+
+        mOkHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                sendFailCallback(request, callback, e);
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                try {
+                    String str = response.body().string();
+                    if (callback.mType == String.class) {
+                        sendSuccessCallBack(callback, str);
+                    } else {
+                        Object object = new Gson().fromJson(str, callback.mType);
+                        sendSuccessCallBack(callback, object);
+                    }
+                } catch (Exception e) {
+                    LogUtils.e(TAG, "failure", e);
+                    sendFailCallback(response.request(), callback, e);
+                }
+
+            }
+        });
+    }
+
+    private Request buildPostRequest(String url, List<Param> params) {
+        FormEncodingBuilder builder = new FormEncodingBuilder();
+        for (Param param : params) {
+            builder.add(param.key, param.value);
+        }
+        builder.add("packageName", Config.PackageName).add("clientType", Config.ClientType);
+        RequestBody requestBody = builder.build();
+        return new Request.Builder().url(url).post(requestBody).build();
+    }
+
+    /**********************
+     * 对外接口
+     ************************/
+
+    private Request buildMultipartFormRequest(String url, File[] files, String[] fileKeys, List<Param> params) {
+        params = validateParam(params);
+        MultipartBuilder builder = new MultipartBuilder().type(MultipartBuilder.FORM);
+        for (Param param : params) {
+            builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"" + param.key +
+                    "\""), RequestBody.create(null, param.value));
+        }
+        builder.addFormDataPart("packageName", Config.PackageName).addFormDataPart("clientType", Config.ClientType);
+        if (files != null) {
+            RequestBody fileBody = null;
+            for (int i = 0; i < files.length; i++) {
+                File file = files[i];
+                String fileName = file.getName();
+                fileBody = RequestBody.create(MediaType.parse(guessMimeType(fileName)), file);
+                builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"" +
+                        fileKeys[i] + "\"; filename=\"" + fileName + "\""), fileBody);
+            }
+        }
+        RequestBody requestBody = builder.build();
+        return new Request.Builder().url(url).post(requestBody).build();
+    }
+
+    private String guessMimeType(String path) {
+        FileNameMap fileNameMap = URLConnection.getFileNameMap();
+        String contentTypeFor = fileNameMap.getContentTypeFor(path);
+        if (contentTypeFor == null) {
+            contentTypeFor = "application/octet-stream";
+        }
+        return contentTypeFor;
+    }
+
+    private List<Param> validateParam(List<Param> params) {
+        if (params == null)
+            return new ArrayList<Param>();
+        else
+            return params;
+    }
+
     /**
      * http请求回调类,回调方法在UI线程中执行
      *
@@ -315,6 +310,22 @@ public class OkHttpUtils {
          * @param e
          */
         public abstract void onFailure(Request request, Exception e);
+
+        /**
+         * 服务器异常
+         *
+         * @param request
+         * @param e
+         */
+        public abstract void onServiceError(Request request, Exception e);
+
+        /**
+         * 网络异常
+         *
+         * @param request
+         * @param e
+         */
+        public abstract void onNoNetWork(Request request, Exception e);
 
         public void onLoading(long total, long current, boolean isUploading) {
         }
