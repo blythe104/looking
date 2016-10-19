@@ -2,6 +2,7 @@ package com.looking.classicalparty.lib.utils;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.support.graphics.drawable.BuildConfig;
 
 import com.google.gson.Gson;
 import com.google.gson.internal.$Gson$Types;
@@ -131,55 +132,6 @@ public class OkHttpUtils {
         return (separatorIndex < 0) ? path : path.substring(separatorIndex + 1, path.length());
     }
 
-    /**
-     * 下载文件
-     *
-     * @param url
-     * @param destFileDir
-     * @param callback
-     */
-    public static void downloadFile(final String url, final String destFileDir, final ResultCallback callback) {
-        Request request = new Request.Builder().url(url).build();
-        final Call call = mOkHttpClient.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Request request, IOException e) {
-                sendFailCallback(request, callback, e);
-            }
-
-            @Override
-            public void onResponse(Response response) {
-                InputStream is = null;
-                byte[] buf = new byte[2048];
-                int len = 0;
-                FileOutputStream fos = null;
-                try {
-                    is = response.body().byteStream();
-                    File file = new File(destFileDir, getFileName(url));
-                    fos = new FileOutputStream(file);
-                    while ((len = is.read(buf)) != -1) {
-                        fos.write(buf, 0, len);
-                    }
-                    fos.flush();
-                    sendSuccessCallBack(callback, file.getAbsolutePath());
-                } catch (IOException e) {
-                    sendFailCallback(response.request(), callback, e);
-                } finally {
-                    try {
-                        if (is != null)
-                            is.close();
-                    } catch (IOException e) {
-                    }
-                    try {
-                        if (fos != null)
-                            fos.close();
-                    } catch (IOException e) {
-                    }
-                }
-            }
-        });
-
-    }
 
     private void getRequest(String url, ResultCallback callback) {
         Request request = new Request.Builder().url(url).build();
@@ -228,7 +180,7 @@ public class OkHttpUtils {
         for (Param param : params) {
             builder.add(param.key, param.value);
         }
-        builder.add("packageName", Config.PackageName).add("clientType", Config.ClientType);
+        builder.add("packageName",  BuildConfig.APPLICATION_ID).add("clientType", Config.ClientType);
         RequestBody requestBody = builder.build();
         return new Request.Builder().url(url).post(requestBody).build();
     }
@@ -244,7 +196,7 @@ public class OkHttpUtils {
             builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"" + param.key +
                     "\""), RequestBody.create(null, param.value));
         }
-        builder.addFormDataPart("packageName", Config.PackageName).addFormDataPart("clientType", Config.ClientType);
+        builder.addFormDataPart("packageName", BuildConfig.APPLICATION_ID).addFormDataPart("clientType", Config.ClientType);
         if (files != null) {
             RequestBody fileBody = null;
             for (int i = 0; i < files.length; i++) {
@@ -270,9 +222,61 @@ public class OkHttpUtils {
 
     private List<Param> validateParam(List<Param> params) {
         if (params == null)
-            return new ArrayList<Param>();
+            return new ArrayList<>();
         else
             return params;
+    }
+
+
+    /**
+     * 下载文件
+     *
+     * @param url
+     * @param destFileDir
+     * @param callback
+     */
+    public static void downloadFile(final String url, final String destFileDir, final ResultCallback callback) {
+        Request request = new Request.Builder().url(url).build();
+        final Call call = mOkHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                sendFailCallback(request, callback, e);
+            }
+
+
+            @Override
+            public void onResponse(Response response) {
+                InputStream is = null;
+                byte[] buf = new byte[2048];
+                int len = 0;
+                FileOutputStream fos = null;
+                try {
+                    is = response.body().byteStream();
+                    File file = new File(destFileDir, getFileName(url));
+                    fos = new FileOutputStream(file);
+                    while ((len = is.read(buf)) != -1) {
+                        fos.write(buf, 0, len);
+                    }
+                    fos.flush();
+                    sendSuccessCallBack(callback, file.getAbsolutePath());
+                } catch (IOException e) {
+                    sendFailCallback(response.request(), callback, e);
+                } finally {
+                    try {
+                        if (is != null)
+                            is.close();
+                    } catch (IOException e) {
+                    }
+                    try {
+                        if (fos != null)
+                            fos.close();
+                    } catch (IOException e) {
+                    }
+                }
+            }
+        });
+
     }
 
     /**
