@@ -15,38 +15,22 @@ android {
     signingConfigs {
         debugConfig {
             keyAlias 'classical'
-            keyPassword 'likeclassical'//System.console().readLine(" :input keyPassword : ")
+            keyPassword 'likeclassical' //System.console().readLine(" :input keyPassword : ")
             storeFile file('../classical.jks')
             storePassword 'likeclassical' //System.console().readLine(" :input storePassword : ");
         }
 
         releaseConfig {
             keyAlias 'classical'
-            keyPassword 'likeclassical'//System.console().readLine(" :input keyPassword : ")
+            keyPassword 'likeclassical' //System.console().readLine(" :input keyPassword : ")
             storeFile file('../classical.jks')
-            storePassword 'likeclassical'//System.console().readLine(" :input storePassword : ");
-        }
-    }
-
-    //修改生成的apk名字
-    applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            def oldFile = output.outputFile
-            if (variant.buildType.name.equals('release')) {
-                def releaseApkName = 'classical-v' + defaultConfig.versionName + '-' + productFlavors.name + '.apk'
-                output.outputFile = new File(oldFile.parent, releaseApkName)
-            } else if (variant.buildType.name.equals('debug')) {
-                def releaseApkName = getDebugApkName()
-                output.outputFile = new File(oldFile.parent, releaseApkName)
-            }
-
+            storePassword 'likeclassical' //System.console().readLine(" :input storePassword : ");
         }
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            resValue("string", "app_name", "classical")
         }
         //修改生成的apk名字
         applicationVariants.all { variant ->
@@ -66,6 +50,7 @@ android {
         debug {
             minifyEnabled false
             resValue("string", "app_name", "test-classical")
+            buildConfigField "String", "BASE_URL", ""
             signingConfig signingConfigs.debugConfig
         }
     }
