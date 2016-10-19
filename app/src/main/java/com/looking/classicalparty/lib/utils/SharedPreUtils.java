@@ -8,49 +8,45 @@ public class SharedPreUtils {
     public static final String SP_NAME = "classical_config";
     private static SharedPreferences sp;
     private static SharedPreferences.Editor editor;
-    private Context context;
+    private static Context context;
 
-    //使用单例模式
-    private SharedPreUtils() {
-        sp = context.getSharedPreferences(SP_NAME, 0);
-        editor = sp.edit();
+    public static void init(Context appContext) {
+        context = appContext;
+        checkIsNull();
     }
+
 
     //懒汉式
     private static void checkIsNull() {
-        if (sp == null)
-            new SharedPreUtils();
+        if (sp == null) {
+            sp = context.getSharedPreferences(SP_NAME, 0);
+            editor = sp.edit();
+        }
     }
 
-    public static void saveString(Context context, String key, String value) {
-        checkIsNull();
+    public static void saveString(String key, String value) {
         editor.putString(key, value).commit();
     }
 
-    public static String getString(Context context, String key, String defValue) {
-        checkIsNull();
+    public static String getString(String key, String defValue) {
         return sp.getString(key, defValue);
     }
 
 
-    public static void saveBoolean(Context context, String key, boolean value) {
-        checkIsNull();
+    public static void saveBoolean( String key, boolean value) {
         editor.putBoolean(key, value).commit();
     }
 
-    public static boolean getBoolean(Context context, String key, boolean defValue) {
-        checkIsNull();
+    public static boolean getBoolean(String key, boolean defValue) {
         return sp.getBoolean(key, defValue);
     }
 
 
-    public static void saveInt(Context context, String key, int value) {
-        checkIsNull();
+    public static void saveInt( String key, int value) {
         editor.putInt(key, value).commit();
     }
 
-    public static int getInt(Context context, String key, int defValue) {
-        checkIsNull();
+    public static int getInt( String key, int defValue) {
         return sp.getInt(key, defValue);
     }
 }

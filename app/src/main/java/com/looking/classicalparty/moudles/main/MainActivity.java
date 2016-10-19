@@ -4,11 +4,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.looking.classicalparty.R;
-import com.looking.classicalparty.lib.utils.OkHttpUtils;
+import com.looking.classicalparty.lib.http.HttpUtils;
+import com.looking.classicalparty.lib.http.ResultCallback;
 import com.squareup.okhttp.Request;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,10 +14,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        OkHttpUtils.Param h = new OkHttpUtils.Param("jj", "jk");
-        List<OkHttpUtils.Param> paramList = new ArrayList<>();
-        paramList.add(h);
-        OkHttpUtils.post("hhh", paramList, new OkHttpUtils.ResultCallback() {
+
+        HttpUtils.post("", null, new ResultCallback() {
             @Override
             public void onSuccess(Object response) {
 
@@ -27,16 +23,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Request request, Exception e) {
-
-            }
-
-            @Override
-            public void onServiceError(Request request, Exception e) {
-
-            }
-
-            @Override
-            public void onNoNetWork(Request request, Exception e) {
 
             }
         });
