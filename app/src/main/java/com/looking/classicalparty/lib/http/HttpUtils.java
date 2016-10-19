@@ -1,12 +1,12 @@
-package com.looking.classicalparty.lib.utils;
+package com.looking.classicalparty.lib.http;
 
 import android.os.Handler;
 import android.os.Looper;
 import android.support.graphics.drawable.BuildConfig;
 
 import com.google.gson.Gson;
-import com.google.gson.internal.$Gson$Types;
 import com.looking.classicalparty.lib.constants.Config;
+import com.looking.classicalparty.lib.utils.LogUtils;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.FormEncodingBuilder;
@@ -18,14 +18,10 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
-import org.json.JSONObject;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.net.FileNameMap;
@@ -35,15 +31,15 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 
-public class OkHttpUtils {
+public class HttpUtils {
 
-    private static final String TAG = "OkHttpUtils";
+    private static final String TAG = "HttpUtils";
 
-    private static OkHttpUtils mInstance;
+    private static HttpUtils mInstance;
     private static OkHttpClient mOkHttpClient;
     private static Handler mDelivery;
 
-    private OkHttpUtils() {
+    private HttpUtils() {
         mOkHttpClient = new OkHttpClient();
         mOkHttpClient.setConnectTimeout(10, TimeUnit.SECONDS);
         mOkHttpClient.setWriteTimeout(10, TimeUnit.SECONDS);
@@ -53,9 +49,9 @@ public class OkHttpUtils {
         mDelivery = new Handler(Looper.getMainLooper());
     }
 
-    private synchronized static OkHttpUtils getmInstance() {
+    private synchronized static HttpUtils getmInstance() {
         if (mInstance == null) {
-            mInstance = new OkHttpUtils();
+            mInstance = new HttpUtils();
         }
         return mInstance;
     }
@@ -77,7 +73,7 @@ public class OkHttpUtils {
      * @param callback 请求回调
      * @param params   请求参数
      */
-    public static void post(String url, ResultCallback callback, List<Param> params) {
+    public static void post(String url, List<Param> params, ResultCallback callback) {
         getmInstance().postRequest(url, callback, params);
     }
 
@@ -89,7 +85,7 @@ public class OkHttpUtils {
      * @param file
      * @param fileKey
      */
-    public static void postSingleFile(String url, ResultCallback callback, File file, String fileKey) {
+    public static void postSingleFile(String url, File file, String fileKey, ResultCallback callback) {
         getmInstance().postFile(url, callback, file, fileKey, null);
     }
 
@@ -102,8 +98,8 @@ public class OkHttpUtils {
      * @param fileKey
      * @param params
      */
-    public static void postFileAndParams(String url, ResultCallback callback, File file, String fileKey, List<Param>
-            params) {
+    public static void postFileAndParams(String url, File file, String fileKey, List<Param>
+            params, ResultCallback callback) {
         getmInstance().postFile(url, callback, file, fileKey, params);
     }
 
@@ -284,66 +280,5 @@ public class OkHttpUtils {
 
     }
 
-    /**
-     * http请求回调类,回调方法在UI线程中执行
-     *
-     * @param <T>
-     */
-    public static abstract class ResultCallback<T> {
 
-        Type mType;
-
-        public ResultCallback() {
-            mType = getSuperclassTypeParameter(getClass());
-        }
-
-        static Type getSuperclassTypeParameter(Class<?> subclass) {
-            Type superclass = subclass.getGenericSuperclass();
-            if (superclass instanceof Class) {
-                throw new RuntimeException("Missing type parameter.");
-            }
-            ParameterizedType parameterized = (ParameterizedType) superclass;
-            return $Gson$Types.canonicalize(parameterized.getActualTypeArguments()[0]);
-        }
-
-        /**
-         * 请求成功回调
-         *
-         * @param response
-         */
-        public abstract void onSuccess(T response);
-
-        /**
-         * 请求失败回调
-         *
-         * @param e
-         */
-        public abstract void onFailure(Request request, Exception e);
-
-        public void onLoading(long total, long current, boolean isUploading) {
-        }
-    }
-
-    /**
-     * post请求参数类
-     */
-    public static class Param {
-
-        String key;
-        String value;
-        File filevalue;
-
-        public Param() {
-        }
-
-        public Param(String key, String value) {
-            this.key = key;
-            this.value = value;
-        }
-
-        public Param(String key, File filevalue) {
-            this.key = key;
-            this.filevalue = filevalue;
-        }
-    }
 }

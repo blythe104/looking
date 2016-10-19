@@ -18,7 +18,6 @@ android {
             keyPassword 'likeclassical'//System.console().readLine(" :input keyPassword : ")
             storeFile file('../classical.jks')
             storePassword 'likeclassical' //System.console().readLine(" :input storePassword : ");
-
         }
 
         releaseConfig {
