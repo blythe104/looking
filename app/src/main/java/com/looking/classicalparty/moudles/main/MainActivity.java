@@ -1,31 +1,89 @@
 package com.looking.classicalparty.moudles.main;
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.looking.classicalparty.R;
-import com.looking.classicalparty.lib.http.HttpUtils;
-import com.looking.classicalparty.lib.http.ResultCallback;
-import com.squareup.okhttp.Request;
+import com.looking.classicalparty.lib.adapter.FragmentAdapter;
+import com.looking.classicalparty.lib.base.activity.BaseActivity;
+import com.looking.classicalparty.lib.base.fragment.BaseFragment;
+import com.looking.classicalparty.lib.widget.CustomViewPager;
+import com.looking.classicalparty.moudles.main.fragment.ClMusicFragment;
+import com.looking.classicalparty.moudles.main.fragment.ClVideoFragment;
+import com.looking.classicalparty.moudles.main.fragment.FindFragment;
+import com.looking.classicalparty.moudles.main.fragment.MineFragment;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends BaseActivity {
+
+    private CustomViewPager mCustomViewPager;
+    private List<BaseFragment> baseFragmentList;
+    private RadioGroup mRadioGroup;
+    private RadioButton mRbFind;
+    private RadioButton mRbVideo;
+    private RadioButton mRbMusic;
+    private RadioButton mRbMine;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void initView() {
         setContentView(R.layout.activity_main);
-
-        HttpUtils.post("", null, new ResultCallback() {
+        mCustomViewPager = (CustomViewPager) findViewById(R.id.custom_viewpager);
+        mRadioGroup = (RadioGroup) findViewById(R.id.radio_group);
+        mRbFind = (RadioButton) findViewById(R.id.rb_find);
+        mRbVideo = (RadioButton) findViewById(R.id.rb_video);
+        mRbMusic = (RadioButton) findViewById(R.id.rb_music);
+        mRbMine = (RadioButton) findViewById(R.id.rb_mine);
+        mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onSuccess(Object response) {
-
-            }
-
-            @Override
-            public void onFailure(Request request, Exception e) {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId)
+                {
+                    case R.id.rb_find:
+                        mCustomViewPager.setCurrentItem(0,false);
+                        break;
+                    case R.id.rb_video:
+                        mCustomViewPager.setCurrentItem(1,false);
+                        break;
+                    case R.id.rb_music:
+                        mCustomViewPager.setCurrentItem(2,false);
+                        break;
+                    case R.id.rb_mine:
+                        mCustomViewPager.setCurrentItem(3,false);
+                        break;
+                }
 
             }
         });
+    }
+
+    @Override
+    public void initListener() {
+
+    }
+
+    @Override
+    public void initData() {
+        baseFragmentList = new ArrayList<>();
+        baseFragmentList.add(new FindFragment());
+        baseFragmentList.add(new ClVideoFragment());
+        baseFragmentList.add(new ClMusicFragment());
+        baseFragmentList.add(new MineFragment());
+        mCustomViewPager.setOffscreenPageLimit(4);
+        FragmentAdapter fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), baseFragmentList, null);
+        mCustomViewPager.setAdapter(fragmentAdapter);
+        fragmentAdapter.notifyDataSetChanged();
+
+        mRadioGroup.check(R.id.rb_find);
+        mCustomViewPager.setCurrentItem(0);
+
+    }
+
+    @Override
+    public void processClick(View v) {
+
     }
 
 }

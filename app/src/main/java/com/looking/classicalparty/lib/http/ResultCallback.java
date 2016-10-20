@@ -43,19 +43,17 @@ public abstract class ResultCallback<T> {
 
     public void onLoading(long total, long current, boolean isUploading) {
     }
+
     /**
      * 服务器异常
      *
      * @param request
-     * @param e
      */
-    public abstract void onServiceError(Request request, Exception e);
+    public void onServiceError(String request) {
+    }
 
     /**
      * 网络异常
-     *
-     * @param request
-     * @param e
      */
-    public abstract void onNoNetWork(Request request, Exception e);
+    public abstract void onNoNetWork(String resultMsg);
 }
