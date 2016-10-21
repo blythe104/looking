@@ -1,11 +1,13 @@
 package com.looking.classicalparty.moudles.launch;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 
 import com.looking.classicalparty.R;
 import com.looking.classicalparty.lib.base.activity.BaseActivity;
+import com.looking.classicalparty.moudles.main.MainActivity;
 
 public class LaunchActivity extends BaseActivity {
 
@@ -48,6 +50,7 @@ public class LaunchActivity extends BaseActivity {
      * 跳转到主页面
      */
     private void goMain() {
+        startActivity(new Intent(this, MainActivity.class));
 
 
     }
@@ -77,7 +80,8 @@ public class LaunchActivity extends BaseActivity {
      * 获取AppVersion
      */
     private void getAppVersion() {
-
+        //先跳轉到主界面
+        mHandler.sendEmptyMessage(GO_MAIN);
     }
 
 

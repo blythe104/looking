@@ -14,5 +14,5 @@ public interface IUserPresenter {
 
     void otherError(String errorMsg);
 
-    void clear();
+    void toRegister();
 }

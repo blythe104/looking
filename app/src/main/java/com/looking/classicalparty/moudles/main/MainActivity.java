@@ -1,5 +1,6 @@
 package com.looking.classicalparty.moudles.main;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -9,6 +10,7 @@ import com.looking.classicalparty.lib.adapter.FragmentAdapter;
 import com.looking.classicalparty.lib.base.activity.BaseActivity;
 import com.looking.classicalparty.lib.base.fragment.BaseFragment;
 import com.looking.classicalparty.lib.widget.CustomViewPager;
+import com.looking.classicalparty.moudles.login.view.LoginActivity;
 import com.looking.classicalparty.moudles.main.fragment.ClMusicFragment;
 import com.looking.classicalparty.moudles.main.fragment.ClVideoFragment;
 import com.looking.classicalparty.moudles.main.fragment.FindFragment;
@@ -50,7 +52,15 @@ public class MainActivity extends BaseActivity {
                         mCustomViewPager.setCurrentItem(2, false);
                         break;
                     case R.id.rb_mine:
-                        mCustomViewPager.setCurrentItem(3, false);
+                      //isLogin判斷
+                        boolean isLogin=false;
+                        if (!isLogin) {
+                            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                        } else {
+                            mCustomViewPager.setCurrentItem(3, false);
+                        }
+
                         break;
                 }
 

@@ -70,11 +70,12 @@ public class UserPresenterImpl implements IUserPresenter {
         }, 1000);
     }
 
-
     @Override
-    public void clear() {
-        mUserView.onClearText();
+    public void toRegister() {
+        mUserView.toRegisterActivity();
     }
+
+
 
 
 }

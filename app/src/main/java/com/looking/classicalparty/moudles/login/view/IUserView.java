@@ -5,7 +5,7 @@ package com.looking.classicalparty.moudles.login.view;
  */
 
 public interface IUserView {
-    public void onClearText();
+    public void toRegisterActivity();
 
     public void onLoginResult(Boolean result, int code);
 

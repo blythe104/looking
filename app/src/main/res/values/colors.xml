@@ -7,7 +7,8 @@
     <color name="divider_gray">#cccccc</color>
     <color name="theme_gray">#e6e4e4</color>
     <color name="photoBorderColor">#8accfc</color>
-    <color name="themeColor">#faab63</color>
+    <color name="themeColor">#fdb44c</color>
+    <color name="themeTextColor">#ea8010</color>
     <color name="colorBlack">#000000</color>
     <color name="colorLightBlack">#424242</color>
 </resources>
