@@ -4,11 +4,6 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="mine"/>
-
     <com.looking.classicalparty.lib.widget.CustomerMenuView
         android:id="@+id/custom_menu"
         android:layout_width="match_parent"

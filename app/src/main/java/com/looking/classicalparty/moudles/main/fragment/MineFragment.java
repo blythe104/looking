@@ -20,10 +20,8 @@ public class MineFragment extends BaseFragment {
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mine_layout, null);
         mCustomMenu = (CustomerMenuView) view.findViewById(R.id.custom_menu);
-        mCustomMenu.addItem(R.mipmap.ic_radio,"我的","");
-        mCustomMenu.addItem(R.mipmap.ic_radio,"我的","");
-        mCustomMenu.addItem(R.mipmap.ic_radio,"我的","");
-        mCustomMenu.addItem(R.mipmap.ic_radio,"我的","");
+        mCustomMenu.addDivider().addItem(R.mipmap.ic_radio, "头像设置", "").addItem(R.mipmap.ic_radio, "修改密码", "").addItem(R.mipmap
+                .ic_radio, "留言", "").addItem(R.mipmap.ic_radio, "about us", "").build();
         return view;
 
     }

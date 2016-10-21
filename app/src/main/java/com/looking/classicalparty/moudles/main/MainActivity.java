@@ -39,19 +39,18 @@ public class MainActivity extends BaseActivity {
         mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId)
-                {
+                switch (checkedId) {
                     case R.id.rb_find:
-                        mCustomViewPager.setCurrentItem(0,false);
+                        mCustomViewPager.setCurrentItem(0, false);
                         break;
                     case R.id.rb_video:
-                        mCustomViewPager.setCurrentItem(1,false);
+                        mCustomViewPager.setCurrentItem(1, false);
                         break;
                     case R.id.rb_music:
-                        mCustomViewPager.setCurrentItem(2,false);
+                        mCustomViewPager.setCurrentItem(2, false);
                         break;
                     case R.id.rb_mine:
-                        mCustomViewPager.setCurrentItem(3,false);
+                        mCustomViewPager.setCurrentItem(3, false);
                         break;
                 }
 

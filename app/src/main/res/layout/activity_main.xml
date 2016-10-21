@@ -35,7 +35,7 @@
             style="@style/RadioButtonStyle"
             android:layout_gravity="center"
             android:checked="true"
-            android:drawableTop="@drawable/selector_radio_find"
+            android:drawableTop="@drawable/selector_radio_video"
             android:text="VIDEO"/>
 
         <RadioButton
@@ -43,7 +43,7 @@
             style="@style/RadioButtonStyle"
             android:layout_gravity="center"
             android:checked="true"
-            android:drawableTop="@drawable/selector_radio_find"
+            android:drawableTop="@drawable/selector_radio_music"
             android:text="MUSIC"/>
 
         <RadioButton
@@ -51,7 +51,7 @@
             style="@style/RadioButtonStyle"
             android:layout_gravity="center"
             android:checked="true"
-            android:drawableTop="@drawable/selector_radio_find"
+            android:drawableTop="@drawable/selector_radio_mine"
             android:text="MINE"/>
     </RadioGroup>
 </LinearLayout>

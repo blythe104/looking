@@ -7,6 +7,8 @@ import android.support.graphics.drawable.BuildConfig;
 import com.google.gson.Gson;
 import com.looking.classicalparty.lib.base.Bean.BaseBean;
 import com.looking.classicalparty.lib.constants.Config;
+import com.looking.classicalparty.lib.utils.Base64Utils;
+import com.looking.classicalparty.lib.utils.LogUtils;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.FormEncodingBuilder;
@@ -228,7 +230,8 @@ public class HttpUtils {
 
             @Override
             public void onResponse(Response response) throws IOException {
-                String result = response.body().toString();
+                String result = response.body().string();
+                LogUtils.d("login-response--" + Base64Utils.decodeUnicode(result));
                 BaseBean baseBean = new Gson().fromJson(result, BaseBean.class);
                 if (200 == baseBean.getResult()) {
                     // TODO: 2016/10/19 返回成功
@@ -238,7 +241,9 @@ public class HttpUtils {
                     sendNoNetCallback(baseBean.getResultMsg(), callback);
                 } else if (400 == baseBean.getResult()) {
                     //服务器异常
-                    sendServiceErrorCallback(result, callback);
+                    sendServiceErrorCallback(baseBean.getResultMsg(), callback);
+                } else {
+                    sendServiceErrorCallback(baseBean.getResultMsg(), callback);
                 }
             }
         });

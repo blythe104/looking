@@ -15,7 +15,7 @@ public abstract class ResultCallback<T> {
     Type mType;
 
     public ResultCallback() {
-        mType = getSuperclassTypeParameter(getClass());
+//        mType = getSuperclassTypeParameter(getClass());
     }
 
     static Type getSuperclassTypeParameter(Class<?> subclass) {
