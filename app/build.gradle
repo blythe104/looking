@@ -15,16 +15,16 @@ android {
     signingConfigs {
         debugConfig {
             keyAlias 'classical'
-            keyPassword 'likeclassical'//System.console().readLine(" :input keyPassword : ")
+            keyPassword 'likeclassical' //System.console().readLine(" :input keyPassword : ")
             storeFile file('../classical.jks')
             storePassword 'likeclassical' //System.console().readLine(" :input storePassword : ");
         }
 
         releaseConfig {
             keyAlias 'classical'
-            keyPassword 'likeclassical'//System.console().readLine(" :input keyPassword : ")
+            keyPassword 'likeclassical' //System.console().readLine(" :input keyPassword : ")
             storeFile file('../classical.jks')
-            storePassword 'likeclassical'//System.console().readLine(" :input storePassword : ");
+            storePassword 'likeclassical' //System.console().readLine(" :input storePassword : ");
         }
     }
 
@@ -81,9 +81,13 @@ def getDebugApkName() {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.squareup.okhttp:okhttp:2.7.0'
     compile 'com.google.code.gson:gson:2.6.2'
+    compile('de.keyboardsurfer.android.widget:crouton:1.8.4@aar') {
+        exclude group: 'com.google.android', module: 'support-v4'
+    }
+    compile 'com.android.support:design:23.2.1'
 }
