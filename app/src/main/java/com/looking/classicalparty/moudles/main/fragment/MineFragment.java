@@ -1,5 +1,6 @@
 package com.looking.classicalparty.moudles.main.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -9,6 +10,9 @@ import android.view.ViewGroup;
 import com.looking.classicalparty.R;
 import com.looking.classicalparty.lib.base.fragment.BaseFragment;
 import com.looking.classicalparty.lib.widget.CustomerMenuView;
+import com.looking.classicalparty.lib.widget.ItemData;
+import com.looking.classicalparty.moudles.feedback.FeedBackActivity;
+import com.looking.classicalparty.moudles.security.SecuritySettingActivity;
 
 /**
  * Created by xin on 2016/10/19.
@@ -24,9 +28,30 @@ public class MineFragment extends BaseFragment {
         mToolBar = (Toolbar) view.findViewById(R.id.toolbar);
 
         mCustomMenu = (CustomerMenuView) view.findViewById(R.id.custom_menu);
-        mCustomMenu.addDivider().addItem(R.mipmap.ic_person_msg, "个人信息", "personmsg").addItem(R.mipmap.ic_secure_setting,
-                "安全设置", "security").addDivider().addItem(R.mipmap.ic_feedback, "意见反馈", "feedback").addItem(R.mipmap.ic_about_us,
-                "关于我们", "aboutus").addItem(R.mipmap.ic_app_version, "版本信息", "version").build();
+        mCustomMenu.addDivider().addItem(R.mipmap.ic_person_msg, "个人信息", "personmsg").addItem(R.mipmap
+                .ic_secure_setting, "安全设置", "security").addDivider().addItem(R.mipmap.ic_feedback, "意见反馈",
+                "feedback").addItem(R.mipmap.ic_about_us, "关于我们", "aboutus").addItem(R.mipmap.ic_app_version, "版本信息",
+                "version").build();
+        mCustomMenu.setItemClickListener(new CustomerMenuView.OnItemListener() {
+            @Override
+            public void itemClick(View v) {
+                switch (((ItemData) v.getTag()).flag) {
+                    case "personmsg":
+                        break;
+                    case "security":
+                        startActivity(new Intent(getActivity(), SecuritySettingActivity.class));
+                        break;
+                    case "feedback":
+                        startActivity(new Intent(getActivity(), FeedBackActivity.class));
+                        break;
+                    case "aboutus":
+                        break;
+                    case "version":
+                        break;
+                }
+
+            }
+        });
 
         return view;
 

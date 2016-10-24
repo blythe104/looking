@@ -7,6 +7,7 @@ import com.looking.classicalparty.lib.constants.StringContants;
 import com.looking.classicalparty.lib.http.HttpUtils;
 import com.looking.classicalparty.lib.http.Param;
 import com.looking.classicalparty.lib.http.ResultCallback;
+import com.looking.classicalparty.lib.utils.LogUtils;
 import com.looking.classicalparty.lib.utils.SharedPreUtils;
 import com.looking.classicalparty.moudles.login.bean.UserBean;
 import com.looking.classicalparty.moudles.login.presenter.IUserPresenter;
@@ -34,7 +35,8 @@ public class UserModelImpl implements IUserModel {
         List<Param> paramList = new ArrayList<>();
         Param userName = new Param("username", name);
         Param password = new Param("password", passwd);
-        Param key = new Param("Key", SharedPreUtils.getString(StringContants.KEY,""));
+        Param key = new Param("key", SharedPreUtils.getString(StringContants.KEY,""));
+        LogUtils.d("SharedPreUtils.getString(StringContants.KEY,)--"+key);
         paramList.add(userName);
         paramList.add(password);
         paramList.add(key);
