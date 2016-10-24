@@ -24,9 +24,10 @@ public class MineFragment extends BaseFragment {
         mToolBar = (Toolbar) view.findViewById(R.id.toolbar);
 
         mCustomMenu = (CustomerMenuView) view.findViewById(R.id.custom_menu);
-        mCustomMenu.addDivider().addItem(R.mipmap.ic_person_msg, "个人信息", "").addItem(R.mipmap.ic_secure_setting,
-                "安全设置", "").addDivider().addItem(R.mipmap.ic_feedback, "意见反馈", "").addItem(R.mipmap.ic_about_us,
-                "关于我们", "").addItem(R.mipmap.ic_app_version, "版本信息", "").build();
+        mCustomMenu.addDivider().addItem(R.mipmap.ic_person_msg, "个人信息", "personmsg").addItem(R.mipmap.ic_secure_setting,
+                "安全设置", "security").addDivider().addItem(R.mipmap.ic_feedback, "意见反馈", "feedback").addItem(R.mipmap.ic_about_us,
+                "关于我们", "aboutus").addItem(R.mipmap.ic_app_version, "版本信息", "version").build();
+
         return view;
 
     }
@@ -36,5 +37,6 @@ public class MineFragment extends BaseFragment {
         super.loadData();
         mToolBar.setTitle("Classical");
     }
+
 
 }
