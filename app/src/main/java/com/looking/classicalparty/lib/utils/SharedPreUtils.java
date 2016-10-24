@@ -1,6 +1,6 @@
 package com.looking.classicalparty.lib.utils;
 
-import android.content.Context;
+import android.app.Application;
 import android.content.SharedPreferences;
 
 public class SharedPreUtils {
@@ -8,10 +8,10 @@ public class SharedPreUtils {
     public static final String SP_NAME = "classical_config";
     private static SharedPreferences sp;
     private static SharedPreferences.Editor editor;
-    private static Context context;
+    private static Application context;
 
-    public static void init(Context appContext) {
-        context = appContext;
+    public static void init(Application application) {
+        context = application;
         checkIsNull();
     }
 
@@ -32,8 +32,12 @@ public class SharedPreUtils {
         return sp.getString(key, defValue);
     }
 
+    public static String getString(String key) {
+        return getString(key, "");
+    }
 
-    public static void saveBoolean( String key, boolean value) {
+
+    public static void saveBoolean(String key, boolean value) {
         editor.putBoolean(key, value).commit();
     }
 
@@ -41,12 +45,19 @@ public class SharedPreUtils {
         return sp.getBoolean(key, defValue);
     }
 
+    public static boolean getBoolean(String key) {
+        return getBoolean(key, false);
+    }
 
-    public static void saveInt( String key, int value) {
+    public static void saveInt(String key, int value) {
         editor.putInt(key, value).commit();
     }
 
-    public static int getInt( String key, int defValue) {
+    public static int getInt(String key, int defValue) {
         return sp.getInt(key, defValue);
+    }
+
+    public static int getInt(String key) {
+        return getInt(key, 0);
     }
 }

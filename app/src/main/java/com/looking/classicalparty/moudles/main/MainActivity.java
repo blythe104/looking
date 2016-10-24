@@ -9,6 +9,7 @@ import com.looking.classicalparty.R;
 import com.looking.classicalparty.lib.adapter.FragmentAdapter;
 import com.looking.classicalparty.lib.base.activity.BaseActivity;
 import com.looking.classicalparty.lib.base.fragment.BaseFragment;
+import com.looking.classicalparty.lib.common.UserInfo;
 import com.looking.classicalparty.lib.widget.CustomViewPager;
 import com.looking.classicalparty.moudles.login.view.LoginActivity;
 import com.looking.classicalparty.moudles.main.fragment.ClMusicFragment;
@@ -52,15 +53,13 @@ public class MainActivity extends BaseActivity {
                         mCustomViewPager.setCurrentItem(2, false);
                         break;
                     case R.id.rb_mine:
-                      //isLogin判斷
-                        boolean isLogin=false;
-                        if (!isLogin) {
-                            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                            startActivity(intent);
+                        //isLogin判斷
+                        UserInfo userInfo = new UserInfo();
+                        if (!userInfo.isLogin()) {
+                            startActivity(new Intent(MainActivity.this, LoginActivity.class));
                         } else {
                             mCustomViewPager.setCurrentItem(3, false);
                         }
-
                         break;
                 }
 

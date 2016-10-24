@@ -1,9 +1,8 @@
 package com.looking.classicalparty.moudles.security;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 
+import com.looking.classicalparty.R;
 import com.looking.classicalparty.lib.base.activity.BaseActivity;
 import com.looking.classicalparty.lib.widget.CustomerMenuView;
 
