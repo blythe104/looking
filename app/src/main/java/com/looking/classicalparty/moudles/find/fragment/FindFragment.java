@@ -68,7 +68,13 @@ public class FindFragment extends BaseFragment {
         adapter.setOnItemClickListener(new RecycleViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int positon) {
-                Crouton.makeText(getActivity(),"您点击了"+positon, Style.CONFIRM).show();
+                Crouton.makeText(getActivity(), "您点击了" + positon, Style.CONFIRM).show();
+            }
+
+            @Override
+            public void toListenClick(View view, int position) {
+                Crouton.makeText(getActivity(), "listen music", Style.CONFIRM).show();
+
             }
         });
 

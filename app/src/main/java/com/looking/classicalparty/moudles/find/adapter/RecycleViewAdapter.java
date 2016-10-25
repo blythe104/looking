@@ -31,12 +31,14 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == ITEM_TYPE.ITEM_TYPE_THEME.ordinal()) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.theme_desc_layout,
-                    parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.theme_desc_layout, parent, false);
             return new ThemeViewHolder(view);
         } else if (viewType == ITEM_TYPE.ITEM_TYPE_MOVIE.ordinal()) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.movie_detail_layout, parent, false);
             return new MovieViewHolder(view);
+        } else if (viewType == ITEM_TYPE.ITEM_TYPE_MUSIC.ordinal()) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.music_detail_layout, parent, false);
+            return new MusicViewHolder(view);
         }
         return null;
     }
@@ -59,13 +61,26 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     }
                 });
             }
+        } else if (holder instanceof MusicViewHolder) {
+            ((MusicViewHolder) holder).mTvName.setText("music");
+            if(mOnItemClickListener!=null)
+            {
+                ((MusicViewHolder) holder).mTvListen.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mOnItemClickListener.toListenClick(((MusicViewHolder) holder).mTvListen,position);
+
+                    }
+                });
+            }
         }
 
     }
 
     @Override
     public int getItemViewType(int position) {
-        return position % 5 == 0 ? ITEM_TYPE.ITEM_TYPE_THEME.ordinal() : ITEM_TYPE.ITEM_TYPE_MOVIE.ordinal();
+        return position % 5 == 0 ? ITEM_TYPE.ITEM_TYPE_THEME.ordinal() : position > 10 ? ITEM_TYPE.ITEM_TYPE_MUSIC
+                .ordinal() : ITEM_TYPE.ITEM_TYPE_MOVIE.ordinal();
     }
 
     @Override
@@ -83,7 +98,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     public static interface OnItemClickListener {
         void onItemClick(View view, int positon);
-
+        void toListenClick(View view,int position);
 
     }
 
@@ -114,6 +129,18 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             mTvName = (TextView) itemView.findViewById(R.id.tv_name);
             mTvWriter = (TextView) itemView.findViewById(R.id.tv_writer);
             mRecommer = (TextView) itemView.findViewById(R.id.tv_recommer);
+        }
+    }
+
+    public class MusicViewHolder extends RecyclerView.ViewHolder {
+        private TextView mTvName;
+        private TextView mTvListen;
+
+        public MusicViewHolder(View itemView) {
+            super(itemView);
+            mTvName = (TextView) itemView.findViewById(R.id.tv_name);
+            mTvListen = (TextView) itemView.findViewById(R.id.tv_listen);
+
         }
     }
 }

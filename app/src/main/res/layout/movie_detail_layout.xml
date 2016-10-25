@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="4dp"
     android:gravity="center"
     >
 
@@ -34,8 +35,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
                 android:text="电影名:"
+                android:layout_marginLeft="@dimen/layout_margin"
                 android:textColor="@color/colorLightBlack"
                 android:textSize="@dimen/min_textsize"/>
 
@@ -43,7 +44,7 @@
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:layout_marginLeft="@dimen/layout_margin"
                 android:text="hello"
                 android:textColor="@color/colorLightBlack"
                 android:textSize="@dimen/min_textsize"/>
@@ -57,7 +58,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:layout_marginLeft="@dimen/layout_margin"
                 android:text="导    演:"
                 android:textColor="@color/colorLightBlack"
                 android:textSize="@dimen/min_textsize"/>
@@ -66,7 +67,7 @@
                 android:id="@+id/tv_writer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:layout_marginLeft="@dimen/layout_margin"
                 android:text="hello"
                 android:textColor="@color/colorLightBlack"
                 android:textSize="@dimen/min_textsize"/>
@@ -80,7 +81,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:layout_marginLeft="@dimen/layout_margin"
                 android:text="推荐者:"
                 android:textColor="@color/colorLightBlack"
                 android:textSize="@dimen/min_textsize"/>
@@ -89,7 +90,7 @@
                 android:id="@+id/tv_recommer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:layout_marginLeft="@dimen/layout_margin"
                 android:text="hello"
                 android:textColor="@color/colorLightBlack"
                 android:textSize="@dimen/min_textsize"/>
