@@ -13,6 +13,7 @@ import java.util.List;
  */
 public class CustomerMenuView extends LinearLayout {
     private OnItemListener listener;
+    private List<ItemData> datas = new ArrayList<>();
 
     public CustomerMenuView(Context context) {
         super(context);
@@ -84,22 +85,40 @@ public class CustomerMenuView extends LinearLayout {
         this.listener = listener;
     }
 
-    public interface OnItemListener {
-        void itemClick(View v);
-    }
-
-    private List<ItemData> datas = new ArrayList<>();
-
     public CustomerMenuView addItem(int imgId, String content, String flag) {
         datas.add(new ItemData(imgId, content, flag));
         return this;
     }
 
-    public CustomerMenuView addItem(int imgId,String content,String flag,String desc) {
+    public CustomerMenuView addItem(String content, String flag, int imgId) {
+        datas.add(new ItemData(content, flag, imgId));
+        return this;
+    }
+
+    public CustomerMenuView addItem(int imgId, String content, String flag, String desc) {
         datas.add(new ItemData(imgId, content, flag));
         return this;
     }
 
+    public CustomerMenuView addItem(int imgId, String content, String flag, boolean boo) {
+        datas.add(new ItemData(imgId, content, flag, boo));
+        return this;
+    }
+
+    //只有前面内容的布局，
+    public CustomerMenuView addItem(String content, String flag, boolean boo) {
+        datas.add(new ItemData(content, flag, boo));
+        return this;
+    }
+
+    public CustomerMenuView addItem(String content, String desc,String flag, boolean boo) {
+        datas.add(new ItemData(content,desc, flag, boo));
+        return this;
+    }
+    public CustomerMenuView addItem(int imgId,String content, String desc,String flag, boolean boo) {
+        datas.add(new ItemData(imgId,content,desc, flag, boo));
+        return this;
+    }
     public CustomerMenuView addDivider() {
         datas.add(new ItemData());
         return this;
@@ -107,5 +126,9 @@ public class CustomerMenuView extends LinearLayout {
 
     public void build() {
         setDatas(datas);
+    }
+
+    public interface OnItemListener {
+        void itemClick(View v);
     }
 }

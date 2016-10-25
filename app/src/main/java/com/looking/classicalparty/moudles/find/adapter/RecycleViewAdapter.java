@@ -63,12 +63,11 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             }
         } else if (holder instanceof MusicViewHolder) {
             ((MusicViewHolder) holder).mTvName.setText("music");
-            if(mOnItemClickListener!=null)
-            {
+            if (mOnItemClickListener != null) {
                 ((MusicViewHolder) holder).mTvListen.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mOnItemClickListener.toListenClick(((MusicViewHolder) holder).mTvListen,position);
+                        mOnItemClickListener.toListenClick(((MusicViewHolder) holder).mTvListen, position);
 
                     }
                 });
@@ -98,7 +97,8 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     public static interface OnItemClickListener {
         void onItemClick(View view, int positon);
-        void toListenClick(View view,int position);
+
+        void toListenClick(View view, int position);
 
     }
 

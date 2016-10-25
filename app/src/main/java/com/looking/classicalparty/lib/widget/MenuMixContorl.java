@@ -66,8 +66,20 @@ public class MenuMixContorl extends LinearLayout implements CustomerInterface {
         tvdesc.setText(desc);
     }
 
+    @Override
+    public void setIsVisiable(boolean boo) {
+        if (boo) {
+            ivnext.setVisibility(VISIBLE);
+        } else {
+            ivnext.setVisibility(INVISIBLE);
+        }
+
+    }
+
     public void setData(ItemData data) {
         setIcon(data.imgId);
+        setNext(data.bitmap);
+        setIsVisiable(data.isVisible);
         setMenuName(data.content);
         setDesc(data.desc == null ? "" : data.desc);
     }

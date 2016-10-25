@@ -13,6 +13,7 @@ import com.looking.classicalparty.lib.base.fragment.BaseFragment;
 import com.looking.classicalparty.lib.widget.CustomerMenuView;
 import com.looking.classicalparty.lib.widget.ItemData;
 import com.looking.classicalparty.moudles.feedback.FeedBackActivity;
+import com.looking.classicalparty.moudles.mine.view.PersonalActivity;
 import com.looking.classicalparty.moudles.security.SecuritySettingActivity;
 
 import static com.looking.classicalparty.R.id.toolbar;
@@ -40,6 +41,7 @@ public class MineFragment extends BaseFragment {
             public void itemClick(View v) {
                 switch (((ItemData) v.getTag()).flag) {
                     case "personmsg":
+                        startActivity(new Intent(getActivity(), PersonalActivity.class));
                         break;
                     case "security":
                         startActivity(new Intent(getActivity(), SecuritySettingActivity.class));

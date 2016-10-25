@@ -7,5 +7,6 @@ public interface CustomerInterface extends CustomBaseInterface{
 
     public void setNext(int rid);
     void setDesc(String desc);
+    void setIsVisiable(boolean boo);
 
 }
