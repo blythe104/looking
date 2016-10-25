@@ -14,8 +14,8 @@ import com.looking.classicalparty.lib.widget.CustomViewPager;
 import com.looking.classicalparty.moudles.login.view.LoginActivity;
 import com.looking.classicalparty.moudles.main.fragment.ClMusicFragment;
 import com.looking.classicalparty.moudles.main.fragment.ClVideoFragment;
-import com.looking.classicalparty.moudles.main.fragment.FindFragment;
-import com.looking.classicalparty.moudles.main.fragment.MineFragment;
+import com.looking.classicalparty.moudles.find.fragment.FindFragment;
+import com.looking.classicalparty.moudles.mine.fragment.MineFragment;
 
 import java.util.ArrayList;
 import java.util.List;

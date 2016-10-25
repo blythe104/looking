@@ -15,7 +15,6 @@
         android:supportsRtl="true"
         android:theme="@style/ThemeActivity">
         <activity android:name=".moudles.main.MainActivity">
-
         </activity>
         <activity android:name=".moudles.launch.LaunchActivity">
             <intent-filter>
@@ -24,13 +23,14 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
         <activity android:name=".moudles.login.view.LoginActivity"/>
         <activity android:name=".moudles.register.view.RegisterActivity"/>
         <activity android:name=".moudles.register.view.RegisterDetailActivity"/>
         <activity android:name=".moudles.security.ChangeLoginPwdActivity"/>
         <activity android:name=".moudles.security.SecuritySettingActivity"/>
-        <activity android:name=".moudles.feedback.FeedBackActivity"></activity>
+        <activity android:name=".moudles.feedback.FeedBackActivity"/>
+        <activity android:name=".moudles.mine.view.PersonActivity">
+        </activity>
     </application>
 
 </manifest>

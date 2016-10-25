@@ -1,6 +1,7 @@
-package com.looking.classicalparty.moudles.main.fragment;
+package com.looking.classicalparty.moudles.mine.fragment;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -14,6 +15,8 @@ import com.looking.classicalparty.lib.widget.ItemData;
 import com.looking.classicalparty.moudles.feedback.FeedBackActivity;
 import com.looking.classicalparty.moudles.security.SecuritySettingActivity;
 
+import static com.looking.classicalparty.R.id.toolbar;
+
 /**
  * Created by xin on 2016/10/19.
  */
@@ -25,7 +28,7 @@ public class MineFragment extends BaseFragment {
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mine_layout, null);
-        mToolBar = (Toolbar) view.findViewById(R.id.toolbar);
+        mToolBar = (Toolbar) view.findViewById(toolbar);
 
         mCustomMenu = (CustomerMenuView) view.findViewById(R.id.custom_menu);
         mCustomMenu.addDivider().addItem(R.mipmap.ic_person_msg, "个人信息", "personmsg").addItem(R.mipmap
@@ -61,6 +64,7 @@ public class MineFragment extends BaseFragment {
     protected void loadData() {
         super.loadData();
         mToolBar.setTitle("Classical");
+        mToolBar.setTitleTextColor(Color.parseColor("#FFFFFF"));
     }
 
 
