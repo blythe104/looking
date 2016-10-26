@@ -32,6 +32,10 @@
         <activity android:name=".moudles.feedback.FeedBackActivity"/>
         <activity android:name=".moudles.mine.view.PersonalActivity">
         </activity>
+        <activity android:name=".moudles.about.view.AboutUsActivity">
+        </activity>
+        <activity android:name=".moudles.movie.view.MovieDetailActivity">
+        </activity>
     </application>
 
 </manifest>

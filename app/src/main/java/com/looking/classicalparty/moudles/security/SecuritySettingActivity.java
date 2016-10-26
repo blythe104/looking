@@ -6,6 +6,7 @@ import android.view.View;
 import com.looking.classicalparty.R;
 import com.looking.classicalparty.lib.base.activity.BaseActivity;
 import com.looking.classicalparty.lib.constants.StringContants;
+import com.looking.classicalparty.lib.utils.DataCleanUtils;
 import com.looking.classicalparty.lib.utils.SharedPreUtils;
 import com.looking.classicalparty.lib.widget.CustomerMenuView;
 import com.looking.classicalparty.lib.widget.ItemData;
@@ -33,6 +34,11 @@ public class SecuritySettingActivity extends BaseActivity {
                         break;
                     case "change":
                         startActivity(new Intent(SecuritySettingActivity.this, ChangeLoginPwdActivity.class));
+                        break;
+                    case "del":
+                        // TODO: 2016/10/26 需用的缓存大小,需要将此数据更新到Menu中
+//                        String fileSize = DataCleanUtils.getTotalCacheSize(getApplicationContext());
+                        DataCleanUtils.cleanApplicationData(getApplicationContext());
                         break;
                 }
 

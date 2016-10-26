@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 'Google Inc.:Google APIs:24'
+    buildToolsVersion '24.0.2'
 
     defaultConfig {
         applicationId "com.looking.classicalparty"
@@ -10,8 +10,14 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        jackOptions {
+            enabled true
+        }
     }
-
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     signingConfigs {
         debugConfig {
             keyAlias 'classical'
@@ -36,8 +42,8 @@ android {
                 def releaseApkName = 'classical-v' + defaultConfig.versionName + '-' + productFlavors.name + '.apk'
                 output.outputFile = new File(oldFile.parent, releaseApkName)
             } else if (variant.buildType.name.equals('debug')) {
-//                def releaseApkName = getDebugApkName()
-//                output.outputFile = new File(oldFile.parent, releaseApkName)
+                //                def releaseApkName = getDebugApkName()
+                //                output.outputFile = new File(oldFile.parent, releaseApkName)
             }
 
         }
@@ -90,4 +96,16 @@ dependencies {
         exclude group: 'com.google.android', module: 'support-v4'
     }
     compile 'com.android.support:design:23.2.1'
+    //时间选择控件
+    compile 'com.github.flavienlaurent.datetimepicker:library:0.0.2'
+}
+//配置lambda表达式
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'me.tatarka:gradle-retrolambda:3.2.5'
+    }
 }

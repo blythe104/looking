@@ -2,7 +2,6 @@ package com.looking.classicalparty.moudles.mine.view;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -16,13 +15,16 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.fourmob.datetimepicker.date.DatePickerDialog;
 import com.looking.classicalparty.R;
 import com.looking.classicalparty.lib.base.activity.BaseActivity;
 import com.looking.classicalparty.lib.widget.CircleImageView;
 import com.looking.classicalparty.lib.widget.CustomerMenuView;
+import com.looking.classicalparty.lib.widget.ItemData;
 import com.looking.classicalparty.moudles.mine.dialog.ChooisePhotoDialog;
 
 import java.io.File;
+import java.util.Calendar;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -38,18 +40,37 @@ public class PersonalActivity extends BaseActivity {
     private CircleImageView circleImageView;
     private LinearLayout mLlChangePhoto;
     private ChooisePhotoDialog chooisePhotoDialog;
+    private DatePickerDialog datePickerDialog;
 
     @Override
     public void initView() {
         setContentView(R.layout.activity_person);
         initTitle();
-        mCustomMenu.addDivider()//
-                .addItem(R.mipmap.ic_nickname1, "昵称", "twory", "nickname", false)//
-                .addItem(R.mipmap.ic_sex, "性别", "男", "sex", false)//
-                .addItem(R.mipmap.ic_birthday, "生日", "202020", "birthday", false)//
-                .addItem(R.mipmap.ic_sign, "个性签名", "909090909", "sign", false)//
-                .build();
+        final Calendar calendar = Calendar.getInstance();
+        datePickerDialog = DatePickerDialog.newInstance((ddg, year, month, day) -> {
 
+                }, //
+                calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        mCustomMenu.addDivider()//
+                .addItem(R.mipmap.ic_nickname1, "昵称", "twory", "nickname", false)//昵称
+                .addItem(R.mipmap.ic_sex, "性别", "男", "sex", false)//性别
+                .addItem(R.mipmap.ic_birthday, "生日", "202020", "birthday", false)//生日
+                .addItem(R.mipmap.ic_sign, "个性签名", "909090909", "sign", false)//个性签名
+                .build();
+        mCustomMenu.setItemClickListener(v -> {
+            switch (((ItemData) v.getTag()).flag) {
+                case "nickname":
+                    break;
+                case "sex":
+                    break;
+                //选择出生日期
+                case "birthday":
+                    chooiseBirthday();
+                    break;
+                case "sign":
+                    break;
+            }
+        });
         chooisePhotoDialog.setPhotoListener(new ChooisePhotoDialog.PhotoListener() {
             @Override
             public void takePhoto() {
@@ -63,6 +84,15 @@ public class PersonalActivity extends BaseActivity {
         });
     }
 
+    /**
+     * 选择出生日期
+     */
+    private void chooiseBirthday() {
+        datePickerDialog.setYearRange(1985, 2028);
+
+
+    }
+
     private void requstPermission(int code) {
         switch (code) {
             case 1001:
@@ -71,19 +101,16 @@ public class PersonalActivity extends BaseActivity {
                         .permission.CAMERA)) {
                     if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                        builder.setTitle(R.string.app_name).setMessage("申请相机权限").setPositiveButton("确定", new
-                                DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                //申请相机权限
-                                ActivityCompat.requestPermissions(PersonalActivity.this, new String[]{Manifest
-                                        .permission.CAMERA}, CAMERA_REQUEST_CODE);
-                                // 跳转到系统的界面
-                                Intent intent = new Intent();
-                                intent.setAction("android.intent.action.MAIN");
-                                intent.setClassName("com.android.settings", "com.android.settings.ManageApplications");
-                                startActivity(intent);
-                            }
+                        builder.setTitle(R.string.app_name).setMessage("申请相机权限").setPositiveButton("确定", (dialog, v)
+                                -> {
+                            //申请相机权限
+                            ActivityCompat.requestPermissions(PersonalActivity.this, new String[]{Manifest.permission
+                                    .CAMERA}, CAMERA_REQUEST_CODE);
+                            // 跳转到系统的界面
+                            Intent intent = new Intent();
+                            intent.setAction("android.intent.action.MAIN");
+                            intent.setClassName("com.android.settings", "com.android.settings.ManageApplications");
+                            startActivity(intent);
                         }).setNegativeButton("暂不申请", null).show();
                     } else {
                         //申请相机权限

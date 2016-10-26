@@ -12,6 +12,7 @@ import com.looking.classicalparty.R;
 import com.looking.classicalparty.lib.base.fragment.BaseFragment;
 import com.looking.classicalparty.lib.widget.CustomerMenuView;
 import com.looking.classicalparty.lib.widget.ItemData;
+import com.looking.classicalparty.moudles.about.view.AboutUsActivity;
 import com.looking.classicalparty.moudles.feedback.FeedBackActivity;
 import com.looking.classicalparty.moudles.mine.view.PersonalActivity;
 import com.looking.classicalparty.moudles.security.SecuritySettingActivity;
@@ -36,25 +37,22 @@ public class MineFragment extends BaseFragment {
                 .ic_secure_setting, "安全设置", "security").addDivider().addItem(R.mipmap.ic_feedback, "意见反馈",
                 "feedback").addItem(R.mipmap.ic_about_us, "关于我们", "aboutus").addItem(R.mipmap.ic_app_version, "版本信息",
                 "version").build();
-        mCustomMenu.setItemClickListener(new CustomerMenuView.OnItemListener() {
-            @Override
-            public void itemClick(View v) {
-                switch (((ItemData) v.getTag()).flag) {
-                    case "personmsg":
-                        startActivity(new Intent(getActivity(), PersonalActivity.class));
-                        break;
-                    case "security":
-                        startActivity(new Intent(getActivity(), SecuritySettingActivity.class));
-                        break;
-                    case "feedback":
-                        startActivity(new Intent(getActivity(), FeedBackActivity.class));
-                        break;
-                    case "aboutus":
-                        break;
-                    case "version":
-                        break;
-                }
-
+        mCustomMenu.setItemClickListener((v) -> {
+            switch (((ItemData) v.getTag()).flag) {
+                case "personmsg":
+                    startActivity(new Intent(getActivity(), PersonalActivity.class));
+                    break;
+                case "security":
+                    startActivity(new Intent(getActivity(), SecuritySettingActivity.class));
+                    break;
+                case "feedback":
+                    startActivity(new Intent(getActivity(), FeedBackActivity.class));
+                    break;
+                case "aboutus":
+                    startActivity(new Intent(getActivity(), AboutUsActivity.class));
+                    break;
+                case "version":
+                    break;
             }
         });
 
