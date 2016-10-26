@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:id="@+id/activity_person"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,14 +10,14 @@
     <include layout="@layout/login_title_bar"/>
 
     <LinearLayout
+        android:id="@+id/ll_change_photo"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center_vertical"
-        android:background="@color/colorWhite"
+        android:background="@drawable/selector_pressed_status"
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/tv_menuname"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
@@ -28,6 +27,7 @@
             android:textSize="14sp"/>
 
         <com.looking.classicalparty.lib.widget.CircleImageView
+            android:id="@+id/circle_image"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginRight="20dp"
@@ -37,5 +37,5 @@
     <com.looking.classicalparty.lib.widget.CustomerMenuView
         android:id="@+id/custom_menu"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"/>
 </LinearLayout>

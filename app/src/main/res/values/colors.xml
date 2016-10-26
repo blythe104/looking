@@ -11,4 +11,5 @@
     <color name="themeTextColor">#ea8010</color>
     <color name="colorBlack">#000000</color>
     <color name="colorLightBlack">#424242</color>
+    <color name="themeTextBlack">#434a54</color>
 </resources>

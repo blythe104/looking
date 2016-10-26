@@ -36,8 +36,8 @@ android {
                 def releaseApkName = 'classical-v' + defaultConfig.versionName + '-' + productFlavors.name + '.apk'
                 output.outputFile = new File(oldFile.parent, releaseApkName)
             } else if (variant.buildType.name.equals('debug')) {
-                def releaseApkName = getDebugApkName()
-                output.outputFile = new File(oldFile.parent, releaseApkName)
+//                def releaseApkName = getDebugApkName()
+//                output.outputFile = new File(oldFile.parent, releaseApkName)
             }
 
         }
