@@ -2,6 +2,7 @@ package com.looking.classicalparty.moudles.main.fragment;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,19 +16,21 @@ import com.looking.classicalparty.lib.base.fragment.BaseFragment;
 public class MovieFragment extends BaseFragment {
 
     private TabLayout mTab;
+    private ViewPager mViewPager;
 
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        //布局测试
-//        LinearLayout linearLayout = new LinearLayout(getContext());
-//        linearLayout.setMinimumHeight(100);
-//        linearLayout.setMinimumWidth(100);
-//        TextView textView = new TextView(getContext());
-//        textView.setText("hello video");
-//        linearLayout.addView(textView);
-//        linearLayout.setGravity(Gravity.CENTER);
         View view = inflater.inflate(R.layout.movie_fragment_layout, null);
         mTab = (TabLayout) view.findViewById(R.id.tab);
+        mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
+//        mTab.addTab(mTab.newTab().setText("hello").setIcon(R.mipmap.ic_mine));
+//        mTab.addTab(mTab.newTab().setText("hello1").setIcon(R.mipmap.ic_find));
+        mTab.addTab(mTab.newTab().setText("hello2"));
+        mTab.addTab(mTab.newTab().setText("hello3"));
+        mTab.addTab(mTab.newTab().setText("hello3"));
+        mTab.addTab(mTab.newTab().setText("hello3"));
+        mTab.addTab(mTab.newTab().setText("hello3"));
+//        mTab.setupWithViewPager(mViewPager);
         return view;
 
     }
