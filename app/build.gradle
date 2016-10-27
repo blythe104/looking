@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 'Google Inc.:Google APIs:24'
+    compileSdkVersion 22
     buildToolsVersion '24.0.2'
 
     defaultConfig {
@@ -89,13 +89,13 @@ def getDebugApkName() {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.android.support:appcompat-v7:24.0.0'
     compile 'com.squareup.okhttp:okhttp:2.7.0'
     compile 'com.google.code.gson:gson:2.6.2'
     compile('de.keyboardsurfer.android.widget:crouton:1.8.4@aar') {
         exclude group: 'com.google.android', module: 'support-v4'
     }
-    compile 'com.android.support:design:23.2.1'
+    compile 'com.android.support:design:24.0.0'
     //时间选择控件
     compile 'com.github.flavienlaurent.datetimepicker:library:0.0.2'
 }
