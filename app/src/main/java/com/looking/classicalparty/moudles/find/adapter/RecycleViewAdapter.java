@@ -1,5 +1,7 @@
 package com.looking.classicalparty.moudles.find.adapter;
 
+import android.content.Context;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,10 +21,16 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     public List<Integer> mDatas;
     private OnItemClickListener mOnItemClickListener;
+    private Context context;
 
     public RecycleViewAdapter(List<Integer> datas) {
         this.mDatas = datas;
     }
+
+    public RecycleViewAdapter(FragmentManager fm, Context context) {
+        this.context = context;
+    }
+
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.mOnItemClickListener = listener;
