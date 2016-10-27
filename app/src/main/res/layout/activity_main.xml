@@ -1,17 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
     tools:context=".moudles.main.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"/>
-</RelativeLayout>
+    <com.looking.classicalparty.lib.widget.CustomViewPager
+        android:id="@+id/custom_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+
+    <RadioGroup
+        android:id="@+id/radio_group"
+        style="@style/radio_group_style"
+        android:layout_gravity="center_vertical"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_find"
+            style="@style/RadioButtonStyle"
+            android:layout_gravity="center"
+            android:checked="true"
+            android:drawableTop="@drawable/selector_radio_find"
+            android:text="FIND"/>
+
+        <RadioButton
+            android:id="@+id/rb_video"
+            style="@style/RadioButtonStyle"
+            android:layout_gravity="center"
+            android:drawableTop="@drawable/selector_radio_video"
+            android:text="VIDEO"/>
+
+        <RadioButton
+            android:id="@+id/rb_music"
+            style="@style/RadioButtonStyle"
+            android:layout_gravity="center"
+            android:drawableTop="@drawable/selector_radio_music"
+            android:text="MUSIC"/>
+
+        <RadioButton
+            android:id="@+id/rb_mine"
+            style="@style/RadioButtonStyle"
+            android:layout_gravity="center"
+            android:drawableTop="@drawable/selector_radio_mine"
+            android:text="MINE"/>
+    </RadioGroup>
+</LinearLayout>

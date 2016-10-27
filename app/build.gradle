@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 'Google Inc.:Google APIs:24'
+    buildToolsVersion '24.0.2'
 
     defaultConfig {
         applicationId "com.looking.classicalparty"
@@ -10,8 +10,14 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        jackOptions {
+            enabled true
+        }
     }
-
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     signingConfigs {
         debugConfig {
             keyAlias 'classical'
@@ -27,10 +33,26 @@ android {
             storePassword 'likeclassical' //System.console().readLine(" :input storePassword : ");
         }
     }
+
+    //修改生成的apk名字
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def oldFile = output.outputFile
+            if (variant.buildType.name.equals('release')) {
+                def releaseApkName = 'classical-v' + defaultConfig.versionName + '-' + productFlavors.name + '.apk'
+                output.outputFile = new File(oldFile.parent, releaseApkName)
+            } else if (variant.buildType.name.equals('debug')) {
+                //                def releaseApkName = getDebugApkName()
+                //                output.outputFile = new File(oldFile.parent, releaseApkName)
+            }
+
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            resValue("string", "app_name", "classical")
         }
         //修改生成的apk名字
         applicationVariants.all { variant ->
@@ -50,7 +72,6 @@ android {
         debug {
             minifyEnabled false
             resValue("string", "app_name", "test-classical")
-            buildConfigField "String", "BASE_URL", ""
             signingConfig signingConfigs.debugConfig
         }
     }
@@ -66,9 +87,25 @@ def getDebugApkName() {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.squareup.okhttp:okhttp:2.7.0'
     compile 'com.google.code.gson:gson:2.6.2'
+    compile('de.keyboardsurfer.android.widget:crouton:1.8.4@aar') {
+        exclude group: 'com.google.android', module: 'support-v4'
+    }
+    compile 'com.android.support:design:23.2.1'
+    //时间选择控件
+    compile 'com.github.flavienlaurent.datetimepicker:library:0.0.2'
+}
+//配置lambda表达式
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'me.tatarka:gradle-retrolambda:3.2.5'
+    }
 }

@@ -5,4 +5,13 @@
     <color name="colorAccent">#FF4081</color>
     <color name="selected">#eb4f38</color>
     <color name="normal">#31455b</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="divider_gray">#cccccc</color>
+    <color name="theme_gray">#e6e4e4</color>
+    <color name="photoBorderColor">#8accfc</color>
+    <color name="themeColor">#fdb44c</color>
+    <color name="themeTextColor">#ea8010</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorLightBlack">#424242</color>
+    <color name="themeTextBlack">#434a54</color>
 </resources>

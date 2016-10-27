@@ -5,7 +5,9 @@ import android.os.Looper;
 import android.support.graphics.drawable.BuildConfig;
 
 import com.google.gson.Gson;
+import com.looking.classicalparty.lib.base.Bean.BaseBean;
 import com.looking.classicalparty.lib.constants.Config;
+import com.looking.classicalparty.lib.utils.Base64Utils;
 import com.looking.classicalparty.lib.utils.LogUtils;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
@@ -98,55 +100,9 @@ public class HttpUtils {
      * @param fileKey
      * @param params
      */
-    public static void postFileAndParams(String url, File file, String fileKey, List<Param>
-            params, ResultCallback callback) {
+    public static void postFileAndParams(String url, File file, String fileKey, List<Param> params, ResultCallback
+            callback) {
         getmInstance().postFile(url, callback, file, fileKey, params);
-    }
-
-    private void getRequest(String url, ResultCallback callback) {
-        Request request = new Request.Builder().url(url).build();
-        deliveryResult(callback, request);
-    }
-
-    private void postRequest(String url, ResultCallback callback, List<Param> params) {
-        Request request = buildPostRequest(url, params);
-        deliveryResult(callback, request);
-    }
-
-    private void postFile(String url, ResultCallback callback, File file, String fileKey, List<Param> params) {
-        Request request = buildMultipartFormRequest(url, new File[]{file}, new String[]{fileKey}, params);
-        deliveryResult(callback, request);
-    }
-
-    private void deliveryResult(final ResultCallback callback, Request request) {
-
-        mOkHttpClient.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Request request, IOException e) {
-                sendFailCallback(request, callback, e);
-            }
-
-            @Override
-            public void onResponse(Response response) throws IOException {
-                try {
-                    String str = response.body().string();
-                    if (callback.mType == String.class) {
-                        sendSuccessCallBack(callback, str);
-                    } else {
-
-                        Object object = new Gson().fromJson(str, callback.mType);
-                        sendSuccessCallBack(callback, object);
-                    }
-                } catch (IOException e) {
-                    LogUtils.e(TAG, "convert json failure", e);
-                    sendFailCallback(response.request(), callback, e);
-                } catch (com.google.gson.JsonParseException e)//Json解析的错误
-                {
-                    sendFailCallback(response.request(), callback, e);
-                }
-
-            }
-        });
     }
 
     private static void sendFailCallback(final Request request, final ResultCallback callback, final Exception e) {
@@ -155,6 +111,28 @@ public class HttpUtils {
             public void run() {
                 if (callback != null) {
                     callback.onFailure(request, e);
+                }
+            }
+        });
+    }
+
+    private static void sendNoNetCallback(final String request, final ResultCallback callback) {
+        mDelivery.post(new Runnable() {
+            @Override
+            public void run() {
+                if (callback != null) {
+                    callback.onNoNetWork(request);
+                }
+            }
+        });
+    }
+
+    private static void sendServiceErrorCallback(final String request, final ResultCallback callback) {
+        mDelivery.post(new Runnable() {
+            @Override
+            public void run() {
+                if (callback != null) {
+                    callback.onServiceError(request);
                 }
             }
         });
@@ -169,59 +147,6 @@ public class HttpUtils {
                 }
             }
         });
-    }
-
-    private Request buildPostRequest(String url, List<Param> params) {
-        FormEncodingBuilder builder = new FormEncodingBuilder();
-        for (Param param : params) {
-            builder.add(param.key, param.value);
-        }
-        builder.add("packageName",  BuildConfig.APPLICATION_ID).add("clientType", Config.ClientType);
-        RequestBody requestBody = builder.build();
-        return new Request.Builder().url(url).post(requestBody).build();
-    }
-
-
-    /**********************
-     * 对外接口
-     ************************/
-
-    private Request buildMultipartFormRequest(String url, File[] files, String[] fileKeys, List<Param> params) {
-        params = validateParam(params);
-        MultipartBuilder builder = new MultipartBuilder().type(MultipartBuilder.FORM);
-        for (Param param : params) {
-            builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"" + param.key +
-                    "\""), RequestBody.create(null, param.value));
-        }
-        builder.addFormDataPart("packageName", BuildConfig.APPLICATION_ID).addFormDataPart("clientType", Config.ClientType);
-        if (files != null) {
-            RequestBody fileBody = null;
-            for (int i = 0; i < files.length; i++) {
-                File file = files[i];
-                String fileName = file.getName();
-                fileBody = RequestBody.create(MediaType.parse(guessMimeType(fileName)), file);
-                builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"" +
-                        fileKeys[i] + "\"; filename=\"" + fileName + "\""), fileBody);
-            }
-        }
-        RequestBody requestBody = builder.build();
-        return new Request.Builder().url(url).post(requestBody).build();
-    }
-
-    private String guessMimeType(String path) {
-        FileNameMap fileNameMap = URLConnection.getFileNameMap();
-        String contentTypeFor = fileNameMap.getContentTypeFor(path);
-        if (contentTypeFor == null) {
-            contentTypeFor = "application/octet-stream";
-        }
-        return contentTypeFor;
-    }
-
-    private List<Param> validateParam(List<Param> params) {
-        if (params == null)
-            return new ArrayList<>();
-        else
-            return params;
     }
 
     private static String getFileName(String path) {
@@ -278,6 +203,103 @@ public class HttpUtils {
             }
         });
 
+    }
+
+    private void getRequest(String url, ResultCallback callback) {
+        Request request = new Request.Builder().url(url).build();
+        deliveryResult(callback, request);
+    }
+
+    private void postRequest(String url, ResultCallback callback, List<Param> params) {
+        Request request = buildPostRequest(url, params);
+        deliveryResult(callback, request);
+    }
+
+    private void postFile(String url, ResultCallback callback, File file, String fileKey, List<Param> params) {
+        Request request = buildMultipartFormRequest(url, new File[]{file}, new String[]{fileKey}, params);
+        deliveryResult(callback, request);
+    }
+
+    private void deliveryResult(final ResultCallback callback, Request request) {
+
+        mOkHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                sendFailCallback(request, callback, e);
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                String result = response.body().string();
+                LogUtils.d("login-response--" + Base64Utils.decodeUnicode(result));
+                BaseBean baseBean = new Gson().fromJson(result, BaseBean.class);
+                if (200 == baseBean.getResult()) {
+                    // TODO: 2016/10/19 返回成功
+                    sendSuccessCallBack(callback, result);
+                } else if (300 == baseBean.getResult()) {
+                    // TODO: 2016/10/19 网络异常
+                    sendNoNetCallback(baseBean.getResultMsg(), callback);
+                } else if (400 == baseBean.getResult()) {
+                    //服务器异常
+                    sendServiceErrorCallback(baseBean.getResultMsg(), callback);
+                } else {
+                    sendServiceErrorCallback(baseBean.getResultMsg(), callback);
+                }
+            }
+        });
+    }
+
+    private Request buildPostRequest(String url, List<Param> params) {
+        FormEncodingBuilder builder = new FormEncodingBuilder();
+        for (Param param : params) {
+            builder.add(param.key, param.value);
+        }
+        builder.add("packageName", BuildConfig.APPLICATION_ID).add("clientType", Config.ClientType);
+        RequestBody requestBody = builder.build();
+        return new Request.Builder().url(url).post(requestBody).build();
+    }
+
+    /**********************
+     * 对外接口
+     ************************/
+
+    private Request buildMultipartFormRequest(String url, File[] files, String[] fileKeys, List<Param> params) {
+        params = validateParam(params);
+        MultipartBuilder builder = new MultipartBuilder().type(MultipartBuilder.FORM);
+        for (Param param : params) {
+            builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"" + param.key +
+                    "\""), RequestBody.create(null, param.value));
+        }
+        builder.addFormDataPart("packageName", BuildConfig.APPLICATION_ID).addFormDataPart("clientType", Config
+                .ClientType);
+        if (files != null) {
+            RequestBody fileBody = null;
+            for (int i = 0; i < files.length; i++) {
+                File file = files[i];
+                String fileName = file.getName();
+                fileBody = RequestBody.create(MediaType.parse(guessMimeType(fileName)), file);
+                builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"" +
+                        fileKeys[i] + "\"; filename=\"" + fileName + "\""), fileBody);
+            }
+        }
+        RequestBody requestBody = builder.build();
+        return new Request.Builder().url(url).post(requestBody).build();
+    }
+
+    private String guessMimeType(String path) {
+        FileNameMap fileNameMap = URLConnection.getFileNameMap();
+        String contentTypeFor = fileNameMap.getContentTypeFor(path);
+        if (contentTypeFor == null) {
+            contentTypeFor = "application/octet-stream";
+        }
+        return contentTypeFor;
+    }
+
+    private List<Param> validateParam(List<Param> params) {
+        if (params == null)
+            return new ArrayList<>();
+        else
+            return params;
     }
 
 

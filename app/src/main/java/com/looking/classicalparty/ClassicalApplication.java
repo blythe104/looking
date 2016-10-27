@@ -12,6 +12,6 @@ public class ClassicalApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        SharedPreUtils.init(getApplicationContext());
+        SharedPreUtils.init(this);
     }
 }

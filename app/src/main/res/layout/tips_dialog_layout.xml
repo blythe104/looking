@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_edittext_border"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_tipstitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="提示"
+        android:textColor="#434a54"
+        android:textSize="15sp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/themeColor"></View>
+
+    <TextView
+        android:id="@+id/tv_tips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="数据加载异常，请重新加载！"
+        android:textColor="@color/colorLightBlack"
+        android:textSize="@dimen/mid_textsize"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp">
+
+        <Button
+            android:id="@+id/btn_tips_one"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="6dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="重新加载"
+            android:textColor="@color/colorWhite"
+            android:textSize="15sp"/>
+
+        <Button
+            android:id="@+id/btn_tips_two"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="不予理睬"
+            android:textColor="@color/colorWhite"
+            android:textSize="15sp"
+            />
+    </LinearLayout>
+
+</LinearLayout>
+

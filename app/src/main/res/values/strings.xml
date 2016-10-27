@@ -1,3 +1,11 @@
 <resources>
     <string name="anim_duration">300</string>
+    <string name="title_activity_scrolling">ScrollingActivity</string>
+    <string name="large_text">
+    </string>
+    <string name="action_settings">Settings</string>
+
+    <!--安全模块-->
+    <string name="feedback_hint">请输入您想告诉我们的，可以是电影，音乐或者您对该App的意见...</string>
+    <string name="feedback_maxsize">200</string>
 </resources>

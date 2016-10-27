@@ -3,6 +3,7 @@
 
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+<<<<<<< HEAD
     <dimen name="base_radius">2dp</dimen>
     <dimen name="title_bar_height">44dp</dimen>
     <dimen name="title_bar_center_size">16sp</dimen>
@@ -23,4 +24,13 @@
     <dimen name="line_height">1dp</dimen>
 
     <dimen name="three_dip">3dp</dimen>
+=======
+    <dimen name="login_input_textsize">16sp</dimen>
+    <dimen name="mid_textsize">14sp</dimen>
+    <dimen name="min_textsize">10sp</dimen>
+    <dimen name="app_bar_height">180dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <dimen name="layout_margin">10dp</dimen>
+>>>>>>> 8098a2e5bdc5c971893b39a60450b8d6edb873fb
 </resources>
