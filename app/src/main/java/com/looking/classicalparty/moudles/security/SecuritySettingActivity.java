@@ -12,6 +12,9 @@ import com.looking.classicalparty.lib.utils.SharedPreUtils;
 import com.looking.classicalparty.lib.widget.CustomerMenuView;
 import com.looking.classicalparty.lib.widget.ItemData;
 
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
+
 public class SecuritySettingActivity extends BaseActivity {
 
 
@@ -43,9 +46,10 @@ public class SecuritySettingActivity extends BaseActivity {
                         break;
                     case "del":
                         // TODO: 2016/10/26 需用的缓存大小,需要将此数据更新到Menu中
-                        //                        String fileSize = DataCleanUtils.getTotalCacheSize
+                        // String fileSize = DataCleanUtils.getTotalCacheSize
                         // (getApplicationContext());
-                        DataCleanUtils.cleanApplicationData(getApplicationContext());
+                        DataCleanUtils.cleanApplicationData(getApplication());
+                        Crouton.makeText(SecuritySettingActivity.this, "清除缓存成功", Style.CONFIRM).show();
                         break;
                 }
 

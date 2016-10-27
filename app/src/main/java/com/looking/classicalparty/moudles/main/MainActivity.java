@@ -12,7 +12,7 @@ import com.looking.classicalparty.lib.base.fragment.BaseFragment;
 import com.looking.classicalparty.lib.common.UserInfo;
 import com.looking.classicalparty.lib.widget.CustomViewPager;
 import com.looking.classicalparty.moudles.login.view.LoginActivity;
-import com.looking.classicalparty.moudles.main.fragment.ClMusicFragment;
+import com.looking.classicalparty.moudles.main.fragment.MusicFragment;
 import com.looking.classicalparty.moudles.main.fragment.MovieFragment;
 import com.looking.classicalparty.moudles.find.fragment.FindFragment;
 import com.looking.classicalparty.moudles.mine.fragment.MineFragment;
@@ -77,7 +77,7 @@ public class MainActivity extends BaseActivity {
         baseFragmentList = new ArrayList<>();
         baseFragmentList.add(new FindFragment());
         baseFragmentList.add(new MovieFragment());
-        baseFragmentList.add(new ClMusicFragment());
+        baseFragmentList.add(new MusicFragment());
         baseFragmentList.add(new MineFragment());
         mCustomViewPager.setOffscreenPageLimit(4);
         FragmentAdapter fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), baseFragmentList, null);

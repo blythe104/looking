@@ -1,6 +1,8 @@
 package com.looking.classicalparty.moudles.find.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -25,11 +27,24 @@ public class FindFragment extends BaseFragment {
     private RecyclerView recyclerView;
     private RecycleViewAdapter adapter;
     private List<Integer> datas;
+    private SwipeRefreshLayout mRefresh;
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.find_fragment_layout, null);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycle_view);
+        mRefresh = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
+        mRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mRefresh.setRefreshing(false);
+                    }
+                }, 5000);
+            }
+        });
         initRecycleView();
         return view;
     }

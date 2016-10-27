@@ -13,7 +13,7 @@ import com.looking.classicalparty.lib.base.fragment.BaseFragment;
 /**
  * Created by xin on 2016/10/19.
  */
-public class ClMusicFragment extends BaseFragment {
+public class MusicFragment extends BaseFragment {
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         LinearLayout linearLayout = new LinearLayout(getContext());
