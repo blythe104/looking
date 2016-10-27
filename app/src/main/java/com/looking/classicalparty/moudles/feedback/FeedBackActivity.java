@@ -9,9 +9,13 @@ import android.widget.TextView;
 import com.looking.classicalparty.R;
 import com.looking.classicalparty.lib.base.activity.BaseActivity;
 
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
+
 public class FeedBackActivity extends BaseActivity {
 
     private EditText mEtFeedback;
+    private TextView mTvTextNum;
     private TextWatcher watcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -25,10 +29,20 @@ public class FeedBackActivity extends BaseActivity {
 
         @Override
         public void afterTextChanged(Editable editable) {
+            int number = editable.length();
+            mTvTextNum.setText("" + number);
+            int editStart = mEtFeedback.getSelectionStart();
+            int editEnd = mEtFeedback.getSelectionEnd();
+            if (number > 200) {
+                Crouton.makeText(FeedBackActivity.this, "你输入的字数已经超过了限制！", Style.CONFIRM).show();
+                editable.delete(editStart - 1, editEnd);
+                int tempSelection = editEnd;
+                mEtFeedback.setText(editable);
+                mEtFeedback.setSelection(tempSelection);
+            }
 
         }
     };
-    private TextView mTvTextNum;
 
     @Override
     public void initView() {

@@ -48,7 +48,6 @@ public class PersonalActivity extends BaseActivity {
         initTitle();
         final Calendar calendar = Calendar.getInstance();
         datePickerDialog = DatePickerDialog.newInstance((ddg, year, month, day) -> {
-
                 }, //
                 calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         mCustomMenu.addDivider()//

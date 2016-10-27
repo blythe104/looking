@@ -1,6 +1,5 @@
 package com.looking.classicalparty.moudles.movie.view;
 
-import android.os.Bundle;
 import android.view.View;
 
 import com.looking.classicalparty.R;
@@ -8,11 +7,6 @@ import com.looking.classicalparty.lib.base.activity.BaseActivity;
 
 public class MovieDetailActivity extends BaseActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
 
     @Override
     public void initView() {

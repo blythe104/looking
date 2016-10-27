@@ -71,7 +71,7 @@ android {
 
         debug {
             minifyEnabled false
-            resValue("string", "app_name", "test-classical")
+            resValue("string", "app_name", "classical")
             signingConfig signingConfigs.debugConfig
         }
     }
