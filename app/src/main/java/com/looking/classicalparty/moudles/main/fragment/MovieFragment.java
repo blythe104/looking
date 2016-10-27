@@ -13,7 +13,7 @@ import com.looking.classicalparty.lib.base.fragment.BaseFragment;
 /**
  * Created by xin on 2016/10/19.
  */
-public class ClVideoFragment extends BaseFragment {
+public class MovieFragment extends BaseFragment {
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //布局测试
