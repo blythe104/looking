@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/title_bar_height"
-    android:background="@color/colorPrimary">
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_bar_height"
+                android:background="@color/themeColor">
 
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="title-标题"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/title_bar_center_size" />
 
     <ImageView
         android:id="@+id/iv_title_left"
         android:layout_width="@dimen/title_bar_back_width"
         android:layout_height="@dimen/title_bar_back_height"
         android:layout_alignParentLeft="true"
-        android:layout_marginBottom="11dip"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/margin_left"
         android:layout_marginTop="11dip"
-        android:src="@mipmap/ic_back" />
+        android:src="@mipmap/ic_back"/>
 
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/iv_title_left"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/mid_textsize"/>
 
     <TextView
         android:id="@+id/tv_title_right"
@@ -32,5 +33,5 @@
         android:layout_marginRight="@dimen/margin_right"
         android:gravity="right|center"
         android:textColor="@color/selector_theme"
-        android:textSize="@dimen/title_bar_right_size" />
+        android:textSize="@dimen/mid_textsize"/>
 </RelativeLayout>

@@ -8,8 +8,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import cn.book.keeping.R;
-import cn.book.keeping.libs.listener.ITitleBar;
+import com.looking.classicalparty.R;
+import com.looking.classicalparty.lib.listener.ITitleBar;
 
 
 /**
