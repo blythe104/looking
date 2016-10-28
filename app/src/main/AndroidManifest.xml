@@ -36,6 +36,8 @@
         </activity>
         <activity android:name=".moudles.movie.view.MovieDetailActivity">
         </activity>
+        <activity android:name=".moudles.mine.view.SignActivity">
+        </activity>
     </application>
 
 </manifest>

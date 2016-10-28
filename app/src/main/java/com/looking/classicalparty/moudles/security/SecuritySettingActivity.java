@@ -27,33 +27,31 @@ public class SecuritySettingActivity extends BaseActivity {
         mCustomSecurity = (CustomerMenuView) findViewById(R.id.custom_security);
         mTitleBar = (TitleBar) findViewById(R.id.title_bar);
         // TODO: 2016/10/23 图片需要更换
-        mCustomSecurity.addDivider().addItem(R.mipmap.ic_person_msg, "密码修改", "change")//
-                .addItem(R.mipmap.ic_person_msg, "清除缓存", "del")//
-                .addItem(R.mipmap.ic_person_msg, "去评分", "score")//
+        mCustomSecurity.addDivider().addItem(R.mipmap.ic_change_pwd, "密码修改", "change")//
+                .addItem(R.mipmap.ic_clean, "清除缓存", "del")//
+                .addItem(R.mipmap.ic_give_score, "去评分", "score")//
                 .addDivider()//
-                .addItem(R.mipmap.img_btn_login, "退出登录", "exit")//
+                .addItem(R.mipmap.ic_clean, "退出登录", "exit")//
                 .build();
-        mCustomSecurity.setItemClickListener(new CustomerMenuView.OnItemListener() {
-            @Override
-            public void itemClick(View v) {
-                switch (((ItemData) v.getTag()).flag) {
-                    case "exit":
-                        SharedPreUtils.saveString(StringContants.TOKEN, "");
-                        finish();
-                        break;
-                    case "change":
-                        startActivity(new Intent(SecuritySettingActivity.this, ChangeLoginPwdActivity.class));
-                        break;
-                    case "del":
-                        // TODO: 2016/10/26 需用的缓存大小,需要将此数据更新到Menu中
-                        // String fileSize = DataCleanUtils.getTotalCacheSize
-                        // (getApplicationContext());
-                        DataCleanUtils.cleanApplicationData(getApplication());
-                        Crouton.makeText(SecuritySettingActivity.this, "清除缓存成功", Style.CONFIRM).show();
-                        break;
-                }
-
+        mCustomSecurity.setItemClickListener(v -> {
+            switch (((ItemData) v.getTag()).flag) {
+                case "exit":
+                    SharedPreUtils.saveString(StringContants.TOKEN, "");
+                    finish();
+                    break;
+                case "change":
+                    startActivity(new Intent(SecuritySettingActivity.this, ChangeLoginPwdActivity.class));
+                    break;
+                case "del":
+                    // TODO: 2016/10/26 需用的缓存大小,需要将此数据更新到Menu中
+                    // String fileSize = DataCleanUtils.getTotalCacheSize
+                    // (getApplicationContext());
+                    DataCleanUtils.cleanApplicationData(getApplicationContext());
+                    DataCleanUtils.cleanSharedPreference(getApplicationContext());
+                    Crouton.makeText(SecuritySettingActivity.this, "清除缓存成功", Style.CONFIRM).show();
+                    break;
             }
+
         });
         mTitleBar.setOnClickListener(new TitleBar.OnClickListener() {
             @Override

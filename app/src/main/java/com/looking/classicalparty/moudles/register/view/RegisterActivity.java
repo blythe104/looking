@@ -14,6 +14,7 @@ import com.looking.classicalparty.lib.constants.StringContants;
 import com.looking.classicalparty.lib.http.HttpUtils;
 import com.looking.classicalparty.lib.http.Param;
 import com.looking.classicalparty.lib.http.ResultCallback;
+import com.looking.classicalparty.lib.ui.TitleBar;
 import com.looking.classicalparty.lib.utils.SharedPreUtils;
 import com.looking.classicalparty.moudles.register.bean.RegisterBean;
 import com.squareup.okhttp.Request;
@@ -27,14 +28,16 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 public class RegisterActivity extends BaseActivity {
 
 
-    private TextView mTvNext;
+    private TextView mTvRegister;
     private EditText mEtUserName;
     private EditText mEtPassword;
+    private TitleBar mTitle;
 
     @Override
     public void initView() {
         setContentView(R.layout.activity_register);
-        mTvNext = (TextView) findViewById(R.id.tv_next);
+        mTitle = (TitleBar) findViewById(R.id.title_bar);
+        mTvRegister = (TextView) findViewById(R.id.tv_register);
         mEtUserName = (EditText) findViewById(R.id.et_username);
         mEtPassword = (EditText) findViewById(R.id.et_password);
 
@@ -42,13 +45,25 @@ public class RegisterActivity extends BaseActivity {
 
     @Override
     public void initListener() {
-        mTvNext.setOnClickListener(this);
+        mTvRegister.setOnClickListener(this);
+        mTitle.setOnClickListener(new TitleBar.OnClickListener() {
+            @Override
+            public void OnLeftClick() {
+                finish();
+
+            }
+
+            @Override
+            public void OnRightClick() {
+            }
+        });
+
 
     }
 
     @Override
     public void initData() {
-
+        mTitle.setTitle("注册");
     }
 
     /**
@@ -127,12 +142,14 @@ public class RegisterActivity extends BaseActivity {
     @Override
     public void processClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_next:
+            case R.id.tv_register:
                 //检测用户名是否可用
                 String username = mEtUserName.getText().toString();
                 String password = mEtPassword.getText().toString();
                 if (!TextUtils.isEmpty(username)) {
                     checkUser(username, password);
+                } else {
+                    Crouton.makeText(RegisterActivity.this, "注册成功", Style.CONFIRM).show();
                 }
                 break;
         }

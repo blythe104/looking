@@ -6,12 +6,15 @@
     android:orientation="vertical"
     >
 
-    <include layout="@layout/login_title_bar"/>
+    <com.looking.classicalparty.lib.ui.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"/>
 
     <include layout="@layout/login_or_register_layout"/>
 
     <TextView
-        android:id="@+id/tv_next"
+        android:id="@+id/tv_register"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginLeft="20dp"
@@ -19,7 +22,7 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/selector_login_btn"
         android:gravity="center"
-        android:text="下一步"
+        android:text="注册"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/login_input_textsize"/>
 
