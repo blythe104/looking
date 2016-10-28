@@ -6,7 +6,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/login_title_bar" />
+    <com.looking.classicalparty.lib.ui.TitleBar
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:id="@+id/title_bar"/>
 
     <EditText
         android:id="@+id/et_oldpwd"
