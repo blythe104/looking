@@ -59,6 +59,7 @@ public class PersonalActivity extends BaseActivity {
         mCustomMenu.setItemClickListener(v -> {
             switch (((ItemData) v.getTag()).flag) {
                 case "nickname":
+                    ((ItemData) v.getTag()).desc = "blythe";
                     break;
                 case "sex":
                     break;
