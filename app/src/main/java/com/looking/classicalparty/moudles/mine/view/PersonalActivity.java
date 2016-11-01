@@ -68,6 +68,7 @@ public class PersonalActivity extends BaseActivity {
                     chooiseBirthday();
                     break;
                 case "sign":
+                    startActivity(new Intent(PersonalActivity.this, SignActivity.class));
                     break;
             }
         });

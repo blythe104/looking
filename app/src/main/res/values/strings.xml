@@ -9,4 +9,7 @@
     <string name="feedback_hint">请输入您想告诉我们的，可以是电影，音乐或者您对该App的意见...</string>
     <string name="feedback_maxsize">200</string>
     <string name="sign_maxsize">20</string>
+
+    <!--个人资料模块-->
+    <string name="sign_hint">请输入您的签名，哒哒哒...</string>
 </resources>
