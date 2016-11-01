@@ -15,7 +15,7 @@ public class MenuMixContorl extends LinearLayout implements CustomerInterface {
     private TextView tvmenuname;
     private ImageView ivicon;
     private TextView tvdesc;
-
+    private ItemData data;
 
     public MenuMixContorl(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -76,12 +76,23 @@ public class MenuMixContorl extends LinearLayout implements CustomerInterface {
 
     }
 
+    /**
+     * 获取数据对象
+     *
+     * @return
+     */
+    public ItemData getData() {
+        return data;
+    }
+
     public void setData(ItemData data) {
+        this.data = data;
         setIcon(data.imgId);
         setNext(data.bitmap);
         setIsVisiable(data.isVisible);
         setMenuName(data.content);
         setDesc(data.desc == null ? "" : data.desc);
     }
+
 
 }

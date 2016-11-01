@@ -34,6 +34,11 @@ public class CustomerMenuView extends LinearLayout {
         setOrientation(LinearLayout.VERTICAL);
     }
 
+    /**
+     * 设置数据对象
+     *
+     * @param datas
+     */
     private void setDatas(List<ItemData> datas) {
         //第一次创建
         if (getChildCount() == 0) {
@@ -64,6 +69,24 @@ public class CustomerMenuView extends LinearLayout {
             }
         }
 
+    }
+
+    /**
+     * 更新数据
+     *
+     * @param data
+     */
+    public void updateData(ItemData data) {
+        //第二次创建
+        for (int index = 0; index < getChildCount(); index++) {
+            LinearLayout childView = (LinearLayout) getChildAt(index);
+            if (childView instanceof MenuMixContorl) {
+                MenuMixContorl menuChildView = (MenuMixContorl) childView;
+                if (data.flag.equals(menuChildView.getData().flag)) {
+                    menuChildView.setData(data);
+                }
+            }
+        }
     }
 
     private void createItemView(ItemData item) {
@@ -111,14 +134,16 @@ public class CustomerMenuView extends LinearLayout {
         return this;
     }
 
-    public CustomerMenuView addItem(String content, String desc,String flag, boolean boo) {
-        datas.add(new ItemData(content,desc, flag, boo));
+    public CustomerMenuView addItem(String content, String desc, String flag, boolean boo) {
+        datas.add(new ItemData(content, desc, flag, boo));
         return this;
     }
-    public CustomerMenuView addItem(int imgId,String content, String desc,String flag, boolean boo) {
-        datas.add(new ItemData(imgId,content,desc, flag, boo));
+
+    public CustomerMenuView addItem(int imgId, String content, String desc, String flag, boolean boo) {
+        datas.add(new ItemData(imgId, content, desc, flag, boo));
         return this;
     }
+
     public CustomerMenuView addDivider() {
         datas.add(new ItemData());
         return this;

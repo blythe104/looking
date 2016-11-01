@@ -59,7 +59,7 @@ public class PersonalActivity extends BaseActivity {
         mCustomMenu.setItemClickListener(v -> {
             switch (((ItemData) v.getTag()).flag) {
                 case "nickname":
-                    ((ItemData) v.getTag()).desc = "blythe";
+                    mCustomMenu.updateData(new ItemData(R.mipmap.ic_nickname1, "昵称", "hello test", "nickname", false));
                     break;
                 case "sex":
                     break;
