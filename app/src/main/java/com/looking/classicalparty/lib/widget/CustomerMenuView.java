@@ -155,5 +155,6 @@ public class CustomerMenuView extends LinearLayout {
 
     public interface OnItemListener {
         void itemClick(View v);
+        void itemUpdate(View v);
     }
 }

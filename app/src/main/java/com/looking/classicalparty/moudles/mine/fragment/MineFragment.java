@@ -40,22 +40,31 @@ public class MineFragment extends BaseFragment {
                 .addItem(R.mipmap.ic_about_us, "关于我们", "aboutus")//
                 .addItem(R.mipmap.ic_app_version, "版本信息", "version")//
                 .build();
-        mCustomMenu.setItemClickListener((v) -> {
-            switch (((ItemData) v.getTag()).flag) {
-                case "personmsg":
-                    startActivity(new Intent(getActivity(), PersonalActivity.class));
-                    break;
-                case "security":
-                    startActivity(new Intent(getActivity(), SecuritySettingActivity.class));
-                    break;
-                case "feedback":
-                    startActivity(new Intent(getActivity(), FeedBackActivity.class));
-                    break;
-                case "aboutus":
-                    startActivity(new Intent(getActivity(), AboutUsActivity.class));
-                    break;
-                case "version":
-                    break;
+        mCustomMenu.setItemClickListener(new CustomerMenuView.OnItemListener() {
+            @Override
+            public void itemClick(View v) {
+                switch (((ItemData) v.getTag()).flag) {
+                    case "personmsg":
+                        startActivity(new Intent(getActivity(), PersonalActivity.class));
+                        break;
+                    case "security":
+                        startActivity(new Intent(getActivity(), SecuritySettingActivity.class));
+                        break;
+                    case "feedback":
+                        startActivity(new Intent(getActivity(), FeedBackActivity.class));
+                        break;
+                    case "aboutus":
+                        startActivity(new Intent(getActivity(), AboutUsActivity.class));
+                        break;
+                    case "version":
+                        break;
+                }
+
+            }
+
+            @Override
+            public void itemUpdate(View v) {
+
             }
         });
 

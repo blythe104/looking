@@ -8,7 +8,15 @@ import android.widget.TextView;
 
 import com.looking.classicalparty.R;
 import com.looking.classicalparty.lib.base.activity.BaseActivity;
+import com.looking.classicalparty.lib.http.HttpUtils;
+import com.looking.classicalparty.lib.http.Param;
+import com.looking.classicalparty.lib.http.ResultCallback;
 import com.looking.classicalparty.lib.ui.TitleBar;
+import com.looking.classicalparty.lib.utils.SharedPreUtils;
+import com.squareup.okhttp.Request;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -67,9 +75,40 @@ public class SignActivity extends BaseActivity {
             @Override
             public void OnRightClick() {
                 Crouton.makeText(SignActivity.this, "哒哒哒，签名已显示咯", Style.CONFIRM).show();
+                // TODO: 2016/11/2 调用接口
+                //                saveSign(mEtSign.getText().toString().trim());
+                SharedPreUtils.saveString("sign", mEtSign.getText().toString().trim());
             }
         });
 
+    }
+
+    /**
+     * \
+     * 保存用户的签名
+     *
+     * @param sign
+     */
+    private void saveSign(String sign) {
+        List<Param> list = new ArrayList<>();
+        Param content = new Param("sign", sign);
+        list.add(content);
+        HttpUtils.post("sign", list, new ResultCallback() {
+            @Override
+            public void onSuccess(Object response) {
+
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+
+            }
+
+            @Override
+            public void onNoNetWork(String resultMsg) {
+
+            }
+        });
     }
 
     @Override
@@ -82,4 +121,5 @@ public class SignActivity extends BaseActivity {
     public void processClick(View v) {
 
     }
+
 }

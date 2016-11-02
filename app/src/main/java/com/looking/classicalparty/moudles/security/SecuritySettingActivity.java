@@ -33,25 +33,33 @@ public class SecuritySettingActivity extends BaseActivity {
                 .addDivider()//
                 .addItem(R.mipmap.ic_clean, "退出登录", "exit")//
                 .build();
-        mCustomSecurity.setItemClickListener(v -> {
-            switch (((ItemData) v.getTag()).flag) {
-                case "exit":
-                    SharedPreUtils.saveString(StringContants.TOKEN, "");
-                    finish();
-                    break;
-                case "change":
-                    startActivity(new Intent(SecuritySettingActivity.this, ChangeLoginPwdActivity.class));
-                    break;
-                case "del":
-                    // TODO: 2016/10/26 需用的缓存大小,需要将此数据更新到Menu中
-                    // String fileSize = DataCleanUtils.getTotalCacheSize
-                    // (getApplicationContext());
-                    DataCleanUtils.cleanApplicationData(getApplicationContext());
-                    DataCleanUtils.cleanSharedPreference(getApplicationContext());
-                    Crouton.makeText(SecuritySettingActivity.this, "清除缓存成功", Style.CONFIRM).show();
-                    break;
+        mCustomSecurity.setItemClickListener(new CustomerMenuView.OnItemListener() {
+            @Override
+            public void itemClick(View v) {
+                switch (((ItemData) v.getTag()).flag) {
+                    case "exit":
+                        SharedPreUtils.saveString(StringContants.TOKEN, "");
+                        finish();
+                        break;
+                    case "change":
+                        startActivity(new Intent(SecuritySettingActivity.this, ChangeLoginPwdActivity.class));
+                        break;
+                    case "del":
+                        // TODO: 2016/10/26 需用的缓存大小,需要将此数据更新到Menu中
+                        // String fileSize = DataCleanUtils.getTotalCacheSize
+                        // (getApplicationContext());
+                        DataCleanUtils.cleanApplicationData(getApplicationContext());
+                        DataCleanUtils.cleanSharedPreference(getApplicationContext());
+                        Crouton.makeText(SecuritySettingActivity.this, "清除缓存成功", Style.CONFIRM).show();
+                        break;
+                }
+
             }
 
+            @Override
+            public void itemUpdate(View v) {
+
+            }
         });
         mTitleBar.setOnClickListener(new TitleBar.OnClickListener() {
             @Override

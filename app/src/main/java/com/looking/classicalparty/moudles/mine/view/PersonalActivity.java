@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.fourmob.datetimepicker.date.DatePickerDialog;
 import com.looking.classicalparty.R;
 import com.looking.classicalparty.lib.base.activity.BaseActivity;
+import com.looking.classicalparty.lib.utils.SharedPreUtils;
 import com.looking.classicalparty.lib.widget.CircleImageView;
 import com.looking.classicalparty.lib.widget.CustomerMenuView;
 import com.looking.classicalparty.lib.widget.ItemData;
@@ -56,20 +57,38 @@ public class PersonalActivity extends BaseActivity {
                 .addItem(R.mipmap.ic_birthday, "生日", "202020", "birthday", false)//生日
                 .addItem(R.mipmap.ic_sign, "个性签名", "909090909", "sign", false)//个性签名
                 .build();
-        mCustomMenu.setItemClickListener(v -> {
-            switch (((ItemData) v.getTag()).flag) {
-                case "nickname":
-                    mCustomMenu.updateData(new ItemData(R.mipmap.ic_nickname1, "昵称", "hello test", "nickname", false));
-                    break;
-                case "sex":
-                    break;
-                //选择出生日期
-                case "birthday":
-                    chooiseBirthday();
-                    break;
-                case "sign":
-                    startActivity(new Intent(PersonalActivity.this, SignActivity.class));
-                    break;
+        mCustomMenu.setItemClickListener(new CustomerMenuView.OnItemListener() {
+            @Override
+            public void itemClick(View v) {
+                switch (((ItemData) v.getTag()).flag) {
+                    case "nickname":
+                        break;
+                    case "sex":
+                        break;
+                    //选择出生日期
+                    case "birthday":
+                        chooiseBirthday();
+                        break;
+                    case "sign":
+                        startActivity(new Intent(PersonalActivity.this, SignActivity.class));
+                        break;
+                }
+
+            }
+
+            @Override
+            public void itemUpdate(View v) {
+                switch (((ItemData) v.getTag()).flag) {
+                    case "nickname":
+                        mCustomMenu.updateData(new ItemData(R.mipmap.ic_nickname1, "昵称", "hello test", "nickname",
+                                false));
+                        break;
+                    case "sign":
+                        mCustomMenu.updateData(new ItemData(R.mipmap.ic_sign, "个性签名", SharedPreUtils.getString
+                                ("sign"), "sign", false));
+                        break;
+                }
+
             }
         });
         chooisePhotoDialog.setPhotoListener(new ChooisePhotoDialog.PhotoListener() {
