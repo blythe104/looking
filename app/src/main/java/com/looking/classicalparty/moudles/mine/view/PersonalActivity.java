@@ -19,11 +19,13 @@ import com.fourmob.datetimepicker.date.DatePickerDialog;
 import com.looking.classicalparty.R;
 import com.looking.classicalparty.lib.base.activity.BaseActivity;
 import com.looking.classicalparty.lib.utils.LogUtils;
+import com.looking.classicalparty.lib.utils.SharedPreUtils;
 import com.looking.classicalparty.lib.widget.CircleImageView;
 import com.looking.classicalparty.lib.widget.CustomerMenuView;
 import com.looking.classicalparty.lib.widget.ItemData;
 import com.looking.classicalparty.moudles.mine.dialog.ChooiseGenderDialog;
 import com.looking.classicalparty.moudles.mine.dialog.ChooisePhotoDialog;
+import com.looking.classicalparty.moudles.mine.dialog.NicknameDialog;
 import com.looking.classicalparty.moudles.mine.observer.ConcreteSubject;
 import com.looking.classicalparty.moudles.mine.observer.Observer;
 
@@ -47,6 +49,7 @@ public class PersonalActivity extends BaseActivity {
     private DatePickerDialog datePickerDialog;
     private ChooiseGenderDialog genderDialog;
     private ChangeDescObserver changeDescObserver;
+    private NicknameDialog nicknameDialog;
 
     @Override
     public void initView() {
@@ -54,6 +57,7 @@ public class PersonalActivity extends BaseActivity {
         initTitle();
         final Calendar calendar = Calendar.getInstance();
         genderDialog = new ChooiseGenderDialog(this);
+        nicknameDialog = new NicknameDialog(this);
         changeDescObserver = new ChangeDescObserver();
         ConcreteSubject.getInstance().register(changeDescObserver);
         datePickerDialog = DatePickerDialog.newInstance((ddg, year, month, day) -> {
@@ -63,13 +67,14 @@ public class PersonalActivity extends BaseActivity {
                 .addItem(R.mipmap.ic_nickname1, "昵称", "twory", "nickname", false)//昵称
                 .addItem(R.mipmap.ic_sex, "性别", "男", "sex", false)//性别
                 .addItem(R.mipmap.ic_birthday, "生日", "202020", "birthday", false)//生日
-                .addItem(R.mipmap.ic_sign, "个性签名", "", "sign", false)//个性签名
+                .addItem(R.mipmap.ic_sign, "个性签名", SharedPreUtils.getString("sign"), "sign", false)//个性签名
                 .build();
         mCustomMenu.setItemClickListener(new CustomerMenuView.OnItemListener() {
             @Override
             public void itemClick(View v) {
                 switch (((ItemData) v.getTag()).flag) {
                     case "nickname":
+                        nicknameDialog();
                         break;
                     case "sex":
                         chooiseGender();
@@ -97,6 +102,10 @@ public class PersonalActivity extends BaseActivity {
                 requstPermission(PHOTO_REQUEST_CODE);
             }
         });
+    }
+
+    private void nicknameDialog() {
+        nicknameDialog.show();
     }
 
     @Override
@@ -176,7 +185,6 @@ public class PersonalActivity extends BaseActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == CAMERA_REQUEST_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                //                Crouton.makeText(PersonalActivity.this, "相机权限已经申请", Style.CONFIRM).show();
                 Intent camareIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 camareIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment
                         .getExternalStorageDirectory(), "head.jpg")));
@@ -233,6 +241,7 @@ public class PersonalActivity extends BaseActivity {
             getDesc = desc;
             LogUtils.d("desc------", getDesc);
             mCustomMenu.updateData(new ItemData(R.mipmap.ic_sign, "个性签名", getDesc, "sign", false));
+            SharedPreUtils.saveString("sign", getDesc);
         }
     }
 }

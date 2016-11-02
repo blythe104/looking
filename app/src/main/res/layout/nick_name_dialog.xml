@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="300dp"
+              android:layout_height="wrap_content"
+              android:background="@drawable/shape_edittext_border"
+              android:gravity="center"
+              android:orientation="vertical">
+
+
+    <EditText
+        android:id="@+id/et_nickname"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@null"
+        android:gravity="left|top"
+        android:hint="@string/sign_hint"
+        android:padding="10dp"
+        android:textColor="@color/colorLightBlack"
+        android:textSize="@dimen/login_input_textsize"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/themeColor"></View>
+
+    <Button
+        android:id="@+id/btn_commit"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/colorWhite"
+        android:gravity="center"
+        android:text="确定"
+        android:textColor="@color/themeTextBlack"
+        android:textSize="@dimen/mid_textsize"
+        />
+</LinearLayout>
