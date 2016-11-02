@@ -12,7 +12,7 @@ import com.looking.classicalparty.lib.http.HttpUtils;
 import com.looking.classicalparty.lib.http.Param;
 import com.looking.classicalparty.lib.http.ResultCallback;
 import com.looking.classicalparty.lib.ui.TitleBar;
-import com.looking.classicalparty.lib.utils.SharedPreUtils;
+import com.looking.classicalparty.moudles.mine.observer.ConcreteSubject;
 import com.squareup.okhttp.Request;
 
 import java.util.ArrayList;
@@ -77,7 +77,12 @@ public class SignActivity extends BaseActivity {
                 Crouton.makeText(SignActivity.this, "哒哒哒，签名已显示咯", Style.CONFIRM).show();
                 // TODO: 2016/11/2 调用接口
                 //                saveSign(mEtSign.getText().toString().trim());
-                SharedPreUtils.saveString("sign", mEtSign.getText().toString().trim());
+                //                SharedPreUtils.saveString("sign", mEtSign.getText().toString().trim());
+                //观察者模式提示更新
+                ConcreteSubject.getInstance().notifyDataChange(mEtSign.getText().toString().trim());
+                finish();
+                //
+                //                startActivity(new Intent(SignActivity.this, PersonalActivity.class));
             }
         });
 

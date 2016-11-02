@@ -18,11 +18,14 @@ import android.widget.TextView;
 import com.fourmob.datetimepicker.date.DatePickerDialog;
 import com.looking.classicalparty.R;
 import com.looking.classicalparty.lib.base.activity.BaseActivity;
-import com.looking.classicalparty.lib.utils.SharedPreUtils;
+import com.looking.classicalparty.lib.utils.LogUtils;
 import com.looking.classicalparty.lib.widget.CircleImageView;
 import com.looking.classicalparty.lib.widget.CustomerMenuView;
 import com.looking.classicalparty.lib.widget.ItemData;
+import com.looking.classicalparty.moudles.mine.dialog.ChooiseGenderDialog;
 import com.looking.classicalparty.moudles.mine.dialog.ChooisePhotoDialog;
+import com.looking.classicalparty.moudles.mine.observer.ConcreteSubject;
+import com.looking.classicalparty.moudles.mine.observer.Observer;
 
 import java.io.File;
 import java.util.Calendar;
@@ -42,12 +45,17 @@ public class PersonalActivity extends BaseActivity {
     private LinearLayout mLlChangePhoto;
     private ChooisePhotoDialog chooisePhotoDialog;
     private DatePickerDialog datePickerDialog;
+    private ChooiseGenderDialog genderDialog;
+    private ChangeDescObserver changeDescObserver;
 
     @Override
     public void initView() {
         setContentView(R.layout.activity_person);
         initTitle();
         final Calendar calendar = Calendar.getInstance();
+        genderDialog = new ChooiseGenderDialog(this);
+        changeDescObserver = new ChangeDescObserver();
+        ConcreteSubject.getInstance().register(changeDescObserver);
         datePickerDialog = DatePickerDialog.newInstance((ddg, year, month, day) -> {
                 }, //
                 calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
@@ -55,7 +63,7 @@ public class PersonalActivity extends BaseActivity {
                 .addItem(R.mipmap.ic_nickname1, "昵称", "twory", "nickname", false)//昵称
                 .addItem(R.mipmap.ic_sex, "性别", "男", "sex", false)//性别
                 .addItem(R.mipmap.ic_birthday, "生日", "202020", "birthday", false)//生日
-                .addItem(R.mipmap.ic_sign, "个性签名", "909090909", "sign", false)//个性签名
+                .addItem(R.mipmap.ic_sign, "个性签名", "", "sign", false)//个性签名
                 .build();
         mCustomMenu.setItemClickListener(new CustomerMenuView.OnItemListener() {
             @Override
@@ -64,6 +72,7 @@ public class PersonalActivity extends BaseActivity {
                     case "nickname":
                         break;
                     case "sex":
+                        chooiseGender();
                         break;
                     //选择出生日期
                     case "birthday":
@@ -75,22 +84,8 @@ public class PersonalActivity extends BaseActivity {
                 }
 
             }
-
-            @Override
-            public void itemUpdate(View v) {
-                switch (((ItemData) v.getTag()).flag) {
-                    case "nickname":
-                        mCustomMenu.updateData(new ItemData(R.mipmap.ic_nickname1, "昵称", "hello test", "nickname",
-                                false));
-                        break;
-                    case "sign":
-                        mCustomMenu.updateData(new ItemData(R.mipmap.ic_sign, "个性签名", SharedPreUtils.getString
-                                ("sign"), "sign", false));
-                        break;
-                }
-
-            }
         });
+
         chooisePhotoDialog.setPhotoListener(new ChooisePhotoDialog.PhotoListener() {
             @Override
             public void takePhoto() {
@@ -102,6 +97,20 @@ public class PersonalActivity extends BaseActivity {
                 requstPermission(PHOTO_REQUEST_CODE);
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        ConcreteSubject.getInstance().unRegister(changeDescObserver);
+        super.onDestroy();
+
+    }
+
+    /**
+     * 选择性别
+     */
+    private void chooiseGender() {
+        genderDialog.show();
     }
 
     /**
@@ -214,5 +223,16 @@ public class PersonalActivity extends BaseActivity {
                 break;
         }
 
+    }
+
+    private class ChangeDescObserver implements Observer {
+        private String getDesc;
+
+        @Override
+        public void update(String desc) {
+            getDesc = desc;
+            LogUtils.d("desc------", getDesc);
+            mCustomMenu.updateData(new ItemData(R.mipmap.ic_sign, "个性签名", getDesc, "sign", false));
+        }
     }
 }

@@ -62,10 +62,7 @@ public class MineFragment extends BaseFragment {
 
             }
 
-            @Override
-            public void itemUpdate(View v) {
 
-            }
         });
 
         return view;

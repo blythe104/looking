@@ -56,10 +56,6 @@ public class SecuritySettingActivity extends BaseActivity {
 
             }
 
-            @Override
-            public void itemUpdate(View v) {
-
-            }
         });
         mTitleBar.setOnClickListener(new TitleBar.OnClickListener() {
             @Override
