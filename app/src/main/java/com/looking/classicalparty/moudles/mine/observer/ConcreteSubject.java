@@ -24,7 +24,6 @@ public class ConcreteSubject implements ISubject {
         if (!observers.contains(observer)) {
             observers.add(observer);
         }
-
     }
 
     @Override

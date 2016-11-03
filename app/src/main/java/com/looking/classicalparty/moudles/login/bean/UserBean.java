@@ -37,6 +37,7 @@ public class UserBean extends BaseBean {
         this.user = user;
     }
 
+
     public static class UserEntity {
         private String mid;
         private String musername;
