@@ -51,11 +51,13 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue("string", "app_name", "classical")
-            buildConfigField "String", "BASE_URL", "http://www.jingdian.party/api/"
+//            buildConfigField "String", "BASE_URL", "http://www.jingdian.party/api/"
 
         }
+
         //修改生成的apk名字
         applicationVariants.all { variant ->
             variant.outputs.each { output ->
@@ -74,7 +76,7 @@ android {
         debug {
             minifyEnabled false
             resValue("string", "app_name", "classical")
-            buildConfigField "String", "BASE_URL", "http://www.jingdian.party/api/"
+//            buildConfigField "String", "BASE_URL", "http://www.jingdian.party/api/"
             signingConfig signingConfigs.debugConfig
 
         }
@@ -103,9 +105,7 @@ dependencies {
     //时间选择控件
     compile 'com.github.flavienlaurent.datetimepicker:library:0.0.2'
     //二维码生成
-    compile 'com.google.zxing:core:3.2.1'
-    compile 'com.google.zxing:android-core:3.2.1'
-
+    compile files('libs/zxing.jar')
 }
 //配置lambda表达式
 buildscript {

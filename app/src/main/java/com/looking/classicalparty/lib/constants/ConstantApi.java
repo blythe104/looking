@@ -1,14 +1,14 @@
 package com.looking.classicalparty.lib.constants;
 
-import com.looking.classicalparty.BuildConfig;
-
 /**
  * Created by xin on 2016/10/20.
  */
 public class ConstantApi {
-
-    public static final String login = BuildConfig.BASE_URL + "login/login";
-    public static final String getkey = BuildConfig.BASE_URL + "common/getAppkey";
-    public static final String checkUser = BuildConfig.BASE_URL + "register/registerMember";
-    public static final String register = BuildConfig.BASE_URL + "register/registerMember";
+private static String BaseUrl  = "http://www.jingdian.party/api/";//BuildConfig.BASE_URL;
+    public static final String login = BaseUrl + "login/login";
+    public static final String getkey = BaseUrl + "common/getAppkey";
+    public static final String checkUser =BaseUrl + "register/registerMember";
+    public static final String register = BaseUrl + "register/registerMember";
+    //发现页面数据
+    public static final String HOME = BaseUrl + "Home";
 }

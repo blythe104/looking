@@ -11,7 +11,15 @@ import android.view.ViewGroup;
 
 import com.looking.classicalparty.R;
 import com.looking.classicalparty.lib.base.fragment.BaseFragment;
+import com.looking.classicalparty.lib.constants.ConstantApi;
+import com.looking.classicalparty.lib.constants.StringContants;
+import com.looking.classicalparty.lib.http.HttpUtils;
+import com.looking.classicalparty.lib.http.Param;
+import com.looking.classicalparty.lib.http.ResultCallback;
+import com.looking.classicalparty.lib.utils.LogUtils;
+import com.looking.classicalparty.lib.utils.SharedPreUtils;
 import com.looking.classicalparty.moudles.find.adapter.RecycleViewAdapter;
+import com.squareup.okhttp.Request;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +53,7 @@ public class FindFragment extends BaseFragment {
                 }, 5000);
             }
         });
+        getHomeData();
         initRecycleView();
         return view;
     }
@@ -89,6 +98,32 @@ public class FindFragment extends BaseFragment {
             @Override
             public void toListenClick(View view, int position) {
                 Crouton.makeText(getActivity(), "listen music", Style.CONFIRM).show();
+
+            }
+        });
+
+    }
+
+    /**
+     * 获取发现页的全部数据信息
+     */
+    public void getHomeData() {
+        List<Param> paramList = new ArrayList<>();
+        Param key = new Param("key", SharedPreUtils.getString(StringContants.KEY, ""));
+        paramList.add(key);
+        HttpUtils.post(ConstantApi.HOME, paramList, new ResultCallback() {
+            @Override
+            public void onSuccess(Object response) {
+                LogUtils.d("find data---"+response.toString());
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+
+            }
+
+            @Override
+            public void onNoNetWork(String resultMsg) {
 
             }
         });
