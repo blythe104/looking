@@ -11,10 +11,10 @@ import com.looking.classicalparty.lib.base.activity.BaseActivity;
 import com.looking.classicalparty.lib.base.fragment.BaseFragment;
 import com.looking.classicalparty.lib.common.UserInfo;
 import com.looking.classicalparty.lib.widget.CustomViewPager;
-import com.looking.classicalparty.moudles.login.view.LoginActivity;
-import com.looking.classicalparty.moudles.main.fragment.MusicFragment;
-import com.looking.classicalparty.moudles.main.fragment.MovieFragment;
 import com.looking.classicalparty.moudles.find.fragment.FindFragment;
+import com.looking.classicalparty.moudles.login.view.LoginActivity;
+import com.looking.classicalparty.moudles.main.fragment.MovieFragment;
+import com.looking.classicalparty.moudles.main.fragment.MusicFragment;
 import com.looking.classicalparty.moudles.mine.fragment.MineFragment;
 
 import java.util.ArrayList;
@@ -79,6 +79,8 @@ public class MainActivity extends BaseActivity {
         baseFragmentList.add(new MovieFragment());
         baseFragmentList.add(new MusicFragment());
         baseFragmentList.add(new MineFragment());
+//        Toast.makeText(this, "ip地址为"+NetUtils.getLocalIpAddress(), Toast.LENGTH_SHORT).show();
+
         mCustomViewPager.setOffscreenPageLimit(4);
         FragmentAdapter fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), baseFragmentList, null);
         mCustomViewPager.setAdapter(fragmentAdapter);
