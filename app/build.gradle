@@ -106,6 +106,10 @@ dependencies {
     compile 'com.github.flavienlaurent.datetimepicker:library:0.0.2'
     //二维码生成
     compile files('libs/zxing.jar')
+    //banner依赖库
+    compile 'com.youth.banner:banner:1.4.9'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.github.tgioihan:imageloader:1.0.3'
 }
 //配置lambda表达式
 buildscript {

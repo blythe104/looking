@@ -152,7 +152,7 @@ public class PersonalActivity extends BaseActivity {
                         }).setNegativeButton("暂不申请", null).show();
                     } else {
                         //申请相机权限
-                        Crouton.makeText(PersonalActivity.this, "没有相机全向", Style.CONFIRM).show();
+                        Crouton.makeText(PersonalActivity.this, "没有相机权限", Style.CONFIRM).show();
                         ActivityCompat.requestPermissions(PersonalActivity.this, new String[]{Manifest.permission
                                 .CAMERA}, CAMERA_REQUEST_CODE);
                     }

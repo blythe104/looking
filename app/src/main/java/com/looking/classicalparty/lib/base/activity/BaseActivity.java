@@ -48,6 +48,7 @@ public abstract class BaseActivity extends FragmentActivity implements View.OnCl
         //监听回退键
         switch (keyCode) {
             case KeyEvent.KEYCODE_BACK:
+                finish();
                 break;
         }
         return super.onKeyDown(keyCode, event);

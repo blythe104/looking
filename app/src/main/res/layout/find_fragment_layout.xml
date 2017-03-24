@@ -4,11 +4,17 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <ImageView
+    <!--<ImageView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="100dp"-->
+        <!--android:scaleType="centerCrop"-->
+        <!--android:src="@mipmap/mine_two"/>-->
+
+    <com.youth.banner.Banner
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/find_banner"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/mine_two"/>
+        android:layout_height="140dp" />
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refresh"

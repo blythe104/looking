@@ -5,6 +5,92 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    >
+>
+    <ScrollView android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:orientation="vertical">
+            <include layout="@layout/layout_title_bar"/>
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="320dp"
+                          android:orientation="horizontal">
+                <ImageView android:layout_width="220dp"
+                           android:layout_height="320dp"
+                           android:padding="6dp"
+                           android:src="@mipmap/movie"/>
+                <LinearLayout android:layout_width="0dp"
+                              android:layout_height="match_parent" android:layout_weight="1"
+                              android:orientation="vertical">
+                    <TextView android:layout_width="match_parent"
+                              android:layout_height="@dimen/textview_height"
+                              android:layout_marginTop="10dp"
+                              android:gravity="center_horizontal"
+                              android:text="蝙蝠侠"
+                              android:textColor="#000000"
+                              android:textSize="18sp"/>
+
+                    <TextView android:layout_width="match_parent"
+                              android:layout_height="@dimen/textview_height"
+                              android:text="推荐人：xxx"
+                              android:textColor="#000000"
+                              android:textSize="18sp"/>
+
+                    <TextView android:layout_width="match_parent"
+                              android:layout_height="@dimen/textview_height"
+                              android:text="审核人员：xxx"
+                              android:textColor="#000000"
+                              android:textSize="18sp"/>
+
+                    <TextView android:layout_width="match_parent"
+                              android:layout_height="@dimen/textview_height"
+                              android:text="导演：xxx"
+                              android:textColor="#000000"
+                              android:textSize="18sp"/>
+
+                    <TextView android:layout_width="match_parent"
+                              android:layout_height="@dimen/textview_height"
+                              android:text="级别：xx"
+                              android:textColor="#000000"
+                              android:textSize="18sp"/>
+                    <TextView android:layout_width="match_parent"
+                              android:layout_height="@dimen/textview_height"
+                              android:text="蝙蝠侠"
+                              android:textColor="#000000"
+                              android:textSize="18sp"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="电影简介"
+                android:textColor="#000000"
+                android:textSize="18sp"/>
+
+            <TextView android:layout_width="match_parent" android:layout_height="200dp"
+                      android:layout_marginLeft="10dp"
+                      android:text="hello tot odjfidfdkfldk dkfjdfssd fd f d f df"
+                      android:textSize="14sp"/>
+
+            <EditText android:layout_width="match_parent" android:layout_height="200dp"
+                      android:focusable="false"
+                      android:gravity="left|top"
+                      android:hint="please input your message"
+                      android:padding="20dp"
+                      android:textColor="#000000"
+                      android:textSize="16sp"/>
+            <Button android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:background="@color/themeColor"
+                    android:text="提交影评"
+                    android:textColor="#ffffff"
+                    android:textSize="16sp"/>
+
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
