@@ -29,6 +29,7 @@ public class MainActivity extends BaseActivity {
     private RadioButton mRbVideo;
     private RadioButton mRbMusic;
     private RadioButton mRbMine;
+    private int currentIndex = 0;
 
     @Override
     public void initView() {
@@ -44,21 +45,25 @@ public class MainActivity extends BaseActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.rb_find:
-                        mCustomViewPager.setCurrentItem(0, false);
+                        currentIndex = 0;
+                        mCustomViewPager.setCurrentItem(currentIndex, false);
                         break;
                     case R.id.rb_video:
-                        mCustomViewPager.setCurrentItem(1, false);
+                        currentIndex = 1;
+                        mCustomViewPager.setCurrentItem(currentIndex, false);
                         break;
                     case R.id.rb_music:
-                        mCustomViewPager.setCurrentItem(2, false);
+                        currentIndex = 2;
+                        mCustomViewPager.setCurrentItem(currentIndex, false);
                         break;
                     case R.id.rb_mine:
-                        //isLogin判斷
+                        //isLogin
                         UserInfo userInfo = new UserInfo();
                         if (!userInfo.isLogin()) {
                             startActivity(new Intent(MainActivity.this, LoginActivity.class));
                         } else {
-                            mCustomViewPager.setCurrentItem(3, false);
+                            currentIndex = 3;
+                            mCustomViewPager.setCurrentItem(currentIndex, false);
                         }
                         break;
                 }
@@ -79,7 +84,7 @@ public class MainActivity extends BaseActivity {
         baseFragmentList.add(new MovieFragment());
         baseFragmentList.add(new MusicFragment());
         baseFragmentList.add(new MineFragment());
-//        Toast.makeText(this, "ip地址为"+NetUtils.getLocalIpAddress(), Toast.LENGTH_SHORT).show();
+        //        Toast.makeText(this, "ip地址为"+NetUtils.getLocalIpAddress(), Toast.LENGTH_SHORT).show();
 
         mCustomViewPager.setOffscreenPageLimit(4);
         FragmentAdapter fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), baseFragmentList, null);

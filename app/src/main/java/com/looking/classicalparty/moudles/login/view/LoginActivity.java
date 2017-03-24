@@ -8,11 +8,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.looking.classicalparty.R;
 import com.looking.classicalparty.lib.base.activity.BaseActivity;
-import com.looking.classicalparty.moudles.login.presenter.IUserPresenter;
-import com.looking.classicalparty.moudles.login.presenter.UserPresenterImpl;
+import com.looking.classicalparty.lib.constants.ConstantApi;
+import com.looking.classicalparty.lib.constants.StringContants;
+import com.looking.classicalparty.lib.http.HttpUtils;
+import com.looking.classicalparty.lib.http.Param;
+import com.looking.classicalparty.lib.http.ResultCallback;
+import com.looking.classicalparty.lib.utils.LogUtils;
+import com.looking.classicalparty.lib.utils.SharedPreUtils;
+import com.looking.classicalparty.moudles.login.bean.UserBean;
 import com.looking.classicalparty.moudles.register.view.RegisterActivity;
+import com.squareup.okhttp.Request;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -23,7 +34,6 @@ public class LoginActivity extends BaseActivity implements IUserView {
     private EditText etPassword;
     private LinearLayout btnLogin;
     private LinearLayout btnRegister;
-    private IUserPresenter userPresenter;
     private FrameLayout mFrBack;
     private TextView mTvTitle;
     private TextView mTvTitleTag;
@@ -38,7 +48,6 @@ public class LoginActivity extends BaseActivity implements IUserView {
         mFrBack = (FrameLayout) findViewById(R.id.fr_back);
         mTvTitle = (TextView) findViewById(R.id.tv_title);
         mTvTitleTag = (TextView) findViewById(R.id.tv_title_tag);
-        userPresenter = new UserPresenterImpl(this, this);
         btnLogin.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
 
@@ -60,10 +69,10 @@ public class LoginActivity extends BaseActivity implements IUserView {
     public void processClick(View v) {
         switch (v.getId()) {
             case R.id.btn_login:
-                userPresenter.login(etUserName.getText().toString(), etPassword.getText().toString());
+                login(etUserName.getText().toString(), etPassword.getText().toString());
                 break;
             case R.id.btn_register:
-                userPresenter.toRegister();
+                toRegisterActivity();
                 break;
             case R.id.fr_back:
                 finish();
@@ -73,6 +82,39 @@ public class LoginActivity extends BaseActivity implements IUserView {
                 break;
         }
 
+    }
+
+    private void login(String username, String password) {
+        List<Param> paramList = new ArrayList<>();
+        Param userName = new Param("username", username);
+        Param pwd = new Param("password", password);
+        Param key = new Param("key", SharedPreUtils.getString(StringContants.KEY, ""));
+        LogUtils.d("SharedPreUtils.getString(StringContants.KEY,)--" + key);
+        paramList.add(userName);
+        paramList.add(pwd);
+        paramList.add(key);
+        HttpUtils.post(ConstantApi.login, paramList, new ResultCallback() {
+            @Override
+            public void onSuccess(Object response) {
+                UserBean userBean = new Gson().fromJson(response.toString(), UserBean.class);
+                if (userBean.getResult() == 200) {
+                    SharedPreUtils.saveString(StringContants.TOKEN, userBean.getToken());
+                    Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+
+            }
+
+            @Override
+            public void onNoNetWork(String resultMsg) {
+
+            }
+        });
     }
 
 
