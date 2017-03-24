@@ -28,7 +28,7 @@ import java.util.List;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class LoginActivity extends BaseActivity implements IUserView {
+public class LoginActivity extends BaseActivity {
 
     private EditText etUserName;
     private EditText etPassword;
@@ -72,7 +72,7 @@ public class LoginActivity extends BaseActivity implements IUserView {
                 login(etUserName.getText().toString(), etPassword.getText().toString());
                 break;
             case R.id.btn_register:
-                toRegisterActivity();
+                goRegister();
                 break;
             case R.id.fr_back:
                 finish();
@@ -118,18 +118,8 @@ public class LoginActivity extends BaseActivity implements IUserView {
     }
 
 
-    @Override
-    public void toRegisterActivity() {
+    public void goRegister() {
         startActivity(new Intent(this, RegisterActivity.class));
     }
 
-    @Override
-    public void onLoginResult(Boolean result, int code) {
-        btnLogin.setEnabled(true);
-        btnRegister.setEnabled(true);
-        if (result) {
-            Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show();
-        } else
-            Toast.makeText(this, "Login Fail, code = " + code, Toast.LENGTH_SHORT).show();
-    }
 }
