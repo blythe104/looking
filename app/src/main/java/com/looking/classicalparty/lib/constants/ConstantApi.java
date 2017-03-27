@@ -10,5 +10,6 @@ private static String BaseUrl  = "http://www.jingdian.party/api/";//BuildConfig.
     public static final String checkUser =BaseUrl + "register/registerMember";
     public static final String register = BaseUrl + "register/registerMember";
     //发现页面数据
-    public static final String HOME = BaseUrl + "Home";
+    public static final String HOME = BaseUrl + "home";
+    public static final String UPDATEPWD = BaseUrl + "member/UpdatePassword";
 }

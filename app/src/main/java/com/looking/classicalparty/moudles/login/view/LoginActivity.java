@@ -6,7 +6,6 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.looking.classicalparty.R;
@@ -99,8 +98,10 @@ public class LoginActivity extends BaseActivity {
                 UserBean userBean = new Gson().fromJson(response.toString(), UserBean.class);
                 if (userBean.getResult() == 200) {
                     SharedPreUtils.saveString(StringContants.TOKEN, userBean.getToken());
-                    Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                    Crouton.makeText(LoginActivity.this, "登录成功", Style.CONFIRM).show();
                     finish();
+                } else {
+                    Crouton.makeText(LoginActivity.this, userBean.getResultMsg(), Style.CONFIRM).show();
                 }
 
             }
