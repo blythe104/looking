@@ -6,14 +6,19 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.looking.classicalparty.R;
+import com.looking.classicalparty.lib.base.Bean.BaseBean;
 import com.looking.classicalparty.lib.base.activity.BaseActivity;
 import com.looking.classicalparty.lib.constants.ConstantApi;
+import com.looking.classicalparty.lib.constants.StringContants;
 import com.looking.classicalparty.lib.http.HttpUtils;
 import com.looking.classicalparty.lib.http.Param;
 import com.looking.classicalparty.lib.http.ResultCallback;
 import com.looking.classicalparty.lib.ui.TitleBar;
+import com.looking.classicalparty.lib.utils.SharedPreUtils;
 import com.squareup.okhttp.Request;
 
 import java.util.ArrayList;
@@ -85,7 +90,7 @@ public class FeedBackActivity extends BaseActivity {
                 if (TextUtils.isEmpty(feedback)) {
                     Crouton.makeText(FeedBackActivity.this, "哇哦，您木有输入消息，提交没什么用呢！", Style.CONFIRM).show();
                 } else {
-                    Crouton.makeText(FeedBackActivity.this, "谢谢么么哒的反馈消息", Style.CONFIRM).show();
+                    putMessage(feedback);
                 }
             }
         });
@@ -98,11 +103,22 @@ public class FeedBackActivity extends BaseActivity {
      */
     private void putMessage(String feedback) {
         List<Param> paramList = new ArrayList<>();
-        Param message = new Param("feedback", feedback);
+        Param message = new Param("message", feedback);
+        Param key = new Param("key", SharedPreUtils.getString(StringContants.KEY));
+        Param token = new Param("Token", SharedPreUtils.getString(StringContants.TOKEN));
         paramList.add(message);
+        paramList.add(key);
+        paramList.add(token);
         HttpUtils.post(ConstantApi.MESSAGE, paramList, new ResultCallback() {
             @Override
             public void onSuccess(Object response) {
+                BaseBean baseBean = new Gson().fromJson(response.toString(), BaseBean.class);
+                if (baseBean.getResult() == 200) {
+                    Toast.makeText(FeedBackActivity.this, "谢谢么么哒的反馈消息", Toast.LENGTH_SHORT).show();
+                    mEtFeedback.setText("");
+                } else {
+                    Toast.makeText(FeedBackActivity.this, baseBean.getResultMsg(), Toast.LENGTH_SHORT).show();
+                }
 
             }
 

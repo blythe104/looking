@@ -13,5 +13,5 @@ public class ConstantApi {
     public static final String HOME = BaseUrl + "home";
     public static final String UPDATEPWD = BaseUrl + "member/UpdatePassword";
     public static final String DETAIL = BaseUrl + "member/detail";
-    public static final String MESSAGE = BaseUrl + "member/detail";
+    public static final String MESSAGE = BaseUrl + "member/contact";
 }
