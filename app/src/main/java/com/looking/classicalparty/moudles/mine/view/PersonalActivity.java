@@ -16,21 +16,29 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fourmob.datetimepicker.date.DatePickerDialog;
+import com.google.gson.Gson;
 import com.looking.classicalparty.R;
 import com.looking.classicalparty.lib.base.activity.BaseActivity;
+import com.looking.classicalparty.lib.constants.ConstantApi;
+import com.looking.classicalparty.lib.constants.StringContants;
+import com.looking.classicalparty.lib.http.HttpUtils;
+import com.looking.classicalparty.lib.http.Param;
+import com.looking.classicalparty.lib.http.ResultCallback;
 import com.looking.classicalparty.lib.utils.LogUtils;
 import com.looking.classicalparty.lib.utils.SharedPreUtils;
 import com.looking.classicalparty.lib.widget.CircleImageView;
-import com.looking.classicalparty.lib.widget.CustomerMenuView;
-import com.looking.classicalparty.lib.widget.ItemData;
+import com.looking.classicalparty.moudles.mine.PersonBean;
 import com.looking.classicalparty.moudles.mine.dialog.ChooiseGenderDialog;
 import com.looking.classicalparty.moudles.mine.dialog.ChooisePhotoDialog;
 import com.looking.classicalparty.moudles.mine.dialog.NicknameDialog;
 import com.looking.classicalparty.moudles.mine.observer.ConcreteSubject;
 import com.looking.classicalparty.moudles.mine.observer.Observer;
+import com.squareup.okhttp.Request;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -42,7 +50,6 @@ public class PersonalActivity extends BaseActivity {
     private int PHOTO_REQUEST_CODE = 1002;
     private FrameLayout mFrBack;
     private TextView mTvTitle;
-    private CustomerMenuView mCustomMenu;
     private CircleImageView circleImageView;
     private LinearLayout mLlChangePhoto;
     private ChooisePhotoDialog chooisePhotoDialog;
@@ -50,12 +57,20 @@ public class PersonalActivity extends BaseActivity {
     private ChooiseGenderDialog genderDialog;
     private ChangeDescObserver changeDescObserver;
     private NicknameDialog nicknameDialog;
+    private TextView tvNickname;
+    private TextView tvSexy;
+    private TextView tvSign;
+    private TextView tvBirthday;
 
     @Override
     public void initView() {
         setContentView(R.layout.activity_person);
         initTitle();
         final Calendar calendar = Calendar.getInstance();
+        tvNickname = (TextView) findViewById(R.id.tv_nickname);
+        tvSexy = (TextView) findViewById(R.id.tv_sexy);
+        tvSign = (TextView) findViewById(R.id.tv_sign);
+        tvBirthday = (TextView) findViewById(R.id.tv_birthday);
         genderDialog = new ChooiseGenderDialog(this);
         nicknameDialog = new NicknameDialog(this);
         changeDescObserver = new ChangeDescObserver();
@@ -63,34 +78,6 @@ public class PersonalActivity extends BaseActivity {
         datePickerDialog = DatePickerDialog.newInstance((ddg, year, month, day) -> {
                 }, //
                 calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-        mCustomMenu.addDivider()//
-                .addItem(R.mipmap.ic_nickname1, "昵称", "twory", "nickname", false)//昵称
-                .addItem(R.mipmap.ic_sex, "性别", "男", "sex", false)//性别
-                .addItem(R.mipmap.ic_birthday, "生日", "202020", "birthday", false)//生日
-                .addItem(R.mipmap.ic_sign, "个性签名", SharedPreUtils.getString("sign"), "sign", false)//个性签名
-                .build();
-        mCustomMenu.setItemClickListener(new CustomerMenuView.OnItemListener() {
-            @Override
-            public void itemClick(View v) {
-                switch (((ItemData) v.getTag()).flag) {
-                    case "nickname":
-                        nicknameDialog();
-                        break;
-                    case "sex":
-                        chooiseGender();
-                        break;
-                    //选择出生日期
-                    case "birthday":
-                        chooiseBirthday();
-                        break;
-                    case "sign":
-                        startActivity(new Intent(PersonalActivity.this, SignActivity.class));
-                        break;
-                }
-
-            }
-        });
-
         chooisePhotoDialog.setPhotoListener(new ChooisePhotoDialog.PhotoListener() {
             @Override
             public void takePhoto() {
@@ -116,6 +103,45 @@ public class PersonalActivity extends BaseActivity {
     }
 
     /**
+     * 获取用户详情
+     */
+    private void getPersonDetail() {
+        List<Param> paramList = new ArrayList<>();
+        Param key = new Param("key", SharedPreUtils.getString(StringContants.KEY));
+        Param token = new Param("Token", SharedPreUtils.getString(StringContants.TOKEN));
+        paramList.add(key);
+        paramList.add(token);
+        HttpUtils.post(ConstantApi.DETAIL, paramList, new ResultCallback() {
+            @Override
+            public void onSuccess(Object response) {
+                PersonBean personBean = new Gson().fromJson(response.toString(), PersonBean.class);
+                if (personBean.getResult() == 200) {
+                    // TODO: 2017/3/27 获取用户信息填充
+                    tvNickname.setText(personBean.getContent().get(0).getMnickname());
+                    tvSexy.setText(personBean.getContent().get(0).getMsex() == "1" ? "男" : "女");
+                    tvSign.setText(personBean.getContent().get(0).getMsignature());
+                    //                    Bitmap mav=new Bitmap(personBean.getContent().get(0).getMavatar();
+                    //                    circleImageView.set(personBean.getContent().get(0).getMavatar());
+                } else {
+                    Crouton.makeText(PersonalActivity.this, personBean.getResultMsg(), Style.CONFIRM).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Request request, Exception e) {
+
+            }
+
+            @Override
+            public void onNoNetWork(String resultMsg) {
+
+            }
+        });
+
+
+    }
+
+    /**
      * 选择性别
      */
     private void chooiseGender() {
@@ -127,7 +153,6 @@ public class PersonalActivity extends BaseActivity {
      */
     private void chooiseBirthday() {
         datePickerDialog.setYearRange(1985, 2028);
-
 
     }
 
@@ -202,7 +227,6 @@ public class PersonalActivity extends BaseActivity {
         mTvTitle = (TextView) findViewById(R.id.tv_title);
         chooisePhotoDialog = new ChooisePhotoDialog(this);
         circleImageView = (CircleImageView) findViewById(R.id.circle_image);
-        mCustomMenu = (CustomerMenuView) findViewById(R.id.custom_menu);
         mLlChangePhoto = (LinearLayout) findViewById(R.id.ll_change_photo);
         mTvTitle.setText("个人资料");
 
@@ -217,8 +241,9 @@ public class PersonalActivity extends BaseActivity {
 
     @Override
     public void initData() {
-
+        getPersonDetail();
     }
+
 
     @Override
     public void processClick(View v) {
@@ -240,7 +265,6 @@ public class PersonalActivity extends BaseActivity {
         public void update(String desc) {
             getDesc = desc;
             LogUtils.d("desc------", getDesc);
-            mCustomMenu.updateData(new ItemData(R.mipmap.ic_sign, "个性签名", getDesc, "sign", false));
             SharedPreUtils.saveString("sign", getDesc);
         }
     }
