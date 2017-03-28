@@ -10,7 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.looking.classicalparty.R;
+import com.looking.classicalparty.moudles.find.bean.FindBean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,10 +25,15 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private OnItemClickListener mOnItemClickListener;
     private Context context;
 
+    private ArrayList<FindBean> dataList;
+
     public RecycleViewAdapter(List<Integer> datas) {
         this.mDatas = datas;
     }
 
+//    public RecycleViewAdapter(ArrayList<FindBean> dataList){
+//        this.dataList=da
+//    }
     public RecycleViewAdapter(FragmentManager fm, Context context) {
         this.context = context;
     }

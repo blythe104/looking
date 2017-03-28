@@ -34,6 +34,7 @@
             android:id="@+id/rb_video"
             style="@style/RadioButtonStyle"
             android:layout_gravity="center"
+            android:checked="true"
             android:drawableTop="@drawable/selector_radio_video"
             android:text="VIDEO"/>
 
@@ -41,6 +42,7 @@
             android:id="@+id/rb_music"
             style="@style/RadioButtonStyle"
             android:layout_gravity="center"
+            android:checked="true"
             android:drawableTop="@drawable/selector_radio_music"
             android:text="MUSIC"/>
 
@@ -48,6 +50,7 @@
             android:id="@+id/rb_mine"
             style="@style/RadioButtonStyle"
             android:layout_gravity="center"
+            android:checked="true"
             android:drawableTop="@drawable/selector_radio_mine"
             android:text="MINE"/>
     </RadioGroup>

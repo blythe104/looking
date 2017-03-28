@@ -18,6 +18,7 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 public class SecuritySettingActivity extends BaseActivity {
 
 
+    private static final int EXIT =1001 ;
     private CustomerMenuView mCustomSecurity;
     private TitleBar mTitleBar;
 
@@ -39,6 +40,7 @@ public class SecuritySettingActivity extends BaseActivity {
                 switch (((ItemData) v.getTag()).flag) {
                     case "exit":
                         SharedPreUtils.saveString(StringContants.TOKEN, "");
+                        setResult(EXIT);
                         finish();
                         break;
                     case "change":

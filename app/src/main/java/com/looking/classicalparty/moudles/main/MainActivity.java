@@ -1,6 +1,7 @@
 package com.looking.classicalparty.moudles.main;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -22,6 +23,9 @@ import java.util.List;
 
 public class MainActivity extends BaseActivity {
 
+    private static final int EXIT = 1001;
+    private static final int TOLOGIN = 1000;
+    private static final int LSUCCESS = 2000;
     private CustomViewPager mCustomViewPager;
     private List<BaseFragment> baseFragmentList;
     private RadioGroup mRadioGroup;
@@ -43,6 +47,7 @@ public class MainActivity extends BaseActivity {
         mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
+                Log.i("checkedId", "checkedId   =  " + checkedId);
                 switch (checkedId) {
                     case R.id.rb_find:
                         currentIndex = 0;
@@ -60,7 +65,8 @@ public class MainActivity extends BaseActivity {
                         //isLogin
                         UserInfo userInfo = new UserInfo();
                         if (!userInfo.isLogin()) {
-                            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                            startActivityForResult(intent, TOLOGIN);
                         } else {
                             currentIndex = 3;
                             mCustomViewPager.setCurrentItem(currentIndex, false);
@@ -70,10 +76,48 @@ public class MainActivity extends BaseActivity {
 
             }
         });
+
     }
 
     @Override
     public void initListener() {
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == TOLOGIN) {
+            switch (resultCode) {
+                case LSUCCESS: {
+                    if (mCustomViewPager != null) {
+                        mCustomViewPager.setCurrentItem(3, false);
+                    }
+                }
+                break;
+                case 4000: {
+                    switch (currentIndex) {
+                        case 0:
+                            mRbFind.setChecked(true);
+                            break;
+                        case 1:
+                            mRbVideo.setChecked(true);
+                            break;
+                        case 2:
+                            mRbMusic.setChecked(true);
+                            break;
+                    }
+                }
+                break;
+                case EXIT:
+                    if (mCustomViewPager != null) {
+                        mCustomViewPager.setCurrentItem(1, false);
+                    }
+                    break;
+
+
+            }
+        }
 
     }
 

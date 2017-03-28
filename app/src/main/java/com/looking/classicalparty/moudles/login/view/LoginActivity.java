@@ -29,6 +29,7 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class LoginActivity extends BaseActivity {
 
+    private static final int LSUCCESS = 2000;
     private EditText etUserName;
     private EditText etPassword;
     private LinearLayout btnLogin;
@@ -74,6 +75,7 @@ public class LoginActivity extends BaseActivity {
                 goRegister();
                 break;
             case R.id.fr_back:
+                setResult(4000);
                 finish();
                 break;
             case R.id.tv_title_tag:
@@ -99,6 +101,7 @@ public class LoginActivity extends BaseActivity {
                 if (userBean.getResult() == 200) {
                     SharedPreUtils.saveString(StringContants.TOKEN, userBean.getToken());
                     Crouton.makeText(LoginActivity.this, "登录成功", Style.CONFIRM).show();
+                    setResult(LSUCCESS);
                     finish();
                 } else {
                     Crouton.makeText(LoginActivity.this, userBean.getResultMsg(), Style.CONFIRM).show();

@@ -59,24 +59,12 @@ public class FindBean extends BaseBean {
             return firstimage;
         }
 
-        public void setFirstimage(String firstimage) {
-            this.firstimage = firstimage;
-        }
-
         public List<ReviewsEntity> getReviews() {
             return reviews;
         }
 
-        public void setReviews(List<ReviewsEntity> reviews) {
-            this.reviews = reviews;
-        }
-
         public List<MusicEntity> getMusic() {
             return music;
-        }
-
-        public void setMusic(List<MusicEntity> music) {
-            this.music = music;
         }
 
         public static class ReviewsEntity {
