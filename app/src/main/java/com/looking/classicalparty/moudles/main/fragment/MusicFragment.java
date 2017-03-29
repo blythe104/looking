@@ -74,7 +74,7 @@ public class MusicFragment extends BaseFragment implements View.OnClickListener 
         paramList.add(key);
         paramList.add(page);
         paramList.add(pageCount);
-        HttpUtils.post(ConstantApi.MUSCI, paramList, new ResultCallback() {
+        HttpUtils.post(ConstantApi.MUSIC, paramList, new ResultCallback() {
             @Override
             public void onSuccess(Object response) {
                 MusicDetailBean musicDetailBean = new Gson().fromJson(response.toString(), MusicDetailBean.class);

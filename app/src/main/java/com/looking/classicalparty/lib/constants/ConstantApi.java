@@ -15,6 +15,8 @@ public class ConstantApi {
     public static final String DETAIL = BaseUrl + "member/detail";
     public static final String MESSAGE = BaseUrl + "member/contact";
 
-    public static final String MUSCI = BaseUrl + "content/getMusic";
+    public static final String MUSIC = BaseUrl + "content/getMusic";
+
+    public static final String CATEGORY = BaseUrl + "content/getVideoCategory";
 
 }

@@ -5,17 +5,21 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.looking.classicalparty.moudles.movie.bean.CategoryBean;
 import com.looking.classicalparty.moudles.movie.fragment.PageFragment;
+
+import java.util.List;
 
 public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
 
-    final int PAGE_COUNT = 5;
-    private String tabTitles[] = new String[]{"动漫", "国产", "美国", "法国", "英国"};
     private Context context;
+    private List<CategoryBean.CategoryEntity> categoryEntities;
 
-    public SimpleFragmentPagerAdapter(FragmentManager fm, Context context) {
+    public SimpleFragmentPagerAdapter(FragmentManager fm, Context context, List<CategoryBean.CategoryEntity>
+            categoryEntities) {
         super(fm);
         this.context = context;
+        this.categoryEntities = categoryEntities;
     }
 
     @Override
@@ -25,11 +29,11 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return PAGE_COUNT;
+        return categoryEntities.size();
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return tabTitles[position];
+        return categoryEntities.get(position).getCtitle();
     }
 }
