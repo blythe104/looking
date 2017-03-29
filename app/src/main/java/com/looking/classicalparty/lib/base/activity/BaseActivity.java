@@ -7,7 +7,10 @@ package com.looking.classicalparty.lib.base.activity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
+
+import com.bugtags.library.Bugtags;
 
 /**
  * 基类
@@ -42,7 +45,6 @@ public abstract class BaseActivity extends FragmentActivity implements View.OnCl
     }
 
 
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         //监听回退键
@@ -52,6 +54,24 @@ public abstract class BaseActivity extends FragmentActivity implements View.OnCl
                 break;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Bugtags.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Bugtags.onPause(this);
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        Bugtags.onDispatchTouchEvent(this, ev);
+        return super.dispatchTouchEvent(ev);
     }
 }
 

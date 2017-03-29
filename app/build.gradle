@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
+    useLibrary 'org.apache.http.legacy'
     compileSdkVersion 'Google Inc.:Google APIs:24'
     buildToolsVersion '24.0.2'
 
@@ -13,6 +14,18 @@ android {
         jackOptions {
             enabled true
         }
+        ndk {
+            // 设置支持的 SO 库构架，一般而言，取你所有的库支持的构架的`交集`。
+            abiFilters 'armeabi' // 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64', 'mips', 'mips64'
+        }
+    }
+    //应用 Bugtags 插件
+    apply plugin: 'com.bugtags.library.plugin'
+
+    bugtags {
+        appKey "9beccb4c14e8f6bd2e0b46f61983d8dc" //这里是你的 appKey
+        appSecret "d7ef6550ecafbe1a5e943dada811aeb6" //这里是你的 appSecret，管理员在设置页可以查看
+        mappingUploadEnabled true
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -54,7 +67,7 @@ android {
 
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue("string", "app_name", "classical")
-//            buildConfigField "String", "BASE_URL", "http://www.jingdian.party/api/"
+            //            buildConfigField "String", "BASE_URL", "http://www.jingdian.party/api/"
 
         }
 
@@ -76,7 +89,7 @@ android {
         debug {
             minifyEnabled false
             resValue("string", "app_name", "classical")
-//            buildConfigField "String", "BASE_URL", "http://www.jingdian.party/api/"
+            //            buildConfigField "String", "BASE_URL", "http://www.jingdian.party/api/"
             signingConfig signingConfigs.debugConfig
 
         }
@@ -110,6 +123,8 @@ dependencies {
     compile 'com.youth.banner:banner:1.4.9'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.github.tgioihan:imageloader:1.0.3'
+
+    compile 'com.bugtags.library:bugtags-lib:latest.integration'
 }
 //配置lambda表达式
 buildscript {
