@@ -14,4 +14,7 @@ public class ConstantApi {
     public static final String UPDATEPWD = BaseUrl + "member/UpdatePassword";
     public static final String DETAIL = BaseUrl + "member/detail";
     public static final String MESSAGE = BaseUrl + "member/contact";
+
+    public static final String MUSCI = BaseUrl + "content/getMusic";
+
 }
