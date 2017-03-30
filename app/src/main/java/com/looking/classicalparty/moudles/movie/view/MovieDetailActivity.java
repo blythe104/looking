@@ -1,8 +1,10 @@
 package com.looking.classicalparty.moudles.movie.view;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
-import android.widget.RatingBar;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -31,7 +33,9 @@ public class MovieDetailActivity extends BaseActivity {
     private TextView introduce;
     private TextView actors;
     private TextView score;
-    private RatingBar ratingBar;
+
+    private LinearLayout llScore;
+    private MovieDetailBean movieDetailBean;
 
     @Override
     public void initView() {
@@ -43,11 +47,13 @@ public class MovieDetailActivity extends BaseActivity {
         introduce = (TextView) findViewById(R.id.introduce);
         actors = (TextView) findViewById(R.id.actors);
         score = (TextView) findViewById(R.id.score);
-        ratingBar = (RatingBar) findViewById(R.id.ratingbar);
+
+        llScore = (LinearLayout) findViewById(R.id.ll_score);
     }
 
     @Override
     public void initListener() {
+        llScore.setOnClickListener(this);
 
     }
 
@@ -61,6 +67,18 @@ public class MovieDetailActivity extends BaseActivity {
 
     @Override
     public void processClick(View v) {
+        switch (v.getId()) {
+            case R.id.ll_score:
+                Intent scoreIntent = new Intent(this, MovieScoreActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("title", movieDetailBean.getVideoDetail().getTitle());
+                bundle.putString("director", movieDetailBean.getVideoDetail().getDirector());
+                bundle.putString("actors", movieDetailBean.getVideoDetail().getActors());
+                bundle.putString("score", movieDetailBean.getVideoDetail().getScores());
+                scoreIntent.putExtras(bundle);
+                startActivity(scoreIntent);
+                break;
+        }
 
     }
 
@@ -73,14 +91,13 @@ public class MovieDetailActivity extends BaseActivity {
         HttpUtils.post(ConstantApi.VIDEODETAIL, paramList, new ResultCallback() {
             @Override
             public void onSuccess(Object response) {
-                MovieDetailBean movieDetailBean = new Gson().fromJson(response.toString(), MovieDetailBean.class);
+                movieDetailBean = new Gson().fromJson(response.toString(), MovieDetailBean.class);
                 if (movieDetailBean.getResult() == 200) {
                     movie_title.setText(movieDetailBean.getVideoDetail().getTitle());
                     introduce.setText(Html.fromHtml(movieDetailBean.getVideoDetail().getSummary()).toString());
                     director.setText(movieDetailBean.getVideoDetail().getDirector());
                     actors.setText(movieDetailBean.getVideoDetail().getActors());
                     score.setText(movieDetailBean.getVideoDetail().getScores());
-                    ratingBar.setRating(Float.parseFloat(movieDetailBean.getVideoDetail().getScores()) / 2);
                 }
             }
 

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/activity_movie_score"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.looking.classicalparty.moudles.movie.view.MovieScoreActivity">
+    <com.looking.classicalparty.lib.ui.TitleBar android:id="@+id/title_bar"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"/>
+    <include layout="@layout/movie_introduce_layout"/>
+    <RatingBar
+        android:id="@+id/ratingbar"
+        style="@style/MyRatingbar"
+        android:layout_width="wrap_content"
+        android:layout_height="16dp"
+        android:layout_marginTop="7dp"
+        android:progressDrawable="@drawable/rating_style"/>
+
+
+</LinearLayout>
