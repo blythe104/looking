@@ -1,4 +1,4 @@
-package com.looking.classicalparty.moudles.music.adapter;
+package com.looking.classicalparty.moudles.movie.adapter;
 
 import android.content.Context;
 import android.view.View;
@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.looking.classicalparty.R;
-import com.looking.classicalparty.moudles.music.bean.MusicDetailBean;
+import com.looking.classicalparty.moudles.movie.bean.GetVideoBean;
 
 import java.util.List;
 
@@ -16,12 +16,12 @@ import java.util.List;
  * Created by xin on 2017/3/29.
  */
 
-public class MusicAdapter extends BaseAdapter {
+public class VideoAdapter extends BaseAdapter {
     private Context context;
 
-    private List<MusicDetailBean.ActivityEntity> musicDatas;
+    private List<GetVideoBean.ActivityEntity> musicDatas;
 
-    public MusicAdapter(Context context, List<MusicDetailBean.ActivityEntity> musicDatas) {
+    public VideoAdapter(Context context, List<GetVideoBean.ActivityEntity> musicDatas) {
         this.context = context;
         this.musicDatas = musicDatas;
     }
@@ -35,7 +35,7 @@ public class MusicAdapter extends BaseAdapter {
     }
 
     @Override
-    public MusicDetailBean.ActivityEntity getItem(int position) {
+    public GetVideoBean.ActivityEntity getItem(int position) {
         return musicDatas.get(position);
     }
 
@@ -50,27 +50,27 @@ public class MusicAdapter extends BaseAdapter {
 
         if (null == convertView) {
             mViewHolder = new ViewHolder();
-            convertView = View.inflate(context, R.layout.item_music_layout, null);
-            mViewHolder.iv_music = (ImageView) convertView.findViewById(R.id.iv_music);
-            mViewHolder.tv_musicName = (TextView) convertView.findViewById(R.id.tv_musicName);
-            mViewHolder.tv_singer = (TextView) convertView.findViewById(R.id.tv_singer);
+            convertView = View.inflate(context, R.layout.item_movie_layout, null);
+            mViewHolder.iv_movie = (ImageView) convertView.findViewById(R.id.iv_movie);
+            mViewHolder.movie = (TextView) convertView.findViewById(R.id.movie);
+            mViewHolder.writer = (TextView) convertView.findViewById(R.id.writer);
 
             convertView.setTag(mViewHolder);
         } else {
             mViewHolder = (ViewHolder) convertView.getTag();
         }
-        mViewHolder.iv_music.setImageResource(R.mipmap.movie);
-        mViewHolder.tv_musicName.setText(musicDatas.get(position).getTitle());
-        mViewHolder.tv_singer.setText(musicDatas.get(position).getDirector());
+        mViewHolder.iv_movie.setImageResource(R.mipmap.movie);
+        mViewHolder.movie.setText(musicDatas.get(position).getTitle());
+        mViewHolder.writer.setText(musicDatas.get(position).getDirector());
 
         return convertView;
     }
 
     static class ViewHolder {
 
-        public TextView tv_musicName;
-        public TextView tv_singer;
-        public ImageView iv_music;
+        public TextView movie;
+        public TextView writer;
+        public ImageView iv_movie;
 
     }
 }

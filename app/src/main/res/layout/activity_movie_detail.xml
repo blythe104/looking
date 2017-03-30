@@ -12,10 +12,16 @@
         <LinearLayout android:layout_width="match_parent"
                       android:layout_height="match_parent"
                       android:orientation="vertical">
-            <include layout="@layout/layout_title_bar"/>
+
+            <com.looking.classicalparty.lib.ui.TitleBar
+                android:id="@+id/title_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
             <LinearLayout android:layout_width="match_parent"
                           android:layout_height="320dp"
                           android:orientation="horizontal">
+
                 <ImageView android:layout_width="220dp"
                            android:layout_height="320dp"
                            android:padding="6dp"
