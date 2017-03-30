@@ -2,16 +2,15 @@ package com.looking.classicalparty.moudles.register.bean;
 
 import com.looking.classicalparty.lib.base.Bean.BaseBean;
 
-import java.io.Serializable;
-
 /**
  * Created by xin on 2016/10/24.
  */
 
 public class RegisterBean extends BaseBean{
 
+
     /**
-     * mid : 13
+     * user : {"mid":20}
      */
 
     private UserEntity user;
@@ -24,7 +23,11 @@ public class RegisterBean extends BaseBean{
         this.user = user;
     }
 
-    public static class UserEntity implements Serializable {
+    public static class UserEntity {
+        /**
+         * mid : 20
+         */
+
         private int mid;
 
         public int getMid() {

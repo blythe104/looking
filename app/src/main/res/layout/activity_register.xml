@@ -10,11 +10,59 @@
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="45dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:orientation="horizontal">
 
-    <include layout="@layout/login_or_register_layout"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:src="@mipmap/ic_login_name"/>
 
-    <TextView
-        android:id="@+id/tv_register"
+        <EditText
+            android:background="@drawable/shape_edittext_border"
+            android:id="@+id/username"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="6dp"
+            android:layout_weight="1"
+            android:hint="用户名长度：6-32个字符"
+            android:textSize="@dimen/login_input_textsize"
+        />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:src="@mipmap/ic_login_pwd"/>
+
+        <EditText
+            android:background="@drawable/shape_edittext_border"
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="6dp"
+            android:hint="密码长度：6-32个字符"
+            android:textSize="@dimen/login_input_textsize"
+            android:textStyle="normal"
+        />
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btn_register"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginLeft="20dp"

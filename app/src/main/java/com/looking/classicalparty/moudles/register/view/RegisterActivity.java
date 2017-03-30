@@ -1,9 +1,11 @@
 package com.looking.classicalparty.moudles.register.view;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.looking.classicalparty.R;
@@ -28,7 +30,7 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 public class RegisterActivity extends BaseActivity {
 
 
-    private TextView mTvRegister;
+    private Button btn_Register;
     private EditText mEtUserName;
     private EditText mEtPassword;
     private TitleBar mTitle;
@@ -37,15 +39,15 @@ public class RegisterActivity extends BaseActivity {
     public void initView() {
         setContentView(R.layout.activity_register);
         mTitle = (TitleBar) findViewById(R.id.title_bar);
-        mTvRegister = (TextView) findViewById(R.id.tv_register);
-        mEtUserName = (EditText) findViewById(R.id.et_username);
-        mEtPassword = (EditText) findViewById(R.id.et_password);
-
+        btn_Register = (Button) findViewById(R.id.btn_register);
+        mEtUserName = (EditText) findViewById(R.id.username);
+        mEtPassword = (EditText) findViewById(R.id.password);
+        btn_Register.setOnClickListener(this);
     }
 
     @Override
     public void initListener() {
-        mTvRegister.setOnClickListener(this);
+
         mTitle.setOnClickListener(new TitleBar.OnClickListener() {
             @Override
             public void OnLeftClick() {
@@ -71,7 +73,7 @@ public class RegisterActivity extends BaseActivity {
      *
      * @param username
      */
-    public void checkUser(final String username, final String pwd) {
+    public void checkUser(String username, String pwd) {
         List<Param> paramList = new ArrayList<>();
         Param key = new Param("key", SharedPreUtils.getString(StringContants.KEY, ""));
         Param musername = new Param("musername", username);
@@ -81,12 +83,13 @@ public class RegisterActivity extends BaseActivity {
             @Override
             public void onSuccess(Object response) {
                 BaseBean baseBean = new Gson().fromJson(response.toString(), BaseBean.class);
+                Log.d("check----", baseBean.toString());
                 if (baseBean.getResult() == 200) {
                     //调用注册接口
                     userRegister(username, pwd);
                 } else {
                     //该用户名存在
-                    Crouton.makeText(RegisterActivity.this, "该用户名已经存在", Style.ALERT).show();
+                    Crouton.makeText(RegisterActivity.this, "该用户名已经存在", Style.CONFIRM).show();
                 }
             }
 
@@ -110,18 +113,26 @@ public class RegisterActivity extends BaseActivity {
      */
     private void userRegister(String username, String pwd) {
         List<Param> paramlist = new ArrayList<>();
+        Param key = new Param("key", SharedPreUtils.getString(StringContants.KEY));
         Param name = new Param("musername", username);
         Param password = new Param("mpassword", pwd);
-        Param key = new Param("key", SharedPreUtils.getString(StringContants.KEY));
+        Param mmobile = new Param("mmobile", "");
+        paramlist.add(mmobile);
         paramlist.add(name);
         paramlist.add(key);
         paramlist.add(password);
         HttpUtils.post(ConstantApi.register, paramlist, new ResultCallback() {
             @Override
             public void onSuccess(Object response) {
+                Log.d("register---", response.toString());
                 RegisterBean registerBean = new Gson().fromJson(response.toString(), RegisterBean.class);
+                Toast.makeText(RegisterActivity.this, registerBean.toString() + "---register", Toast.LENGTH_LONG)
+                        .show();
+                Log.d("registerBen------", registerBean.toString());
                 if (registerBean.getResult() == 200) {
                     Crouton.makeText(RegisterActivity.this, "注册成功", Style.CONFIRM).show();
+                } else {
+                    Crouton.makeText(RegisterActivity.this, "注册失败", Style.CONFIRM).show();
                 }
 
             }
@@ -142,14 +153,19 @@ public class RegisterActivity extends BaseActivity {
     @Override
     public void processClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_register:
+            case R.id.btn_register:
                 //检测用户名是否可用
                 String username = mEtUserName.getText().toString();
                 String password = mEtPassword.getText().toString();
                 if (!TextUtils.isEmpty(username)) {
-                    checkUser(username, password);
+                    if (!TextUtils.isEmpty(password)) {
+                        checkUser(username, password);
+                    } else {
+                        Crouton.makeText(RegisterActivity.this, "密码不能为空", Style.CONFIRM).show();
+                    }
+
                 } else {
-                    Crouton.makeText(RegisterActivity.this, "注册成功", Style.CONFIRM).show();
+                    Crouton.makeText(RegisterActivity.this, "用户名不能为空", Style.CONFIRM).show();
                 }
                 break;
         }

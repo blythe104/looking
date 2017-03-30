@@ -4,6 +4,7 @@ package com.looking.classicalparty.lib.base.Bean;
  * Created by xin on 2016/10/19.
  */
 public class BaseBean {
+
     private int result;
     private String resultMsg;
 
