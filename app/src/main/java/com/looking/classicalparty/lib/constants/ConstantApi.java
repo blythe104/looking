@@ -21,5 +21,6 @@ public class ConstantApi {
 
     public static final String CATEGORY = BaseUrl + "content/getVideoCategory";
     public static final String VIDEO = BaseUrl + "content/getVideo";
+    public static final String VIDEODETAIL = BaseUrl + "content/getVideoDetail";
 
 }

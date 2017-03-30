@@ -1,10 +1,12 @@
 package com.looking.classicalparty.moudles.movie.fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,6 +22,7 @@ import com.looking.classicalparty.lib.http.ResultCallback;
 import com.looking.classicalparty.lib.utils.SharedPreUtils;
 import com.looking.classicalparty.moudles.movie.adapter.VideoAdapter;
 import com.looking.classicalparty.moudles.movie.bean.GetVideoBean;
+import com.looking.classicalparty.moudles.movie.view.MovieDetailActivity;
 import com.squareup.okhttp.Request;
 
 import java.util.ArrayList;
@@ -68,6 +71,15 @@ public class PageFragment extends BaseFragment implements View.OnClickListener {
         videoAdapter = new VideoAdapter(getActivity(), videoDatas);
         llVideo.setAdapter(videoAdapter);
         loadMore.setOnClickListener(this);
+        llVideo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent detailIntent = new Intent(getActivity(), MovieDetailActivity.class);
+                detailIntent.putExtra("id", videoDatas.get(position).getId());
+                startActivity(detailIntent);
+
+            }
+        });
         return view;
     }
 
