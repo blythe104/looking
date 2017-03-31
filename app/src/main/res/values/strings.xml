@@ -13,4 +13,5 @@
     <!--个人资料模块-->
     <string name="sign_hint">请输入您的签名，哒哒哒...</string>
     <string name="nickname_hint">请输入您想让人看到的昵称，哒哒哒...</string>
+    <string name="movie_score">请输入您对该电影的评价</string>
 </resources>

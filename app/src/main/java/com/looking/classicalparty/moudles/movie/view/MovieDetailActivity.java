@@ -3,9 +3,11 @@ package com.looking.classicalparty.moudles.movie.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.looking.classicalparty.R;
@@ -75,6 +77,7 @@ public class MovieDetailActivity extends BaseActivity {
                 bundle.putString("director", movieDetailBean.getVideoDetail().getDirector());
                 bundle.putString("actors", movieDetailBean.getVideoDetail().getActors());
                 bundle.putString("score", movieDetailBean.getVideoDetail().getScores());
+                bundle.putString("id", movieDetailBean.getVideoDetail().getId());
                 scoreIntent.putExtras(bundle);
                 startActivity(scoreIntent);
                 break;
@@ -92,12 +95,15 @@ public class MovieDetailActivity extends BaseActivity {
             @Override
             public void onSuccess(Object response) {
                 movieDetailBean = new Gson().fromJson(response.toString(), MovieDetailBean.class);
+                Log.d("movieDeatil",response.toString());
                 if (movieDetailBean.getResult() == 200) {
                     movie_title.setText(movieDetailBean.getVideoDetail().getTitle());
                     introduce.setText(Html.fromHtml(movieDetailBean.getVideoDetail().getSummary()).toString());
                     director.setText(movieDetailBean.getVideoDetail().getDirector());
                     actors.setText(movieDetailBean.getVideoDetail().getActors());
                     score.setText(movieDetailBean.getVideoDetail().getScores());
+                    Toast.makeText(MovieDetailActivity.this, movieDetailBean.getVideoDetail().getId(), Toast
+                            .LENGTH_SHORT).show();
                 }
             }
 

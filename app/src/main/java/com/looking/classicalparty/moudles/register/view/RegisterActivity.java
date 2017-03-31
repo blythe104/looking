@@ -158,10 +158,10 @@ public class RegisterActivity extends BaseActivity {
                 String username = mEtUserName.getText().toString();
                 String password = mEtPassword.getText().toString();
                 if (!TextUtils.isEmpty(username)) {
-                    if (!TextUtils.isEmpty(password)) {
-                        checkUser(username, password);
-                    } else {
+                    if (TextUtils.isEmpty(password)) {
                         Crouton.makeText(RegisterActivity.this, "密码不能为空", Style.CONFIRM).show();
+                    } else {
+                        checkUser(username, password);
                     }
 
                 } else {
