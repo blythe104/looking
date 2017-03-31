@@ -17,6 +17,7 @@ import com.looking.classicalparty.lib.constants.StringContants;
 import com.looking.classicalparty.lib.http.HttpUtils;
 import com.looking.classicalparty.lib.http.Param;
 import com.looking.classicalparty.lib.http.ResultCallback;
+import com.looking.classicalparty.lib.ui.TitleBar;
 import com.looking.classicalparty.lib.utils.SharedPreUtils;
 import com.looking.classicalparty.moudles.music.adapter.MusicAdapter;
 import com.looking.classicalparty.moudles.music.bean.MusicDetailBean;
@@ -38,12 +39,13 @@ public class MusicFragment extends BaseFragment implements View.OnClickListener 
     private LinearLayout loadMore;
     private TextView mTvDesc;
     private int totalPage;
+    private TitleBar titleBar;
 
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.music_fragment_layout, null);
         lv_music = (ListView) view.findViewById(R.id.listview_music);
-
+        titleBar = (TitleBar) view.findViewById(R.id.title_bar);
         loadMoreFoot = View.inflate(getActivity(), R.layout.ll_foot_layout, null);
         loadMore = (LinearLayout) loadMoreFoot.findViewById(R.id.ll_load_more);
         mTvDesc = (TextView) loadMoreFoot.findViewById(R.id.tv_desc);
@@ -60,6 +62,7 @@ public class MusicFragment extends BaseFragment implements View.OnClickListener 
     @Override
     public void loadData() {
         super.loadData();
+        titleBar.setTitle("音乐", View.GONE);
         getMusicDatas(curPage);
     }
 
