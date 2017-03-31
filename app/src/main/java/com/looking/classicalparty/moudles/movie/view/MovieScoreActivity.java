@@ -56,7 +56,7 @@ public class MovieScoreActivity extends BaseActivity {
         titleBar.setOnClickListener(new TitleBar.OnClickListener() {
             @Override
             public void OnLeftClick() {
-
+                finish();
             }
 
             @Override
