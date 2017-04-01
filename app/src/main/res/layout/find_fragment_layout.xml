@@ -4,29 +4,26 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <!--<ImageView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="100dp"-->
-        <!--android:scaleType="centerCrop"-->
-        <!--android:src="@mipmap/mine_two"/>-->
-
     <com.youth.banner.Banner
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/find_banner"
         android:layout_width="match_parent"
-        android:layout_height="140dp" />
+        android:layout_height="140dp"/>
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/refresh"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycle_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            ></android.support.v7.widget.RecyclerView>
-    </android.support.v4.widget.SwipeRefreshLayout>
+    <ScrollView android:layout_width="match_parent" android:layout_height="match_parent">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                      android:orientation="vertical">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycle_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+            />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_music"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+            />
+        </LinearLayout>
+    </ScrollView>
 
 
 </LinearLayout>

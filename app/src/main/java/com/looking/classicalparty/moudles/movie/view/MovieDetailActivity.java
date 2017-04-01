@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.looking.classicalparty.R;
@@ -102,8 +101,6 @@ public class MovieDetailActivity extends BaseActivity {
                     director.setText(movieDetailBean.getVideoDetail().getDirector());
                     actors.setText(movieDetailBean.getVideoDetail().getActors());
                     score.setText(movieDetailBean.getVideoDetail().getScores());
-                    Toast.makeText(MovieDetailActivity.this, movieDetailBean.getVideoDetail().getId(), Toast
-                            .LENGTH_SHORT).show();
                 }
             }
 
