@@ -12,19 +12,19 @@
     <LinearLayout
         android:id="@+id/ll_change_photo"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="80dp"
         android:background="@drawable/selector_pressed_status"
-        android:gravity="center_vertical"
+        android:gravity="center"
         android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:layout_weight="1"
-            android:text="头像"
-            android:textColor="#626571"
-            android:textSize="14sp"/>
+        <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="40dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:text="头像"-->
+            <!--android:textColor="#626571"-->
+            <!--android:textSize="14sp"/>-->
 
         <com.looking.classicalparty.lib.widget.CircleImageView
             android:id="@+id/circle_image"

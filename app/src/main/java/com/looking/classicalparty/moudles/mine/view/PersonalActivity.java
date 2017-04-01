@@ -24,6 +24,7 @@ import com.looking.classicalparty.lib.constants.StringContants;
 import com.looking.classicalparty.lib.http.HttpUtils;
 import com.looking.classicalparty.lib.http.Param;
 import com.looking.classicalparty.lib.http.ResultCallback;
+import com.looking.classicalparty.lib.utils.ImageLoaderUtils;
 import com.looking.classicalparty.lib.utils.LogUtils;
 import com.looking.classicalparty.lib.utils.SharedPreUtils;
 import com.looking.classicalparty.lib.widget.CircleImageView;
@@ -102,6 +103,10 @@ public class PersonalActivity extends BaseActivity {
 
     }
 
+    private void loadAvatarImg(String res) {
+        ImageLoaderUtils.display(getApplication(), res, R.mipmap.mine_two, circleImageView);
+    }
+
     /**
      * 获取用户详情
      */
@@ -120,8 +125,7 @@ public class PersonalActivity extends BaseActivity {
                     tvNickname.setText(personBean.getContent().get(0).getMnickname());
                     tvSexy.setText(personBean.getContent().get(0).getMsex() == "1" ? "男" : "女");
                     tvSign.setText(personBean.getContent().get(0).getMsignature());
-                    //                    Bitmap mav=new Bitmap(personBean.getContent().get(0).getMavatar();
-                    //                    circleImageView.set(personBean.getContent().get(0).getMavatar());
+                    loadAvatarImg(personBean.getContent().get(0).getMavatar());
                 } else {
                     Crouton.makeText(PersonalActivity.this, personBean.getResultMsg(), Style.CONFIRM).show();
                 }
