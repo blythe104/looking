@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -17,6 +18,7 @@ import com.looking.classicalparty.lib.http.HttpUtils;
 import com.looking.classicalparty.lib.http.Param;
 import com.looking.classicalparty.lib.http.ResultCallback;
 import com.looking.classicalparty.lib.ui.TitleBar;
+import com.looking.classicalparty.lib.utils.ImageLoaderUtils;
 import com.looking.classicalparty.lib.utils.SharedPreUtils;
 import com.looking.classicalparty.moudles.movie.bean.MovieDetailBean;
 import com.squareup.okhttp.Request;
@@ -37,6 +39,7 @@ public class MovieDetailActivity extends BaseActivity {
 
     private LinearLayout llScore;
     private MovieDetailBean movieDetailBean;
+    private ImageView movieImg;
 
     @Override
     public void initView() {
@@ -48,6 +51,7 @@ public class MovieDetailActivity extends BaseActivity {
         introduce = (TextView) findViewById(R.id.introduce);
         actors = (TextView) findViewById(R.id.actors);
         score = (TextView) findViewById(R.id.score);
+        movieImg = (ImageView) findViewById(R.id.movie_img);
 
         llScore = (LinearLayout) findViewById(R.id.ll_score);
     }
@@ -77,6 +81,7 @@ public class MovieDetailActivity extends BaseActivity {
                 bundle.putString("actors", movieDetailBean.getVideoDetail().getActors());
                 bundle.putString("score", movieDetailBean.getVideoDetail().getScores());
                 bundle.putString("id", movieDetailBean.getVideoDetail().getId());
+                bundle.putString("cover_path",movieDetailBean.getVideoDetail().getCover_path());
                 scoreIntent.putExtras(bundle);
                 startActivity(scoreIntent);
                 break;
@@ -96,6 +101,7 @@ public class MovieDetailActivity extends BaseActivity {
                 movieDetailBean = new Gson().fromJson(response.toString(), MovieDetailBean.class);
                 Log.d("movieDeatil",response.toString());
                 if (movieDetailBean.getResult() == 200) {
+                    ImageLoaderUtils.display(MovieDetailActivity.this,"http://www.jingdian.party/"+movieDetailBean.getVideoDetail().getCover_path(),movieImg);
                     movie_title.setText(movieDetailBean.getVideoDetail().getTitle());
                     introduce.setText(Html.fromHtml(movieDetailBean.getVideoDetail().getSummary()).toString());
                     director.setText(movieDetailBean.getVideoDetail().getDirector());

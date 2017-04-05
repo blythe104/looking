@@ -1,7 +1,6 @@
 package com.looking.classicalparty.moudles.find.adapter;
 
 import android.content.Context;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.looking.classicalparty.R;
+import com.looking.classicalparty.lib.utils.ImageLoaderUtils;
 import com.looking.classicalparty.moudles.find.bean.ReviewsBean;
 
 import java.util.List;
@@ -25,14 +25,10 @@ public class ReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private Context context;
 
 
-    public ReviewAdapter(List<ReviewsBean> datas) {
+    public ReviewAdapter(Context context, List<ReviewsBean> datas) {
+        this.context = context;
         this.mDatas = datas;
     }
-
-    public ReviewAdapter(FragmentManager fm, Context context) {
-        this.context = context;
-    }
-
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.mOnItemClickListener = listener;
@@ -56,7 +52,8 @@ public class ReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             ((ThemeViewHolder) holder).mTvTitle.setText("MOVIE");
             ((ThemeViewHolder) holder).mIvTitle.setImageResource(R.mipmap.img_music);
         } else if (holder instanceof MovieViewHolder) {
-            ((MovieViewHolder) holder).mIvPhoto.setImageResource(R.mipmap.mine_two);
+            ImageLoaderUtils.display(context, mDatas.get(position).getCover_path(), ((MovieViewHolder) holder)
+                    .mIvPhoto);
             ((MovieViewHolder) holder).mTvName.setText(mDatas.get(position).getTitle());
             ((MovieViewHolder) holder).mTvWriter.setText(mDatas.get(position).getDirector());
             ((MovieViewHolder) holder).mRecommer.setText(mDatas.get(position).getVscreate_time());
@@ -71,6 +68,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
     }
+
 
     @Override
     public int getItemViewType(int position) {

@@ -131,7 +131,7 @@ public class FindFragment extends BaseFragment {
         musicdatas = new ArrayList<>();
 
         //4.创建adapter
-        musicAdapter = new RvMusicAdapter(musicdatas);
+        musicAdapter = new RvMusicAdapter(getActivity(), musicdatas);
         //将RecyclerView组件绑定adapter
         rvMusic.setAdapter(musicAdapter);
 
@@ -174,7 +174,7 @@ public class FindFragment extends BaseFragment {
         datas = new ArrayList<>();
 
         //4.创建adapter
-        adapter = new ReviewAdapter(datas);
+        adapter = new ReviewAdapter(getActivity(), datas);
         //将RecyclerView组件绑定adapter
         recyclerView.setAdapter(adapter);
 

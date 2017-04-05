@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.looking.classicalparty.R;
+import com.looking.classicalparty.lib.utils.ImageLoaderUtils;
 import com.looking.classicalparty.moudles.movie.bean.GetVideoBean;
 
 import java.util.List;
@@ -59,7 +60,7 @@ public class VideoAdapter extends BaseAdapter {
         } else {
             mViewHolder = (ViewHolder) convertView.getTag();
         }
-        mViewHolder.iv_movie.setImageResource(R.mipmap.movie);
+        ImageLoaderUtils.display(context, "http://www.jingdian.party/"+musicDatas.get(position).getCover_path(), mViewHolder.iv_movie);
         mViewHolder.movie.setText(musicDatas.get(position).getTitle());
         mViewHolder.writer.setText(musicDatas.get(position).getDirector());
 

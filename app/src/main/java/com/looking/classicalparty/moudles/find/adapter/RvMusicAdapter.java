@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.looking.classicalparty.R;
+import com.looking.classicalparty.lib.utils.ImageLoaderUtils;
 import com.looking.classicalparty.moudles.find.bean.MusicBean;
 
 import java.util.List;
@@ -25,7 +26,8 @@ public class RvMusicAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private Context context;
 
 
-    public RvMusicAdapter(List<MusicBean> datas) {
+    public RvMusicAdapter(Context context,List<MusicBean> datas) {
+        this.context=context;
         this.mDatas = datas;
     }
 
@@ -57,6 +59,8 @@ public class RvMusicAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             ((ThemeViewHolder) holder).mIvTitle.setImageResource(R.mipmap.img_music);
         } else if (holder instanceof MusicViewHolder) {
             ((MusicViewHolder) holder).mTvName.setText(mDatas.get(position).getTitle());
+            ImageLoaderUtils.display(context, mDatas.get(position).getCover_path(), ((MusicViewHolder) holder)
+                    .iv_photo);
             if (mOnItemClickListener != null) {
                 ((MusicViewHolder) holder).mTvListen.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -112,9 +116,11 @@ public class RvMusicAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public class MusicViewHolder extends RecyclerView.ViewHolder {
         private TextView mTvName;
         private TextView mTvListen;
+        private  ImageView iv_photo;
 
         public MusicViewHolder(View itemView) {
             super(itemView);
+            iv_photo= (ImageView) itemView.findViewById(R.id.iv_photo);
             mTvName = (TextView) itemView.findViewById(R.id.tv_name);
             mTvListen = (TextView) itemView.findViewById(R.id.tv_listen);
 

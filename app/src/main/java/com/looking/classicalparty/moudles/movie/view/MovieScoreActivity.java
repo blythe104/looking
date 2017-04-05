@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -16,6 +17,7 @@ import com.looking.classicalparty.lib.http.HttpUtils;
 import com.looking.classicalparty.lib.http.Param;
 import com.looking.classicalparty.lib.http.ResultCallback;
 import com.looking.classicalparty.lib.ui.TitleBar;
+import com.looking.classicalparty.lib.utils.ImageLoaderUtils;
 import com.looking.classicalparty.lib.utils.SharedPreUtils;
 import com.looking.classicalparty.moudles.movie.bean.commentBean;
 import com.squareup.okhttp.Request;
@@ -36,6 +38,7 @@ public class MovieScoreActivity extends BaseActivity {
     private Bundle bundle;
     private String vid;
     private EditText movie_score;
+    private ImageView movieImg;
 
     @Override
     public void initView() {
@@ -48,6 +51,7 @@ public class MovieScoreActivity extends BaseActivity {
         actors = (TextView) findViewById(R.id.actors);
         score = (TextView) findViewById(R.id.score);
         movie_score = (EditText) findViewById(R.id.movie_score);
+        movieImg = (ImageView) findViewById(R.id.movie_img);
         vid = bundle.get("id").toString();
     }
 
@@ -75,6 +79,7 @@ public class MovieScoreActivity extends BaseActivity {
         director.setText(bundle.get("director").toString());
         actors.setText(bundle.get("actors").toString());
         score.setText(bundle.get("score").toString());
+        ImageLoaderUtils.display(MovieScoreActivity.this,"http://www.jingdian.party/"+bundle.get("cover_path").toString(),movieImg);
 
 
     }
