@@ -3,6 +3,8 @@ package com.looking.classicalparty.lib.utils;
 import android.app.Application;
 import android.content.SharedPreferences;
 
+import com.looking.classicalparty.R;
+
 public class SharedPreUtils {
     //将可变的内容设置到一块，这这样可以更简便的更改
     public static final String SP_NAME = "classical_config";
@@ -23,6 +25,14 @@ public class SharedPreUtils {
             editor = sp.edit();
         }
     }
+    public static boolean enableMobileNetworkPlay() {
+        return getBoolean(context.getString(R.string.setting_key_mobile_network_play), false);
+    }
+
+    public static void saveMobileNetworkPlay(boolean enable) {
+        saveBoolean(context.getString(R.string.setting_key_mobile_network_play), enable);
+    }
+
 
     public static void saveString(String key, String value) {
         editor.putString(key, value).commit();

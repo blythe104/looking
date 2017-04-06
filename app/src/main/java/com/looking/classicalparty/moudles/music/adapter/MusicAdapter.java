@@ -55,6 +55,7 @@ public class MusicAdapter extends BaseAdapter {
             mViewHolder.iv_music = (ImageView) convertView.findViewById(R.id.iv_music);
             mViewHolder.tv_musicName = (TextView) convertView.findViewById(R.id.tv_musicName);
             mViewHolder.tv_singer = (TextView) convertView.findViewById(R.id.tv_singer);
+            mViewHolder.listener = (ImageView) convertView.findViewById(R.id.listener);
 
             convertView.setTag(mViewHolder);
         } else {
@@ -65,6 +66,7 @@ public class MusicAdapter extends BaseAdapter {
         mViewHolder.tv_musicName.setText(musicDatas.get(position).getTitle());
         mViewHolder.tv_singer.setText(musicDatas.get(position).getDirector());
 
+
         return convertView;
     }
 
@@ -73,6 +75,7 @@ public class MusicAdapter extends BaseAdapter {
         public TextView tv_musicName;
         public TextView tv_singer;
         public ImageView iv_music;
+        public ImageView listener;
 
     }
 }

@@ -52,9 +52,11 @@ public class MusicFragment extends BaseFragment implements View.OnClickListener 
         musicDatas = new ArrayList<>();
         musicAdapter = new MusicAdapter(getActivity(), musicDatas);
         lv_music.setAdapter(musicAdapter);
+
         loadMore.setOnClickListener(this);
         return view;
     }
+
 
     @Override
     public void loadData() {
@@ -112,4 +114,6 @@ public class MusicFragment extends BaseFragment implements View.OnClickListener 
         }
 
     }
+
+
 }

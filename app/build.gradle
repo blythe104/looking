@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     useLibrary 'org.apache.http.legacy'
     compileSdkVersion 'Google Inc.:Google APIs:24'
-    buildToolsVersion '24.0.2'
+    buildToolsVersion '25.0.0'
 
     defaultConfig {
         applicationId "com.looking.classicalparty"
@@ -108,13 +108,12 @@ def getDebugApkName() {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.squareup.okhttp:okhttp:2.7.0'
     compile 'com.google.code.gson:gson:2.6.2'
     compile('de.keyboardsurfer.android.widget:crouton:1.8.4@aar') {
         exclude group: 'com.google.android', module: 'support-v4'
     }
-    compile 'com.android.support:design:23.2.1'
+    compile 'com.android.support:design:25.1.0'
     //时间选择控件
     compile 'com.github.flavienlaurent.datetimepicker:library:0.0.2'
     //二维码生成
@@ -123,8 +122,9 @@ dependencies {
     compile 'com.youth.banner:banner:1.4.9'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.github.tgioihan:imageloader:1.0.3'
-
     compile 'com.bugtags.library:bugtags-lib:latest.integration'
+    compile 'me.wcy:lrcview:1.4.1'
+    compile 'com.android.support:appcompat-v7:25.1.0'
 }
 //配置lambda表达式
 buildscript {

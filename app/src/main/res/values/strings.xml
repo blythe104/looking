@@ -14,4 +14,10 @@
     <string name="sign_hint">请输入您的签名，哒哒哒...</string>
     <string name="nickname_hint">请输入您想让人看到的昵称，哒哒哒...</string>
     <string name="movie_score">请输入您对该电影的评价</string>
+    <string name="tips">温馨提示</string>
+    <string name="play_tips">当前处于移动网络，确定打开移动网络播放开关吗？</string>
+    <string name="play_tips_sure">立即打开</string>
+    <string name="setting_key_mobile_network_play">mobile_network_play</string>
+    <string name="cancel">取消</string>
+    <string name="unknown"/>
 </resources>
