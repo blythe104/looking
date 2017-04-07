@@ -7,6 +7,14 @@
     <com.youth.banner.Banner
         android:id="@+id/find_banner"
         android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:visibility="gone"
+    />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/find_viewpager"
+        android:layout_width="match_parent"
+        android:background="@color/ampm_text_color"
         android:layout_height="140dp"/>
 
     <ScrollView android:layout_width="match_parent" android:layout_height="match_parent">

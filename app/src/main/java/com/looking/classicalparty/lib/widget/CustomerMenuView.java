@@ -119,7 +119,7 @@ public class CustomerMenuView extends LinearLayout {
     }
 
     public CustomerMenuView addItem(int imgId, String content, String flag, String desc) {
-        datas.add(new ItemData(imgId, content, flag));
+        datas.add(new ItemData(imgId, content, flag,desc));
         return this;
     }
 
