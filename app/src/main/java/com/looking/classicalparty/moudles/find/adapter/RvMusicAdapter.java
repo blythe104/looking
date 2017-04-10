@@ -62,11 +62,10 @@ public class RvMusicAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             ImageLoaderUtils.display(context, mDatas.get(position).getCover_path(), ((MusicViewHolder) holder)
                     .iv_photo);
             if (mOnItemClickListener != null) {
-                ((MusicViewHolder) holder).mTvListen.setOnClickListener(new View.OnClickListener() {
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mOnItemClickListener.toListenClick(((MusicViewHolder) holder).mTvListen, position);
-
+                        mOnItemClickListener.onItemClick(((MusicViewHolder) holder).iv_photo, position);
                     }
                 });
             }
@@ -92,8 +91,6 @@ public class RvMusicAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public static interface OnItemClickListener {
         void onItemClick(View view, int positon);
-
-        void toListenClick(View view, int position);
 
     }
 

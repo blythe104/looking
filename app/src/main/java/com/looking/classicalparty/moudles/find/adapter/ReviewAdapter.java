@@ -89,9 +89,6 @@ public class ReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public static interface OnItemClickListener {
         void onItemClick(View view, int positon);
-
-        void toListenClick(View view, int position);
-
     }
 
     /**

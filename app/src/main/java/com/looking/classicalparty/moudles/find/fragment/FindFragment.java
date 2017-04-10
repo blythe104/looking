@@ -30,14 +30,12 @@ import com.looking.classicalparty.moudles.find.bean.FindBean;
 import com.looking.classicalparty.moudles.find.bean.MusicBean;
 import com.looking.classicalparty.moudles.find.bean.ReviewsBean;
 import com.looking.classicalparty.moudles.movie.view.MovieDetailActivity;
+import com.looking.classicalparty.moudles.music.service.PlayerService;
 import com.squareup.okhttp.Request;
 import com.youth.banner.Banner;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
 
 /**
  * Created by xin on 2016/10/19.
@@ -50,7 +48,6 @@ public class FindFragment extends BaseFragment {
     private List<ReviewsBean> datas;
     private List<MusicBean> musicdatas;
     private Banner mBanner;
-    private List<String> imageTitle;
     private RecyclerView rvMusic;
     private RvMusicAdapter musicAdapter;
     private ViewPager findViewPager;
@@ -77,28 +74,6 @@ public class FindFragment extends BaseFragment {
         //设置图片加载集合
         images = new ArrayList<>();
         
-        //加载图片
-        //        images.add("");
-        //        images.add("");
-        //        images.add("");
-        
-        
-//        //设置图片标题集合
-//        imageTitle = new ArrayList<>();
-//        imageTitle.add("classical");
-//        imageTitle.add("bbbbbbbbb");
-//        imageTitle.add("ccccccccc");
-        
-//        mBanner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE);
-//        mBanner.setImageLoader(new GlideImageLoader());
-//        mBanner.setImages(images);
-//        //设置标题集合（当banner样式有显示title时）
-//        mBanner.setBannerTitles(imageTitle);
-//        //设置轮播时间
-//        mBanner.setDelayTime(1500);
-//        //设置指示器位置（当banner模式中有指示器时）
-//        mBanner.setIndicatorGravity(BannerConfig.CENTER);
-//        mBanner.start();
     }
     
     @Override
@@ -145,12 +120,11 @@ public class FindFragment extends BaseFragment {
         musicAdapter.setOnItemClickListener(new RvMusicAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int positon) {
-            }
-            
-            @Override
-            public void toListenClick(View view, int position) {
-                Crouton.makeText(getActivity(), "listen music", Style.CONFIRM).show();
-                
+                Intent intent = new Intent();
+                intent.putExtra("path", "http://www.jingdian.party/" + musicdatas.get(positon).getV_path());
+                intent.putExtra("MSG", StringContants.PLAY_MSG);
+                intent.setClass(getContext(), PlayerService.class);
+                getContext().startService(intent);       //启动服务
             }
         });
         
@@ -191,12 +165,6 @@ public class FindFragment extends BaseFragment {
                 Intent detailIntent = new Intent(getActivity(), MovieDetailActivity.class);
                 detailIntent.putExtra("id", datas.get(positon).getId());
                 startActivity(detailIntent);
-            }
-            
-            @Override
-            public void toListenClick(View view, int position) {
-                Crouton.makeText(getActivity(), "listen music", Style.CONFIRM).show();
-                
             }
         });
         
