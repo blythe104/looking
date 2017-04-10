@@ -19,14 +19,14 @@ import java.util.List;
 
 public class MusicAdapter extends BaseAdapter {
     private Context context;
-
+    
     private List<MusicDetailBean.ActivityEntity> musicDatas;
-
+    
     public MusicAdapter(Context context, List<MusicDetailBean.ActivityEntity> musicDatas) {
         this.context = context;
         this.musicDatas = musicDatas;
     }
-
+    
     @Override
     public int getCount() {
         if (null == musicDatas) {
@@ -34,29 +34,28 @@ public class MusicAdapter extends BaseAdapter {
         }
         return musicDatas.size();
     }
-
+    
     @Override
     public MusicDetailBean.ActivityEntity getItem(int position) {
         return musicDatas.get(position);
     }
-
+    
     @Override
     public long getItemId(int position) {
         return position;
     }
-
+    
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder mViewHolder = null;
-
+        
         if (null == convertView) {
             mViewHolder = new ViewHolder();
             convertView = View.inflate(context, R.layout.item_music_layout, null);
             mViewHolder.iv_music = (ImageView) convertView.findViewById(R.id.iv_music);
             mViewHolder.tv_musicName = (TextView) convertView.findViewById(R.id.tv_musicName);
             mViewHolder.tv_singer = (TextView) convertView.findViewById(R.id.tv_singer);
-            mViewHolder.listener = (ImageView) convertView.findViewById(R.id.listener);
-
+            
             convertView.setTag(mViewHolder);
         } else {
             mViewHolder = (ViewHolder) convertView.getTag();
@@ -65,17 +64,16 @@ public class MusicAdapter extends BaseAdapter {
                 mViewHolder.iv_music);
         mViewHolder.tv_musicName.setText(musicDatas.get(position).getTitle());
         mViewHolder.tv_singer.setText(musicDatas.get(position).getDirector());
-
-
+        
+        
         return convertView;
     }
-
+    
     static class ViewHolder {
-
+        
         public TextView tv_musicName;
         public TextView tv_singer;
         public ImageView iv_music;
-        public ImageView listener;
-
+        
     }
 }

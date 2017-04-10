@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
 
+
     <application
         android:name=".ClassicalApplication"
         android:allowBackup="true"
@@ -40,6 +41,7 @@
         </activity>
         <activity android:name=".moudles.movie.view.MovieScoreActivity">
         </activity>
+        <service android:name=".moudles.music.service.PlayerService" android:exported="true"></service>
     </application>
 
 </manifest>

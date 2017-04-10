@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:descendantFocusability="blocksDescendants"
               android:orientation="vertical">
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="wrap_content"
@@ -29,21 +30,12 @@
 
         </LinearLayout>
 
-        <ImageView android:id="@+id/listener"
-                   android:layout_width="20dp"
-                   android:layout_height="20dp"
-                   android:layout_marginRight="20dp"
-                   android:src="@mipmap/ic_birthday"/>
 
     </LinearLayout>
     <View android:layout_width="match_parent"
           android:layout_height="1px"
+          android:layout_marginTop="6dp"
           android:background="@color/themeColor"/>
 
-    <SeekBar
-        android:id="@+id/music_progress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:max="100" />
 
 </LinearLayout>
