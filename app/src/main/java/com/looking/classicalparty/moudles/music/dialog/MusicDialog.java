@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,8 +15,8 @@ import com.looking.classicalparty.moudles.music.service.PlayerService;
 
 public class MusicDialog extends Dialog implements View.OnClickListener {
     
-    private Button mBtnListener;
-    private Button mBtnStop;
+    private ImageButton mBtnListener;
+    private ImageButton mBtnStop;
     
     private String path;
     private String title;
@@ -35,8 +35,8 @@ public class MusicDialog extends Dialog implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.listener_music_item);
-        mBtnListener = (Button) findViewById(R.id.btn_listener);
-        mBtnStop = (Button) findViewById(R.id.btn_stop);
+        mBtnListener = (ImageButton) findViewById(R.id.btn_listener);
+        mBtnStop = (ImageButton) findViewById(R.id.btn_stop);
         musicName = (TextView) findViewById(R.id.music_name);
         ivClose = (ImageView) findViewById(R.id.iv_close);
         
