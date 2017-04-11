@@ -53,6 +53,7 @@ public class MusicDialog extends Dialog implements View.OnClickListener {
         this.title = title;
     }
     
+    
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
