@@ -1,5 +1,6 @@
 package com.looking.classicalparty.moudles.register.view;
 
+import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.looking.classicalparty.lib.http.Param;
 import com.looking.classicalparty.lib.http.ResultCallback;
 import com.looking.classicalparty.lib.ui.TitleBar;
 import com.looking.classicalparty.lib.utils.SharedPreUtils;
+import com.looking.classicalparty.moudles.login.view.LoginActivity;
 import com.looking.classicalparty.moudles.register.bean.RegisterBean;
 import com.squareup.okhttp.Request;
 
@@ -28,13 +30,13 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class RegisterActivity extends BaseActivity {
-
-
+    
+    
     private Button btn_Register;
     private EditText mEtUserName;
     private EditText mEtPassword;
     private TitleBar mTitle;
-
+    
     @Override
     public void initView() {
         setContentView(R.layout.activity_register);
@@ -44,30 +46,30 @@ public class RegisterActivity extends BaseActivity {
         mEtPassword = (EditText) findViewById(R.id.password);
         btn_Register.setOnClickListener(this);
     }
-
+    
     @Override
     public void initListener() {
-
+        
         mTitle.setOnClickListener(new TitleBar.OnClickListener() {
             @Override
             public void OnLeftClick() {
                 finish();
-
+                
             }
-
+            
             @Override
             public void OnRightClick() {
             }
         });
-
-
+        
+        
     }
-
+    
     @Override
     public void initData() {
         mTitle.setTitle("注册");
     }
-
+    
     /**
      * 检测用户名是否可用
      *
@@ -89,22 +91,22 @@ public class RegisterActivity extends BaseActivity {
                     userRegister(username, pwd);
                 } else {
                     //该用户名存在
-                    Crouton.makeText(RegisterActivity.this, "该用户名已经存在", Style.CONFIRM).show();
+                    Toast.makeText(RegisterActivity.this, "该用户名已经存在", Toast.LENGTH_SHORT).show();
                 }
             }
-
+            
             @Override
             public void onFailure(Request request, Exception e) {
-
+                
             }
-
+            
             @Override
             public void onNoNetWork(String resultMsg) {
-
+                
             }
         });
     }
-
+    
     /**
      * 注册接口
      *
@@ -126,49 +128,47 @@ public class RegisterActivity extends BaseActivity {
             public void onSuccess(Object response) {
                 Log.d("register---", response.toString());
                 RegisterBean registerBean = new Gson().fromJson(response.toString(), RegisterBean.class);
-                Toast.makeText(RegisterActivity.this, registerBean.toString() + "---register", Toast.LENGTH_LONG)
-                        .show();
-                Log.d("registerBen------", registerBean.toString());
                 if (registerBean.getResult() == 200) {
-                    Crouton.makeText(RegisterActivity.this, "注册成功", Style.CONFIRM).show();
+                    Toast.makeText(RegisterActivity.this, "注册成功,请登录", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                 } else {
-                    Crouton.makeText(RegisterActivity.this, "注册失败", Style.CONFIRM).show();
+                    Toast.makeText(RegisterActivity.this, "注册失败", Toast.LENGTH_SHORT).show();
                 }
-
+                
             }
-
+            
             @Override
             public void onFailure(Request request, Exception e) {
-
+                
             }
-
+            
             @Override
             public void onNoNetWork(String resultMsg) {
-
+                
             }
         });
     }
-
-
+    
+    
     @Override
     public void processClick(View v) {
         switch (v.getId()) {
             case R.id.btn_register:
                 //检测用户名是否可用
-                String username = mEtUserName.getText().toString();
-                String password = mEtPassword.getText().toString();
+                String username = mEtUserName.getText().toString().trim();
+                String password = mEtPassword.getText().toString().trim();
                 if (!TextUtils.isEmpty(username)) {
                     if (TextUtils.isEmpty(password)) {
                         Crouton.makeText(RegisterActivity.this, "密码不能为空", Style.CONFIRM).show();
                     } else {
                         checkUser(username, password);
                     }
-
+                    
                 } else {
                     Crouton.makeText(RegisterActivity.this, "用户名不能为空", Style.CONFIRM).show();
                 }
                 break;
         }
-
+        
     }
 }

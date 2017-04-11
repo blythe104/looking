@@ -6,6 +6,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.looking.classicalparty.R;
@@ -104,7 +105,7 @@ public class LoginActivity extends BaseActivity {
                     setResult(LSUCCESS);
                     finish();
                 } else {
-                    Crouton.makeText(LoginActivity.this, userBean.getResultMsg(), Style.CONFIRM).show();
+                    Toast.makeText(LoginActivity.this, userBean.getResultMsg(), Toast.LENGTH_SHORT).show();
                 }
 
             }

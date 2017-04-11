@@ -2,11 +2,9 @@ package com.looking.classicalparty.lib.http;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.support.graphics.drawable.BuildConfig;
 
 import com.google.gson.Gson;
 import com.looking.classicalparty.lib.base.Bean.BaseBean;
-import com.looking.classicalparty.lib.constants.Config;
 import com.looking.classicalparty.lib.utils.Base64Utils;
 import com.looking.classicalparty.lib.utils.LogUtils;
 import com.squareup.okhttp.Call;
@@ -254,7 +252,7 @@ public class HttpUtils {
         for (Param param : params) {
             builder.add(param.key, param.value);
         }
-        builder.add("packageName", BuildConfig.APPLICATION_ID).add("clientType", Config.ClientType);
+//        builder.add("packageName", BuildConfig.APPLICATION_ID).add("clientType", Config.ClientType);
         RequestBody requestBody = builder.build();
         return new Request.Builder().url(url).post(requestBody).build();
     }
@@ -270,8 +268,8 @@ public class HttpUtils {
             builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"" + param.key +
                     "\""), RequestBody.create(null, param.value));
         }
-        builder.addFormDataPart("packageName", BuildConfig.APPLICATION_ID).addFormDataPart("clientType", Config
-                .ClientType);
+//        builder.addFormDataPart("packageName", BuildConfig.APPLICATION_ID).addFormDataPart("clientType", Config
+//                .ClientType);
         if (files != null) {
             RequestBody fileBody = null;
             for (int i = 0; i < files.length; i++) {
