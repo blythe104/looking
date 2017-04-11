@@ -22,17 +22,10 @@ public class FindBean extends BaseBean {
     }
     
     public static class ContentEntity {
-        private List<BannerBean> image;
         private List<ReviewsBean> reviews;
         private List<MusicBean> music;
+        private List<BannerBean> firstimage;
         
-        public List<BannerBean> getBanner() {
-            return image;
-        }
-        
-        public void setBanner(List<BannerBean> image) {
-            this.image = image;
-        }
         
         public List<ReviewsBean> getReviews() {
             return reviews;
@@ -49,5 +42,15 @@ public class FindBean extends BaseBean {
         public void setMusic(List<MusicBean> music) {
             this.music = music;
         }
+        
+        public List<BannerBean> getFirstimage() {
+            return firstimage;
+        }
+        
+        public void setFirstimage(List<BannerBean> firstimage) {
+            this.firstimage = firstimage;
+        }
+        
+        
     }
 }

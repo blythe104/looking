@@ -3,6 +3,8 @@ package com.looking.classicalparty.moudles.find.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
@@ -47,11 +49,32 @@ public class FindFragment extends BaseFragment {
     private ReviewAdapter adapter;
     private List<ReviewsBean> datas;
     private List<MusicBean> musicdatas;
+    private List<BannerBean> bannerDatas = new ArrayList<>();
     private Banner mBanner;
     private RecyclerView rvMusic;
     private RvMusicAdapter musicAdapter;
     private ViewPager findViewPager;
+    private boolean isRunning = false;
     
+    private Handler mHandler = new Handler() {
+        
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            
+            int currentItem = findViewPager.getCurrentItem();
+            if (currentItem < bannerDatas.size() - 1) {
+                currentItem++;
+            } else {
+                currentItem = 0;
+            }
+            findViewPager.setCurrentItem(currentItem);
+            if (isRunning) {
+                mHandler.sendEmptyMessageDelayed(0, 5000);
+            }
+        }
+    };
+    private BannerAdapter bannerAdapter;
     
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,6 +89,9 @@ public class FindFragment extends BaseFragment {
         getHomeData();
         initReviewRv();
         initReviewMusic();
+        
+        bannerAdapter = new BannerAdapter(getActivity(), bannerDatas);
+        findViewPager.setAdapter(bannerAdapter);
         return view;
     }
     
@@ -182,13 +208,20 @@ public class FindFragment extends BaseFragment {
             public void onSuccess(String response) {
                 LogUtils.d("find data---" + response.toString());
                 FindBean findBean = new Gson().fromJson(response.toString(), FindBean.class);
-                if (findBean.getResult() == 200) {
+                if (200 == findBean.getResult()) {
+                    datas.clear();
+                    musicdatas.clear();
+                    bannerDatas.clear();
                     datas.addAll(findBean.getContent().getReviews());
                     musicdatas.addAll(findBean.getContent().getMusic());
-                    findViewPager.setAdapter(new BannerAdapter(getActivity(), findBean.getContent().getBanner()));
+                    bannerDatas.addAll(findBean.getContent().getFirstimage());
                 }
+               
+                bannerAdapter.notifyDataSetChanged();
                 adapter.notifyDataSetChanged();
                 musicAdapter.notifyDataSetChanged();
+                isRunning = true;
+                mHandler.sendEmptyMessageDelayed(0, 5000);
             }
             
             @Override
@@ -237,7 +270,7 @@ public class FindFragment extends BaseFragment {
         @Override
         public Object instantiateItem(final ViewGroup container, final int position) {
             ImageView image = new ImageView(context);
-            ImageLoaderUtils.display(context, datas.get(position).getFirstimage(), image);
+            ImageLoaderUtils.display(context, datas.get(position).getImg_path(), image);
             container.addView(image);
             return image;
         }
