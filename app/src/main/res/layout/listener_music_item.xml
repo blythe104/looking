@@ -44,29 +44,32 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:gravity="center"
-            android:src="@mipmap/ic_birthday"
+            android:padding="6dp"
+            android:src="@mipmap/ic_listener"
             android:text="listener"
             android:textSize="15sp"/>
         <ImageButton
             android:id="@+id/btn_stop"
+            android:padding="6dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
             android:layout_marginLeft="16dp"
             android:background="@null"
             android:gravity="center"
-            android:src="@mipmap/ic_sign"
+            android:src="@mipmap/ic_pause"
             android:text="stop"
             android:textSize="15sp"/>
         <ImageView
             android:id="@+id/iv_close"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:clickable="true"
-            android:src="@mipmap/ic_launcher"/>
+            android:padding="6dp"
+            android:src="@mipmap/ic_close"/>
 
 
     </LinearLayout>
