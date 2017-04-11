@@ -122,7 +122,7 @@ public class PersonalActivity extends BaseActivity {
                 PersonBean personBean = new Gson().fromJson(response.toString(), PersonBean.class);
                 if (personBean.getResult() == 200) {
                     // TODO: 2017/3/27 获取用户信息填充
-                    tvNickname.setText(personBean.getContent().get(0).getMnickname());
+                    tvNickname.setText(personBean.getContent().get(0).getMusername());
                     tvSexy.setText(personBean.getContent().get(0).getMsex() == "1" ? "男" : "女");
                     tvSign.setText(personBean.getContent().get(0).getMsignature());
                     loadAvatarImg(personBean.getContent().get(0).getMavatar());

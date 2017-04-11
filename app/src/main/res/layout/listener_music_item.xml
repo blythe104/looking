@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
     android:orientation="vertical">
 
     <LinearLayout android:layout_width="match_parent"
@@ -22,18 +23,18 @@
                       android:layout_weight="1"
                       android:gravity="center_vertical"
                       android:orientation="vertical">
-            <TextView android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:text="song"
-                      android:textColor="@color/colorWhite"
-                      android:textSize="14sp"/>
+
             <TextView android:id="@+id/music_name"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_marginTop="4dp"
-                      android:text="singer"
                       android:textColor="@color/colorWhite"
                       android:textSize="13sp"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="singer"
+                      android:textColor="@color/colorWhite"
+                      android:textSize="14sp"/>
 
         </LinearLayout>
 
@@ -52,8 +53,8 @@
             android:id="@+id/btn_stop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:background="@null"
             android:gravity="center"
             android:padding="6dp"

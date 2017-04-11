@@ -4,7 +4,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -46,7 +48,15 @@ public class MusicDialog extends Dialog implements View.OnClickListener {
         mBtnStop.setOnClickListener(this);
         mBtnListener.setOnClickListener(this);
         
+        WindowManager m = getWindow().getWindowManager();
+        Display d = m.getDefaultDisplay();
+        WindowManager.LayoutParams p = getWindow().getAttributes();
+        p.width = d.getWidth(); //设置dialog的宽度为当前手机屏幕的宽度
+        getWindow().setAttributes(p);
+        
     }
+    
+    
     
     public void initMusicData(String path, String title) {
         this.path = path;
