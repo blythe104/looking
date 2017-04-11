@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.looking.classicalparty.R;
@@ -111,10 +112,13 @@ public class MovieScoreActivity extends BaseActivity {
                     commentBean commentBean = new Gson().fromJson(response.toString(), commentBean.class);
                     Log.d("commentBean--", response.toString());
                     if (commentBean.getResult() == 200) {
-                        Crouton.makeText(MovieScoreActivity.this, "影评提交成功了", Style.CONFIRM).show();
+//                        Crouton.makeText(MovieScoreActivity.this, "影评提交成功了", Style.CONFIRM).show();
+                        Toast.makeText(MovieScoreActivity.this, "影评提交成功了", Toast.LENGTH_SHORT).show();
+                        
                         finish();
                     } else {
-                        Crouton.makeText(MovieScoreActivity.this, "oh,sorry~~评论失败喽", Style.CONFIRM).show();
+                        Toast.makeText(MovieScoreActivity.this, commentBean.getResultMsg(), Toast.LENGTH_SHORT).show();
+//                        Crouton.makeText(MovieScoreActivity.this, "oh,sorry~~评论失败喽", Style.CONFIRM).show();
                     }
                 }
 
