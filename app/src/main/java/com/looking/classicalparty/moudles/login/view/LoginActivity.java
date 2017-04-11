@@ -62,7 +62,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void initData() {
         mTvTitle.setText("登录");
-        mTvTitleTag.setText("忘记密码？");
+//        mTvTitleTag.setText("忘记密码？");
     }
 
     @Override
@@ -78,9 +78,9 @@ public class LoginActivity extends BaseActivity {
                 setResult(4000);
                 finish();
                 break;
-            case R.id.tv_title_tag:
-                Crouton.makeText(this, "找回密码", Style.ALERT).show();
-                break;
+//            case R.id.tv_title_tag:
+//                Crouton.makeText(this, "找回密码", Style.ALERT).show();
+//                break;
         }
 
     }

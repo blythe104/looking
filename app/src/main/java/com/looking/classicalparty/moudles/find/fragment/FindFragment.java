@@ -34,7 +34,6 @@ import com.looking.classicalparty.moudles.find.bean.ReviewsBean;
 import com.looking.classicalparty.moudles.movie.view.MovieDetailActivity;
 import com.looking.classicalparty.moudles.music.service.PlayerService;
 import com.squareup.okhttp.Request;
-import com.youth.banner.Banner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +49,6 @@ public class FindFragment extends BaseFragment {
     private List<ReviewsBean> datas;
     private List<MusicBean> musicdatas;
     private List<BannerBean> bannerDatas = new ArrayList<>();
-    private Banner mBanner;
     private RecyclerView rvMusic;
     private RvMusicAdapter musicAdapter;
     private ViewPager findViewPager;
@@ -82,7 +80,6 @@ public class FindFragment extends BaseFragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.recycle_view);
         rvMusic = (RecyclerView) view.findViewById(R.id.rv_music);
         
-        mBanner = (Banner) view.findViewById(R.id.find_banner);
         findViewPager = (ViewPager) view.findViewById(R.id.find_viewpager);
         initBannerData();
         
@@ -105,14 +102,11 @@ public class FindFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-        mBanner.startAutoPlay();
     }
     
     @Override
     public void onStop() {
         super.onStop();
-        //结束轮播
-        mBanner.stopAutoPlay();
     }
     
     /**

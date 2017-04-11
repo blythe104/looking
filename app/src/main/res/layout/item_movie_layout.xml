@@ -28,10 +28,6 @@
                       android:text="music_write"/>
 
         </LinearLayout>
-        <ImageView android:layout_width="10dp"
-                   android:layout_height="10dp"
-                   android:layout_marginRight="20dp"
-                   android:src="@mipmap/ic_birthday"/>
     </LinearLayout>
     <View android:layout_width="match_parent"
           android:layout_height="1px"

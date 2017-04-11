@@ -10,7 +10,7 @@
     <color name="theme_gray">#e6e4e4</color>
     <color name="photoBorderColor">#8accfc</color>
     <color name="themeColor">#59c9f9</color>
-    <color name="themeTextColor">#ea8010</color>
+    <color name="themeTextColor">#59c9f9</color>
     <color name="colorBlack">#000000</color>
     <color name="colorLightBlack">#424242</color>
     <color name="themeTextBlack">#434a54</color>

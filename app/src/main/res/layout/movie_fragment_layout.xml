@@ -13,8 +13,8 @@
         app:tabGravity="center"
         app:tabIndicatorColor="@color/white"
         app:tabMode="scrollable"
-        app:tabSelectedTextColor="@color/theme_gray"
-        app:tabTextColor="@color/white"/>
+        app:tabSelectedTextColor="@color/white"
+        app:tabTextColor="@color/theme_gray"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"

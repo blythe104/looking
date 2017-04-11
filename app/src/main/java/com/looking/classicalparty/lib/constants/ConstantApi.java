@@ -24,5 +24,6 @@ public class ConstantApi {
     public static final String VIDEODETAIL = BaseUrl + "content/getVideoDetail";
 
     public static final String COMMENT = BaseUrl + "member/sendComment";
+    public static final String VERSION = BaseUrl + "home/getAppVersion";
 
 }

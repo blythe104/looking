@@ -1,6 +1,5 @@
 package com.looking.classicalparty.moudles.security;
 
-import android.content.Intent;
 import android.view.View;
 
 import com.looking.classicalparty.R;
@@ -11,9 +10,6 @@ import com.looking.classicalparty.lib.utils.DataCleanUtils;
 import com.looking.classicalparty.lib.utils.SharedPreUtils;
 import com.looking.classicalparty.lib.widget.CustomerMenuView;
 import com.looking.classicalparty.lib.widget.ItemData;
-
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class SecuritySettingActivity extends BaseActivity {
     
@@ -34,8 +30,9 @@ public class SecuritySettingActivity extends BaseActivity {
             e.printStackTrace();
         }
         // TODO: 2016/10/23 图片需要更换
-        mCustomSecurity.addDivider().addItem(R.mipmap.ic_change_pwd, "密码修改", "change")//
-                .addItem(R.mipmap.ic_clean, "清除缓存", "del", fileSize)//
+        mCustomSecurity.addDivider()
+                // .addItem(R.mipmap.ic_change_pwd, "密码修改", "change")//
+                //.addItem(R.mipmap.ic_clean, "清除缓存", "del", fileSize)//
                 .addItem(R.mipmap.ic_give_score, "去评分", "score")//
                 .addDivider()//
                 .addItem(R.mipmap.ic_clean, "退出登录", "exit")//
@@ -49,16 +46,18 @@ public class SecuritySettingActivity extends BaseActivity {
                         setResult(EXIT);
                         finish();
                         break;
-                    case "change":
-                        startActivity(new Intent(SecuritySettingActivity.this, ChangeLoginPwdActivity.class));
-                        break;
-                    case "del":
-                        // TODO: 2016/10/26 需用的缓存大小,需要将此数据更新到Menu中
-                        
-                        DataCleanUtils.cleanApplicationData(getApplicationContext());
-                        DataCleanUtils.cleanSharedPreference(getApplicationContext());
-                        Crouton.makeText(SecuritySettingActivity.this, "清除缓存成功", Style.CONFIRM).show();
-                        break;
+//                    case "change":
+                    //                        startActivity(new Intent(SecuritySettingActivity.this,
+                    // ChangeLoginPwdActivity.class));
+                    //                        break;
+                    //                    case "del":
+                    //                        // TODO: 2016/10/26 需用的缓存大小,需要将此数据更新到Menu中
+                    //
+                    //                        DataCleanUtils.cleanApplicationData(getApplicationContext());
+                    //                        DataCleanUtils.cleanSharedPreference(getApplicationContext());
+                    //                        Crouton.makeText(SecuritySettingActivity.this, "清除缓存成功", Style.CONFIRM)
+                    // .show();
+                    //                        break;
                 }
                 
             }
