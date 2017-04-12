@@ -24,10 +24,11 @@ import com.looking.classicalparty.lib.widget.CustomerMenuView;
 import com.looking.classicalparty.lib.widget.ItemData;
 import com.looking.classicalparty.moudles.about.view.AboutUsActivity;
 import com.looking.classicalparty.moudles.feedback.FeedBackActivity;
+import com.looking.classicalparty.moudles.login.observer.ObserverListener;
+import com.looking.classicalparty.moudles.login.observer.ObserverManager;
 import com.looking.classicalparty.moudles.mine.bean.VersionBean;
 import com.looking.classicalparty.moudles.mine.bean.VersionResponse;
 import com.looking.classicalparty.moudles.mine.view.PersonalActivity;
-import com.looking.classicalparty.moudles.security.SecuritySettingActivity;
 import com.squareup.okhttp.Request;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ import static com.looking.classicalparty.R.id.toolbar;
 /**
  * Created by xin on 2016/10/19.
  */
-public class MineFragment extends BaseFragment {
+public class MineFragment extends BaseFragment implements ObserverListener {
     
     private static final int EXIT = 1001;
     private CustomerMenuView mCustomMenu;
@@ -48,18 +49,20 @@ public class MineFragment extends BaseFragment {
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.mine_layout, null);
+        
+        ObserverManager.getInstance().add(this);
+        
         mToolBar = (Toolbar) view.findViewById(toolbar);
         String version = PackageManagerUtils.getVersionName(getActivity());
         
         mCustomMenu = (CustomerMenuView) view.findViewById(R.id.custom_menu);
         mCustomMenu.addDivider().addItem(R.mipmap.ic_person_msg, "个人信息", "personmsg")//
-                .addItem(R.mipmap.ic_secure_setting, "安全设置", "security")//
+                //                .addItem(R.mipmap.ic_secure_setting, "安全设置", "security")//
                 .addDivider()//
                 .addItem(R.mipmap.ic_feedback, "意见反馈", "feedback")//
                 .addItem(R.mipmap.ic_about_us, "关于我们", "aboutus")//
                 .addItem(R.mipmap.ic_app_version, "版本信息", "version", "V" + version)//
-                //                .addDivider().addItem(R.mipmap.ic_clean, "退出登录", "exit")
-                .build();
+                .addDivider().addItem(R.mipmap.ic_clean, "退出登录", "exit").build();
         mCustomMenu.setItemClickListener(new CustomerMenuView.OnItemListener() {
             @Override
             public void itemClick(View v) {
@@ -67,9 +70,9 @@ public class MineFragment extends BaseFragment {
                     case "personmsg":
                         startActivity(new Intent(getActivity(), PersonalActivity.class));
                         break;
-                    case "security":
-                        startActivity(new Intent(getActivity(), SecuritySettingActivity.class));
-                        break;
+                    //                    case "security":
+                    //                        startActivity(new Intent(getActivity(), SecuritySettingActivity.class));
+                    //                        break;
                     case "feedback":
                         startActivity(new Intent(getActivity(), FeedBackActivity.class));
                         break;
@@ -78,6 +81,10 @@ public class MineFragment extends BaseFragment {
                         break;
                     case "version":
                         getAppVersion();
+                        break;
+                    case "exit":
+                        SharedPreUtils.saveString(StringContants.TOKEN, "");
+                        ObserverManager.getInstance().notifyObserver(EXIT);
                         break;
                 }
                 
@@ -110,7 +117,7 @@ public class MineFragment extends BaseFragment {
                         //版本信息为空
                     } else {
                         //判断版本信息  版本高的话弹窗提示是否更新
-                        if (PackageManagerUtils.getVersionCode(getActivity()) <Double.parseDouble(mVersion
+                        if (PackageManagerUtils.getVersionCode(getActivity()) < Double.parseDouble(mVersion
                                 .getVersionCode())) {
                             Toast.makeText(mActivity, "更新", Toast.LENGTH_SHORT).show();
                         } else {
@@ -141,4 +148,8 @@ public class MineFragment extends BaseFragment {
     }
     
     
+    @Override
+    public void observerIsLogin(int isLogin) {
+        
+    }
 }

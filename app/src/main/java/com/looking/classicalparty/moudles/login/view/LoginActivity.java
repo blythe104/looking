@@ -19,6 +19,8 @@ import com.looking.classicalparty.lib.http.ResultCallback;
 import com.looking.classicalparty.lib.utils.LogUtils;
 import com.looking.classicalparty.lib.utils.SharedPreUtils;
 import com.looking.classicalparty.moudles.login.bean.UserBean;
+import com.looking.classicalparty.moudles.login.observer.ObserverListener;
+import com.looking.classicalparty.moudles.login.observer.ObserverManager;
 import com.looking.classicalparty.moudles.register.view.RegisterActivity;
 import com.squareup.okhttp.Request;
 
@@ -28,8 +30,8 @@ import java.util.List;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class LoginActivity extends BaseActivity {
-
+public class LoginActivity extends BaseActivity implements ObserverListener {
+    
     private static final int LSUCCESS = 2000;
     private EditText etUserName;
     private EditText etPassword;
@@ -38,10 +40,13 @@ public class LoginActivity extends BaseActivity {
     private FrameLayout mFrBack;
     private TextView mTvTitle;
     private TextView mTvTitleTag;
-
+    
     @Override
     public void initView() {
         setContentView(R.layout.activity_login);
+        
+        ObserverManager.getInstance().add(this);
+        
         etUserName = (EditText) findViewById(R.id.et_username);
         etPassword = (EditText) findViewById(R.id.et_password);
         btnLogin = (LinearLayout) findViewById(R.id.btn_login);
@@ -51,21 +56,21 @@ public class LoginActivity extends BaseActivity {
         mTvTitleTag = (TextView) findViewById(R.id.tv_title_tag);
         btnLogin.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
-
+        
     }
-
+    
     @Override
     public void initListener() {
         mFrBack.setOnClickListener(this);
         mTvTitleTag.setOnClickListener(this);
     }
-
+    
     @Override
     public void initData() {
         mTvTitle.setText("登录");
-//        mTvTitleTag.setText("忘记密码？");
+        //        mTvTitleTag.setText("忘记密码？");
     }
-
+    
     @Override
     public void processClick(View v) {
         switch (v.getId()) {
@@ -76,16 +81,17 @@ public class LoginActivity extends BaseActivity {
                 goRegister();
                 break;
             case R.id.fr_back:
-                setResult(4000);
+//                setResult(4000);
+                ObserverManager.getInstance().notifyObserver(4000);
                 finish();
                 break;
-//            case R.id.tv_title_tag:
-//                Crouton.makeText(this, "找回密码", Style.ALERT).show();
-//                break;
+            //            case R.id.tv_title_tag:
+            //                Crouton.makeText(this, "找回密码", Style.ALERT).show();
+            //                break;
         }
-
+        
     }
-
+    
     private void login(String username, String password) {
         List<Param> paramList = new ArrayList<>();
         Param userName = new Param("username", username);
@@ -102,29 +108,34 @@ public class LoginActivity extends BaseActivity {
                 if (userBean.getResult() == 200) {
                     SharedPreUtils.saveString(StringContants.TOKEN, userBean.getToken());
                     Crouton.makeText(LoginActivity.this, "登录成功", Style.CONFIRM).show();
-                    setResult(LSUCCESS);
+                    //                    setResult(LSUCCESS);
+                    ObserverManager.getInstance().notifyObserver(LSUCCESS);
                     finish();
                 } else {
                     Toast.makeText(LoginActivity.this, userBean.getResultMsg(), Toast.LENGTH_SHORT).show();
                 }
-
+                
             }
-
+            
             @Override
             public void onFailure(Request request, Exception e) {
-
+                
             }
-
+            
             @Override
             public void onNoNetWork(String resultMsg) {
-
+                
             }
         });
     }
-
-
+    
+    
     public void goRegister() {
         startActivity(new Intent(this, RegisterActivity.class));
     }
-
+    
+    @Override
+    public void observerIsLogin(int isLogin) {
+        
+    }
 }

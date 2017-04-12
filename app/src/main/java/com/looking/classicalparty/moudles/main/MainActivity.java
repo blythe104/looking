@@ -13,6 +13,8 @@ import com.looking.classicalparty.lib.base.fragment.BaseFragment;
 import com.looking.classicalparty.lib.common.UserInfo;
 import com.looking.classicalparty.lib.widget.CustomViewPager;
 import com.looking.classicalparty.moudles.find.fragment.FindFragment;
+import com.looking.classicalparty.moudles.login.observer.ObserverListener;
+import com.looking.classicalparty.moudles.login.observer.ObserverManager;
 import com.looking.classicalparty.moudles.login.view.LoginActivity;
 import com.looking.classicalparty.moudles.main.fragment.MovieFragment;
 import com.looking.classicalparty.moudles.main.fragment.MusicFragment;
@@ -21,10 +23,9 @@ import com.looking.classicalparty.moudles.mine.fragment.MineFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends BaseActivity {
-
+public class MainActivity extends BaseActivity implements ObserverListener {
+    
     private static final int EXIT = 1001;
-    private static final int TOLOGIN = 1000;
     private static final int LSUCCESS = 2000;
     private CustomViewPager mCustomViewPager;
     private List<BaseFragment> baseFragmentList;
@@ -34,10 +35,14 @@ public class MainActivity extends BaseActivity {
     private RadioButton mRbMusic;
     private RadioButton mRbMine;
     private int currentIndex = 0;
-
+    private long exitTime = 0;
+    
     @Override
     public void initView() {
         setContentView(R.layout.activity_main);
+        //注册观察者
+        ObserverManager.getInstance().add(this);
+        
         mCustomViewPager = (CustomViewPager) findViewById(R.id.custom_viewpager);
         mRadioGroup = (RadioGroup) findViewById(R.id.radio_group);
         mRbFind = (RadioButton) findViewById(R.id.rb_find);
@@ -66,61 +71,25 @@ public class MainActivity extends BaseActivity {
                         UserInfo userInfo = new UserInfo();
                         if (!userInfo.isLogin()) {
                             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                            startActivityForResult(intent, TOLOGIN);
+                            startActivity(intent);
                         } else {
                             currentIndex = 3;
                             mCustomViewPager.setCurrentItem(currentIndex, false);
                         }
                         break;
                 }
-
+                
             }
         });
-
+        
     }
-
+    
     @Override
     public void initListener() {
-
+        
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == TOLOGIN) {
-            switch (resultCode) {
-                case LSUCCESS: {
-                    if (mCustomViewPager != null) {
-                        mCustomViewPager.setCurrentItem(3, false);
-                    }
-                }
-                break;
-                case 4000: {
-                    switch (currentIndex) {
-                        case 0:
-                            mRbFind.setChecked(true);
-                            break;
-                        case 1:
-                            mRbVideo.setChecked(true);
-                            break;
-                        case 2:
-                            mRbMusic.setChecked(true);
-                            break;
-                    }
-                }
-                break;
-                case EXIT:
-                    if (mCustomViewPager != null) {
-                        mCustomViewPager.setCurrentItem(1, false);
-                    }
-                    break;
-
-
-            }
-        }
-
-    }
-
+    
+    
     @Override
     public void initData() {
         baseFragmentList = new ArrayList<>();
@@ -128,21 +97,54 @@ public class MainActivity extends BaseActivity {
         baseFragmentList.add(new MovieFragment());
         baseFragmentList.add(new MusicFragment());
         baseFragmentList.add(new MineFragment());
-        //        Toast.makeText(this, "ip地址为"+NetUtils.getLocalIpAddress(), Toast.LENGTH_SHORT).show();
-
+        
         mCustomViewPager.setOffscreenPageLimit(4);
         FragmentAdapter fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), baseFragmentList, null);
         mCustomViewPager.setAdapter(fragmentAdapter);
         fragmentAdapter.notifyDataSetChanged();
-
+        
         mRadioGroup.check(R.id.rb_find);
         mCustomViewPager.setCurrentItem(0);
-
+        
     }
-
+    
     @Override
     public void processClick(View v) {
-
+        
     }
-
+    
+    /**
+     * 观察者
+     *
+     * @param isLogin
+     */
+    @Override
+    public void observerIsLogin(int isLogin) {
+        switch (isLogin) {
+            case EXIT:
+                mRbFind.setChecked(true);
+                mCustomViewPager.setCurrentItem(0, false);
+                break;
+            case LSUCCESS: {
+                if (mCustomViewPager != null) {
+                    mCustomViewPager.setCurrentItem(3, false);
+                }
+            }
+            break;
+            case 4000: {
+                switch (currentIndex) {
+                    case 0:
+                        mRbFind.setChecked(true);
+                        break;
+                    case 1:
+                        mRbVideo.setChecked(true);
+                        break;
+                    case 2:
+                        mRbMusic.setChecked(true);
+                        break;
+                }
+            }
+        }
+        
+    }
 }

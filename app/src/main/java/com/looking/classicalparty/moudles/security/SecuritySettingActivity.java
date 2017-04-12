@@ -10,8 +10,10 @@ import com.looking.classicalparty.lib.utils.DataCleanUtils;
 import com.looking.classicalparty.lib.utils.SharedPreUtils;
 import com.looking.classicalparty.lib.widget.CustomerMenuView;
 import com.looking.classicalparty.lib.widget.ItemData;
+import com.looking.classicalparty.moudles.login.observer.ObserverListener;
+import com.looking.classicalparty.moudles.login.observer.ObserverManager;
 
-public class SecuritySettingActivity extends BaseActivity {
+public class SecuritySettingActivity extends BaseActivity implements ObserverListener {
     
     
     private static final int EXIT = 1001;
@@ -22,6 +24,9 @@ public class SecuritySettingActivity extends BaseActivity {
     @Override
     public void initView() {
         setContentView(R.layout.activity_security_setting);
+        
+        ObserverManager.getInstance().add(this);
+        
         mCustomSecurity = (CustomerMenuView) findViewById(R.id.custom_security);
         mTitleBar = (TitleBar) findViewById(R.id.title_bar);
         try {
@@ -43,10 +48,10 @@ public class SecuritySettingActivity extends BaseActivity {
                 switch (((ItemData) v.getTag()).flag) {
                     case "exit":
                         SharedPreUtils.saveString(StringContants.TOKEN, "");
-                        setResult(EXIT);
+                        ObserverManager.getInstance().notifyObserver(EXIT);
                         finish();
                         break;
-//                    case "change":
+                    //                    case "change":
                     //                        startActivity(new Intent(SecuritySettingActivity.this,
                     // ChangeLoginPwdActivity.class));
                     //                        break;
@@ -88,6 +93,11 @@ public class SecuritySettingActivity extends BaseActivity {
     
     @Override
     public void processClick(View v) {
+        
+    }
+    
+    @Override
+    public void observerIsLogin(int isLogin) {
         
     }
 }
