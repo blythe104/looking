@@ -26,9 +26,6 @@ import com.squareup.okhttp.Request;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
-
 public class MovieScoreActivity extends BaseActivity {
     private TitleBar titleBar;
     private TextView movie_title;
@@ -40,7 +37,7 @@ public class MovieScoreActivity extends BaseActivity {
     private String vid;
     private EditText movie_score;
     private ImageView movieImg;
-
+    
     @Override
     public void initView() {
         setContentView(R.layout.activity_movie_score);
@@ -55,7 +52,7 @@ public class MovieScoreActivity extends BaseActivity {
         movieImg = (ImageView) findViewById(R.id.movie_img);
         vid = bundle.get("id").toString();
     }
-
+    
     @Override
     public void initListener() {
         titleBar.setOnClickListener(new TitleBar.OnClickListener() {
@@ -63,16 +60,21 @@ public class MovieScoreActivity extends BaseActivity {
             public void OnLeftClick() {
                 finish();
             }
-
+            
             @Override
             public void OnRightClick() {
-                //提交影评
-                setMovieScore();
+                String movieContent = movie_score.getText().toString();
+                if (TextUtils.isEmpty(movieContent)) {
+                    Toast.makeText(MovieScoreActivity.this, "影评内容不能为空哦！", Toast.LENGTH_SHORT).show();
+                } else {
+                    //提交影评
+                    setMovieScore(movieContent);
+                }
             }
         });
-
+        
     }
-
+    
     @Override
     public void initData() {
         titleBar.setTitle("影评", "完成");
@@ -80,60 +82,53 @@ public class MovieScoreActivity extends BaseActivity {
         director.setText(bundle.get("director").toString());
         actors.setText(bundle.get("actors").toString());
         score.setText(bundle.get("score").toString());
-        ImageLoaderUtils.display(MovieScoreActivity.this,"http://www.jingdian.party/"+bundle.get("cover_path").toString(),movieImg);
-
-
+        ImageLoaderUtils.display(MovieScoreActivity.this, "http://www.jingdian.party/" + bundle.get("cover_path")
+                .toString(), movieImg);
+        
+        
     }
-
+    
     @Override
     public void processClick(View v) {
-
+        
     }
-
-    private void setMovieScore() {
-        String movieContent = movie_score.getText().toString();
-        if (TextUtils.isEmpty(movieContent)) {
-            Crouton.makeText(MovieScoreActivity.this, "影评内容不能为空哦！", Style.CONFIRM).show();
-        } else {
-            List<Param> paramList = new ArrayList<>();
-            Param key = new Param("key", SharedPreUtils.getString(StringContants.KEY));
-            Param token = new Param("token", SharedPreUtils.getString(StringContants.TOKEN));
-            Param id = new Param("vid", vid);
-            Param commentId = new Param("commentId", "0");
-            Param content = new Param("content", movieContent);
-            paramList.add(key);
-            paramList.add(id);
-            paramList.add(commentId);
-            paramList.add(content);
-            paramList.add(token);
-            HttpUtils.post(ConstantApi.COMMENT, paramList, new ResultCallback() {
-                @Override
-                public void onSuccess(Object response) {
-                    commentBean commentBean = new Gson().fromJson(response.toString(), commentBean.class);
-                    Log.d("commentBean--", response.toString());
-                    if (commentBean.getResult() == 200) {
-//                        Crouton.makeText(MovieScoreActivity.this, "影评提交成功了", Style.CONFIRM).show();
-                        Toast.makeText(MovieScoreActivity.this, "影评提交成功了", Toast.LENGTH_SHORT).show();
-                        
-                        finish();
-                    } else {
-                        Toast.makeText(MovieScoreActivity.this, commentBean.getResultMsg(), Toast.LENGTH_SHORT).show();
-//                        Crouton.makeText(MovieScoreActivity.this, "oh,sorry~~评论失败喽", Style.CONFIRM).show();
-                    }
+    
+    private void setMovieScore(String movieContent) {
+        List<Param> paramList = new ArrayList<>();
+        Param key = new Param("key", SharedPreUtils.getString(StringContants.KEY));
+        Param token = new Param("Token", SharedPreUtils.getString(StringContants.TOKEN));
+        Param id = new Param("vid", vid);
+        Param commentId = new Param("commentId", "0");
+        Param content = new Param("content", movieContent);
+        paramList.add(key);
+        paramList.add(id);
+        paramList.add(commentId);
+        paramList.add(content);
+        paramList.add(token);
+        HttpUtils.post(ConstantApi.COMMENT, paramList, new ResultCallback() {
+            @Override
+            public void onSuccess(Object response) {
+                commentBean commentBean = new Gson().fromJson(response.toString(), commentBean.class);
+                Log.d("commentBean--", response.toString());
+                if (commentBean.getResult() == 200) {
+                    Toast.makeText(MovieScoreActivity.this, "影评提交成功了", Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    Toast.makeText(MovieScoreActivity.this, commentBean.getResultMsg(), Toast.LENGTH_SHORT).show();
                 }
-
-                @Override
-                public void onFailure(Request request, Exception e) {
-
-                }
-
-                @Override
-                public void onNoNetWork(String resultMsg) {
-
-                }
-            });
-        }
-
-
+            }
+            
+            @Override
+            public void onFailure(Request request, Exception e) {
+                
+            }
+            
+            @Override
+            public void onNoNetWork(String resultMsg) {
+                
+            }
+        });
+        
+        
     }
 }
