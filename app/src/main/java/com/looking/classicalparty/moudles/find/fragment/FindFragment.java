@@ -32,7 +32,7 @@ import com.looking.classicalparty.moudles.find.bean.FindBean;
 import com.looking.classicalparty.moudles.find.bean.MusicBean;
 import com.looking.classicalparty.moudles.find.bean.ReviewsBean;
 import com.looking.classicalparty.moudles.movie.view.MovieDetailActivity;
-import com.looking.classicalparty.moudles.music.service.PlayerService;
+import com.looking.classicalparty.moudles.music.dialog.MusicDialog;
 import com.squareup.okhttp.Request;
 
 import java.util.ArrayList;
@@ -73,10 +73,12 @@ public class FindFragment extends BaseFragment {
         }
     };
     private BannerAdapter bannerAdapter;
+    private MusicDialog musicDialog;
     
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.find_fragment_layout, null);
+        musicDialog = new MusicDialog(getActivity());
         recyclerView = (RecyclerView) view.findViewById(R.id.recycle_view);
         rvMusic = (RecyclerView) view.findViewById(R.id.rv_music);
         
@@ -140,11 +142,9 @@ public class FindFragment extends BaseFragment {
         musicAdapter.setOnItemClickListener(new RvMusicAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int positon) {
-                Intent intent = new Intent();
-                intent.putExtra("path", "http://www.jingdian.party/" + musicdatas.get(positon).getV_path());
-                intent.putExtra("MSG", StringContants.PLAY_MSG);
-                intent.setClass(getContext(), PlayerService.class);
-                getContext().startService(intent);       //启动服务
+                
+                musicDialog.initMusicData(musicdatas.get(positon).getV_path(), musicdatas.get(positon).getTitle());
+                musicDialog.show();
             }
         });
         
@@ -210,7 +210,7 @@ public class FindFragment extends BaseFragment {
                     musicdatas.addAll(findBean.getContent().getMusic());
                     bannerDatas.addAll(findBean.getContent().getFirstimage());
                 }
-               
+                
                 bannerAdapter.notifyDataSetChanged();
                 adapter.notifyDataSetChanged();
                 musicAdapter.notifyDataSetChanged();
