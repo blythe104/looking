@@ -43,7 +43,6 @@ import java.util.List;
  */
 public class FindFragment extends BaseFragment {
     
-    List<String> images;
     private RecyclerView recyclerView;
     private ReviewAdapter adapter;
     private List<ReviewsBean> datas;
@@ -83,7 +82,6 @@ public class FindFragment extends BaseFragment {
         rvMusic = (RecyclerView) view.findViewById(R.id.rv_music);
         
         findViewPager = (ViewPager) view.findViewById(R.id.find_viewpager);
-        initBannerData();
         
         getHomeData();
         initReviewRv();
@@ -94,12 +92,6 @@ public class FindFragment extends BaseFragment {
         return view;
     }
     
-    private void initBannerData() {
-        
-        //设置图片加载集合
-        images = new ArrayList<>();
-        
-    }
     
     @Override
     public void onStart() {
