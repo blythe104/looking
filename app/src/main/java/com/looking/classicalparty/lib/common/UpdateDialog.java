@@ -11,16 +11,16 @@ import com.looking.classicalparty.R;
 /**
  * Created by xin on 2016/10/24.
  */
-public class TipDialog extends Dialog implements View.OnClickListener {
-    private tipsListener listener;
-    private Button mBtnTipsOne;
-    private Button mBtnTipTwo;
+public class UpdateDialog extends Dialog implements View.OnClickListener {
+    private Button btnUpdate;
+    private Button btnCancel;
+    private UpdateListener listener;
     
-    public TipDialog(Context context) {
+    public UpdateDialog(Context context) {
         this(context, R.style.base_dialog_theme);
     }
     
-    public TipDialog(Context context, int themeResId) {
+    public UpdateDialog(Context context, int themeResId) {
         super(context, themeResId);
     }
     
@@ -28,33 +28,40 @@ public class TipDialog extends Dialog implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tips_dialog_layout);
-        mBtnTipsOne = (Button) findViewById(R.id.btn_tips_one);
-        mBtnTipTwo = (Button) findViewById(R.id.btn_tips_two);
-        mBtnTipsOne.setOnClickListener(this);
-        mBtnTipTwo.setOnClickListener(this);
-    }
-    
-    public void setTipsListener(tipsListener listener) {
-        this.listener = listener;
+        btnUpdate = (Button) findViewById(R.id.btn_update);
+        btnCancel = (Button) findViewById(R.id.btn_cancel);
+        btnUpdate.setOnClickListener(this);
+        btnCancel.setOnClickListener(this);
     }
     
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_tips_one:
+            case R.id.btn_update:
                 if (listener != null) {
-                    listener.getAppData();
+                    listener.update();
                 }
                 break;
-            case R.id.btn_tips_two:
+            case R.id.btn_cancel:
                 dismiss();
                 break;
         }
         
     }
     
+    public void setUpdateListener(UpdateListener listener) {
+        this.listener = listener;
+    }
+    
     public interface tipsListener {
         void getAppData();
         
+        
+    }
+    
+    public interface UpdateListener {
+        public void update();
+        
+        public void closeDialog();
     }
 }
