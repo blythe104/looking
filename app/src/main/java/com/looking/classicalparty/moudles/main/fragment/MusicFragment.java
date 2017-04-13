@@ -61,8 +61,9 @@ public class MusicFragment extends BaseFragment implements View.OnClickListener 
         musicAdapter.setMusicListener(new MusicAdapter.MusicListener() {
             @Override
             public void showListenerDialog(int position) {
-                musicDialog("http://www.jingdian.party/" + musicDatas.get(position).getCover_path(), "http://www" + "" +
-                        ".jingdian.party/" + musicDatas.get(position).getV_path(), musicDatas.get(position).getTitle());
+                musicDialog("http://www.jingdian.party/" + musicDatas.get(position).getCover_path(), "http://www" +
+                        "" + ".jingdian.party/" + musicDatas.get(position).getV_path(), musicDatas.get(position)
+                        .getTitle(), musicDatas.get(position).getDirector());
             }
             
             @Override
@@ -75,10 +76,10 @@ public class MusicFragment extends BaseFragment implements View.OnClickListener 
         return view;
     }
     
-    private void musicDialog(String imgPath, String path, String title) {
+    private void musicDialog(String imgPath, String path, String title, String singer) {
         MusicDialog musicDialog = new MusicDialog(getActivity());
-        musicDialog.initMusicData(imgPath, path, title);
         musicDialog.show();
+        musicDialog.initMusicData(imgPath, path, title, singer);
     }
     
     @Override

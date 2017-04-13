@@ -72,12 +72,10 @@ public class FindFragment extends BaseFragment {
         }
     };
     private BannerAdapter bannerAdapter;
-    private MusicDialog musicDialog;
     
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.find_fragment_layout, null);
-        musicDialog = new MusicDialog(getActivity());
         recyclerView = (RecyclerView) view.findViewById(R.id.recycle_view);
         rvMusic = (RecyclerView) view.findViewById(R.id.rv_music);
         
@@ -135,11 +133,17 @@ public class FindFragment extends BaseFragment {
             @Override
             public void onItemClick(View view, int positon) {
                 
-                musicDialog.initMusicData(musicdatas.get(positon).getCover_path(),musicdatas.get(positon).getV_path(), musicdatas.get(positon).getTitle());
-                musicDialog.show();
+                musicDialog(musicdatas.get(positon).getCover_path(), musicdatas.get(positon).getV_path(), musicdatas
+                        .get(positon).getTitle(), musicdatas.get(positon).getDirector());
             }
         });
         
+    }
+    
+    private void musicDialog(String imgPath, String path, String title, String singer) {
+        MusicDialog musicDialog = new MusicDialog(getActivity());
+        musicDialog.show();
+        musicDialog.initMusicData(imgPath, path, title, singer);
     }
     
     /**

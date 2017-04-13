@@ -28,6 +28,8 @@ public class MusicDialog extends Dialog implements View.OnClickListener {
     private ImageView ivClose;
     private ImageView ivMusicIcon;
     private Context context;
+    private String singer;
+    private TextView tvSinger;
     
     public MusicDialog(Context context) {
         this(context, R.style.DialogTheme);
@@ -47,10 +49,10 @@ public class MusicDialog extends Dialog implements View.OnClickListener {
         musicName = (TextView) findViewById(R.id.music_name);
         ivClose = (ImageView) findViewById(R.id.iv_close);
         ivMusicIcon = (ImageView) findViewById(R.id.iv_music_icon);
+        tvSinger = (TextView) findViewById(R.id.tv_singer);
         
-        musicName.setText(title);
         
-        ImageLoaderUtils.display(context, imgPath, R.mipmap.mine_two, ivMusicIcon);
+       
         
         ivClose.setOnClickListener(this);
         mBtnStop.setOnClickListener(this);
@@ -65,10 +67,12 @@ public class MusicDialog extends Dialog implements View.OnClickListener {
     }
     
     
-    public void initMusicData(String imgPath, String path, String title) {
+    public void initMusicData(String imgPath, String path, String title,String singer) {
         this.path = path;
-        this.title = title;
-        this.imgPath = imgPath;
+//        this.imgPath = imgPath;
+        ImageLoaderUtils.display(context, imgPath, R.mipmap.mine_two, ivMusicIcon);
+        musicName.setText(title);
+        tvSinger.setText(singer);
     }
     
     
