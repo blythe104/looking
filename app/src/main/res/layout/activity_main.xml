@@ -27,27 +27,27 @@
             style="@style/RadioButtonStyle"
             android:layout_gravity="center"
             android:drawableTop="@drawable/selector_radio_find"
-            android:text="FIND"/>
+            android:text="@string/rb_find"/>
 
         <RadioButton
             android:id="@+id/rb_video"
             style="@style/RadioButtonStyle"
             android:layout_gravity="center"
             android:drawableTop="@drawable/selector_radio_video"
-            android:text="VIDEO"/>
+            android:text="@string/video"/>
 
         <RadioButton
             android:id="@+id/rb_music"
             style="@style/RadioButtonStyle"
             android:layout_gravity="center"
             android:drawableTop="@drawable/selector_radio_music"
-            android:text="MUSIC"/>
+            android:text="@string/music"/>
 
         <RadioButton
             android:id="@+id/rb_mine"
             style="@style/RadioButtonStyle"
             android:layout_gravity="center"
             android:drawableTop="@drawable/selector_radio_mine"
-            android:text="MINE"/>
+            android:text="@string/mine"/>
     </RadioGroup>
 </LinearLayout>

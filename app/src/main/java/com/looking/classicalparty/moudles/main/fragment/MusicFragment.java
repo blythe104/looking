@@ -58,7 +58,7 @@ public class MusicFragment extends BaseFragment implements View.OnClickListener 
         lv_music.setAdapter(musicAdapter);
         
         loadMore.setOnClickListener(this);
-       lv_music.setOnItemClickListener(new MusicItemClickListener());
+        lv_music.setOnItemClickListener(new MusicItemClickListener());
         return view;
     }
     

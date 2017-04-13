@@ -20,4 +20,12 @@
     <string name="setting_key_mobile_network_play">mobile_network_play</string>
     <string name="cancel">取消</string>
     <string name="unknown"/>
+
+    <!--radiobutton-->
+    <string name="rb_find">精选</string>
+    <string name="video">视频</string>
+    <string name="music">音乐</string>
+    <string name="mine">我的</string>
+    <string name="btn_register">注册</string>
+    <string name="btn_login">登录</string>
 </resources>

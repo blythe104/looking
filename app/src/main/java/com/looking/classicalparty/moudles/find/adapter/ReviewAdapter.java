@@ -56,7 +56,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     .mIvPhoto);
             ((MovieViewHolder) holder).mTvName.setText(mDatas.get(position).getTitle());
             ((MovieViewHolder) holder).mTvWriter.setText(mDatas.get(position).getDirector());
-            ((MovieViewHolder) holder).mRecommer.setText(mDatas.get(position).getVscreate_time());
+            ((MovieViewHolder) holder).mRecommer.setText(mDatas.get(position).getMusername());
             if (mOnItemClickListener != null) {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override

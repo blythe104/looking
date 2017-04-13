@@ -3,10 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center"
     android:layout_marginTop="4dp"
     android:descendantFocusability="blocksDescendants"
-    >
+    android:gravity="center"
+>
 
     <LinearLayout
         android:layout_width="160dp"
@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:scaleType="centerCrop"
-            />
+        />
 
         <View
             android:layout_width="match_parent"
@@ -30,39 +30,66 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/tv_item_width"
                 android:layout_height="wrap_content"
-              android:layout_marginLeft="@dimen/layout_margin"
+                android:layout_marginLeft="@dimen/layout_margin"
                 android:text="音乐名:"
                 android:textColor="@color/colorLightBlack"
                 android:textSize="@dimen/min_textsize"/>
 
             <TextView
                 android:id="@+id/tv_name"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="--"
+                android:textColor="@color/colorLightBlack"
+                android:textSize="@dimen/min_textsize"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="4dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="@dimen/tv_item_width"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/layout_margin"
-                android:text="hello"
-                android:textColor="@color/colorLightBlack"
+                android:text="歌    手:"
+                android:textColor="@color/themeColor"
+                android:textSize="@dimen/min_textsize"/>
+
+            <TextView
+                android:id="@+id/tv_singer"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="--"
+                android:textColor="@color/themeColor"
                 android:textSize="@dimen/min_textsize"/>
         </LinearLayout>
 
 
-
-        <TextView
-            android:id="@+id/tv_listen"
-            android:layout_width="match_parent"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:background="@color/themeColor"
-            android:text="LISTENER NOW"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/min_textsize"/>
+        <!--<TextView-->
+            <!--android:id="@+id/tv_listen"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="20dp"-->
+            <!--android:layout_marginRight="20dp"-->
+            <!--android:background="@color/themeColor"-->
+            <!--android:gravity="center"-->
+            <!--android:text="LISTENER NOW"-->
+            <!--android:textColor="@color/colorWhite"-->
+            <!--android:textSize="@dimen/min_textsize"/>-->
 
     </LinearLayout>
 

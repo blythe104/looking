@@ -20,26 +20,26 @@ import java.util.List;
  */
 
 public class RvMusicAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
+    
     public List<MusicBean> mDatas;
     private OnItemClickListener mOnItemClickListener;
     private Context context;
-
-
-    public RvMusicAdapter(Context context,List<MusicBean> datas) {
-        this.context=context;
+    
+    
+    public RvMusicAdapter(Context context, List<MusicBean> datas) {
+        this.context = context;
         this.mDatas = datas;
     }
-
+    
     public RvMusicAdapter(FragmentManager fm, Context context) {
         this.context = context;
     }
-
-
+    
+    
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.mOnItemClickListener = listener;
     }
-
+    
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == ITEM_TYPE.ITEM_TYPE_THEME.ordinal()) {
@@ -51,7 +51,7 @@ public class RvMusicAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
         return null;
     }
-
+    
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ThemeViewHolder) {
@@ -61,6 +61,7 @@ public class RvMusicAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             ((MusicViewHolder) holder).mTvName.setText(mDatas.get(position).getTitle());
             ImageLoaderUtils.display(context, mDatas.get(position).getCover_path(), ((MusicViewHolder) holder)
                     .iv_photo);
+            ((MusicViewHolder) holder).mTvSinger.setText(mDatas.get(position).getDirector());
             if (mOnItemClickListener != null) {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -70,57 +71,56 @@ public class RvMusicAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 });
             }
         }
-
+        
     }
-
+    
     @Override
     public int getItemViewType(int position) {
         return position < 0 ? ITEM_TYPE.ITEM_TYPE_THEME.ordinal() : ITEM_TYPE.ITEM_TYPE_MUSIC.ordinal();
     }
-
+    
     @Override
     public int getItemCount() {
         return mDatas.size();
     }
-
+    
     // 定义类型
     public static enum ITEM_TYPE {
-        ITEM_TYPE_THEME,
-        ITEM_TYPE_MUSIC
+        ITEM_TYPE_THEME, ITEM_TYPE_MUSIC
     }
-
+    
     public static interface OnItemClickListener {
         void onItemClick(View view, int positon);
-
+        
     }
-
+    
     /**
      * 定义的主题ViewHolder
      */
     public class ThemeViewHolder extends RecyclerView.ViewHolder {
-
+        
         private ImageView mIvTitle;
         private TextView mTvTitle;
-
+        
         public ThemeViewHolder(View itemView) {
             super(itemView);
             mIvTitle = (ImageView) itemView.findViewById(R.id.iv_title);
             mTvTitle = (TextView) itemView.findViewById(R.id.tv_title);
         }
     }
-
-
+    
+    
     public class MusicViewHolder extends RecyclerView.ViewHolder {
         private TextView mTvName;
-        private TextView mTvListen;
-        private  ImageView iv_photo;
-
+        private TextView mTvSinger;
+        private ImageView iv_photo;
+        
         public MusicViewHolder(View itemView) {
             super(itemView);
-            iv_photo= (ImageView) itemView.findViewById(R.id.iv_photo);
+            iv_photo = (ImageView) itemView.findViewById(R.id.iv_photo);
             mTvName = (TextView) itemView.findViewById(R.id.tv_name);
-            mTvListen = (TextView) itemView.findViewById(R.id.tv_listen);
-
+            mTvSinger = (TextView) itemView.findViewById(R.id.tv_singer);
+            
         }
     }
 }

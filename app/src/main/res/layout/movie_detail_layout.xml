@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="4dp"
     android:gravity="center"
-    >
+>
 
     <LinearLayout
         android:layout_width="160dp"
@@ -20,7 +20,7 @@
             android:layout_height="100dp"
             android:scaleType="centerCrop"
             android:src="@mipmap/mine_two"
-            />
+        />
 
         <View
             android:layout_width="match_parent"
@@ -30,22 +30,25 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/tv_item_width"
                 android:layout_height="wrap_content"
-                android:text="电影名:"
                 android:layout_marginLeft="@dimen/layout_margin"
+                android:text="电影名:"
                 android:textColor="@color/colorLightBlack"
                 android:textSize="@dimen/min_textsize"/>
 
             <TextView
                 android:id="@+id/tv_name"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/layout_margin"
-                android:text="hello"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="--"
                 android:textColor="@color/colorLightBlack"
                 android:textSize="@dimen/min_textsize"/>
         </LinearLayout>
@@ -53,10 +56,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:lineSpacingExtra="4dp"
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/tv_item_width"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/layout_margin"
                 android:text="导    演:"
@@ -65,10 +69,12 @@
 
             <TextView
                 android:id="@+id/tv_writer"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/layout_margin"
-                android:text="hello"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="--"
                 android:textColor="@color/colorLightBlack"
                 android:textSize="@dimen/min_textsize"/>
         </LinearLayout>
@@ -76,23 +82,26 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:lineSpacingExtra="4dp"
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/tv_item_width"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/layout_margin"
                 android:text="推荐者:"
-                android:textColor="@color/colorLightBlack"
+                android:textColor="@color/themeColor"
                 android:textSize="@dimen/min_textsize"/>
 
             <TextView
                 android:id="@+id/tv_recommer"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/layout_margin"
-                android:text="hello"
-                android:textColor="@color/colorLightBlack"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="--"
+                android:textColor="@color/themeColor"
                 android:textSize="@dimen/min_textsize"/>
         </LinearLayout>
     </LinearLayout>
