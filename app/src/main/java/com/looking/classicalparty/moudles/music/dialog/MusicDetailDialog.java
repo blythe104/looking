@@ -4,18 +4,12 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.looking.classicalparty.R;
 
 public class MusicDetailDialog extends Dialog implements View.OnClickListener {
     
-    private ImageButton mBtnListener;
-    private ImageButton mBtnStop;
-    
-    private String path;
-    private String title;
     private TextView music_name;
     
     public MusicDetailDialog(Context context) {
@@ -31,8 +25,6 @@ public class MusicDetailDialog extends Dialog implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.music_detail_dialog);
         music_name = (TextView) findViewById(R.id.music_name);
-    
-        music_name.setText(title);
         
 //        WindowManager m = getWindow().getWindowManager();
         //        Display d = m.getDefaultDisplay();
@@ -45,7 +37,7 @@ public class MusicDetailDialog extends Dialog implements View.OnClickListener {
     
     
     public void initMusicData( String title) {
-        this.title = title;
+        music_name.setText(title);
     }
     
     

@@ -22,13 +22,10 @@ public class MusicDialog extends Dialog implements View.OnClickListener {
     private ImageButton mBtnStop;
     
     private String path;
-    private String title;
-    private String imgPath;
     private TextView musicName;
     private ImageView ivClose;
     private ImageView ivMusicIcon;
     private Context context;
-    private String singer;
     private TextView tvSinger;
     
     public MusicDialog(Context context) {
@@ -52,8 +49,6 @@ public class MusicDialog extends Dialog implements View.OnClickListener {
         tvSinger = (TextView) findViewById(R.id.tv_singer);
         
         
-       
-        
         ivClose.setOnClickListener(this);
         mBtnStop.setOnClickListener(this);
         mBtnListener.setOnClickListener(this);
@@ -67,9 +62,8 @@ public class MusicDialog extends Dialog implements View.OnClickListener {
     }
     
     
-    public void initMusicData(String imgPath, String path, String title,String singer) {
+    public void initMusicData(String imgPath, String path, String title, String singer) {
         this.path = path;
-//        this.imgPath = imgPath;
         ImageLoaderUtils.display(context, imgPath, R.mipmap.mine_two, ivMusicIcon);
         musicName.setText(title);
         tvSinger.setText(singer);
@@ -79,20 +73,22 @@ public class MusicDialog extends Dialog implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_listener:
+            case R.id.btn_listener: {
                 Intent intent = new Intent();
                 intent.putExtra("path", path);
                 intent.putExtra("MSG", StringContants.PLAY_MSG);
                 intent.setClass(getContext(), PlayerService.class);
                 getContext().startService(intent);       //启动服务
-                break;
-            case R.id.btn_stop:
-                Intent intentstop = new Intent();
-                intentstop.putExtra("path", path);
-                intentstop.putExtra("MSG", StringContants.STOP_MSG);
-                intentstop.setClass(getContext(), PlayerService.class);
-                getContext().startService(intentstop);
-                break;
+            }
+            break;
+            case R.id.btn_stop: {
+                Intent intent = new Intent();
+                intent.putExtra("path", path);
+                intent.putExtra("MSG", StringContants.STOP_MSG);
+                intent.setClass(getContext(), PlayerService.class);
+                getContext().startService(intent);
+            }
+            break;
             case R.id.iv_close:
                 dismiss();
                 break;

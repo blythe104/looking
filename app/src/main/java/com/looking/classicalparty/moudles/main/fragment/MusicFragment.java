@@ -40,13 +40,12 @@ public class MusicFragment extends BaseFragment implements View.OnClickListener 
     private LinearLayout loadMore;
     private TextView mTvDesc;
     private int totalPage;
-    private MusicDetailDialog musicDetailDialog;
     
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.music_fragment_layout, null);
         
-        musicDetailDialog = new MusicDetailDialog(getActivity());
+        
         lv_music = (ListView) view.findViewById(R.id.listview_music);
         loadMoreFoot = View.inflate(getActivity(), R.layout.ll_foot_layout, null);
         loadMore = (LinearLayout) loadMoreFoot.findViewById(R.id.ll_load_more);
@@ -68,12 +67,18 @@ public class MusicFragment extends BaseFragment implements View.OnClickListener 
             
             @Override
             public void showMusicDetail(int position) {
-                musicDetailDialog.initMusicData(musicDatas.get(position).getTitle());
-                musicDetailDialog.show();
+                
+                musicDetail(musicDatas.get(position).getTitle());
                 
             }
         });
         return view;
+    }
+    
+    private void musicDetail(String title) {
+        MusicDetailDialog musicDetailDialog = new MusicDetailDialog(getActivity());
+        musicDetailDialog.show();
+        musicDetailDialog.initMusicData(title);
     }
     
     private void musicDialog(String imgPath, String path, String title, String singer) {
