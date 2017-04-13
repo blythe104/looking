@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -21,6 +20,7 @@ import com.looking.classicalparty.lib.http.ResultCallback;
 import com.looking.classicalparty.lib.utils.SharedPreUtils;
 import com.looking.classicalparty.moudles.music.adapter.MusicAdapter;
 import com.looking.classicalparty.moudles.music.bean.MusicDetailBean;
+import com.looking.classicalparty.moudles.music.dialog.MusicDetailDialog;
 import com.looking.classicalparty.moudles.music.dialog.MusicDialog;
 import com.squareup.okhttp.Request;
 
@@ -40,12 +40,13 @@ public class MusicFragment extends BaseFragment implements View.OnClickListener 
     private LinearLayout loadMore;
     private TextView mTvDesc;
     private int totalPage;
-    private MusicDialog musicDialog;
+    private MusicDetailDialog musicDetailDialog;
     
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.music_fragment_layout, null);
-        musicDialog = new MusicDialog(getActivity());
+        
+        musicDetailDialog = new MusicDetailDialog(getActivity());
         lv_music = (ListView) view.findViewById(R.id.listview_music);
         loadMoreFoot = View.inflate(getActivity(), R.layout.ll_foot_layout, null);
         loadMore = (LinearLayout) loadMoreFoot.findViewById(R.id.ll_load_more);
@@ -56,10 +57,28 @@ public class MusicFragment extends BaseFragment implements View.OnClickListener 
         musicDatas = new ArrayList<>();
         musicAdapter = new MusicAdapter(getActivity(), musicDatas);
         lv_music.setAdapter(musicAdapter);
-        
         loadMore.setOnClickListener(this);
-        lv_music.setOnItemClickListener(new MusicItemClickListener());
+        musicAdapter.setMusicListener(new MusicAdapter.MusicListener() {
+            @Override
+            public void showListenerDialog(int position) {
+                musicDialog("http://www.jingdian.party/" + musicDatas.get(position).getCover_path(), "http://www" + "" +
+                        ".jingdian.party/" + musicDatas.get(position).getV_path(), musicDatas.get(position).getTitle());
+            }
+            
+            @Override
+            public void showMusicDetail(int position) {
+                musicDetailDialog.initMusicData(musicDatas.get(position).getTitle());
+                musicDetailDialog.show();
+                
+            }
+        });
         return view;
+    }
+    
+    private void musicDialog(String imgPath, String path, String title) {
+        MusicDialog musicDialog = new MusicDialog(getActivity());
+        musicDialog.initMusicData(imgPath, path, title);
+        musicDialog.show();
     }
     
     @Override
@@ -115,17 +134,6 @@ public class MusicFragment extends BaseFragment implements View.OnClickListener 
                     mTvDesc.setTextColor(Color.parseColor("#8c909d"));
                 }
                 break;
-        }
-        
-    }
-    
-    private class MusicItemClickListener implements AdapterView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, final int position, long l) {
-            
-            musicDialog.initMusicData("http://www.jingdian.party/" + musicDatas.get(position).getV_path(), musicDatas
-                    .get(position).getTitle());
-            musicDialog.show();
         }
         
     }

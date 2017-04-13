@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.looking.classicalparty.R;
 import com.looking.classicalparty.lib.constants.StringContants;
+import com.looking.classicalparty.lib.utils.ImageLoaderUtils;
 import com.looking.classicalparty.moudles.music.service.PlayerService;
 
 public class MusicDialog extends Dialog implements View.OnClickListener {
@@ -22,11 +23,15 @@ public class MusicDialog extends Dialog implements View.OnClickListener {
     
     private String path;
     private String title;
+    private String imgPath;
     private TextView musicName;
     private ImageView ivClose;
+    private ImageView ivMusicIcon;
+    private Context context;
     
     public MusicDialog(Context context) {
         this(context, R.style.DialogTheme);
+        this.context = context;
     }
     
     public MusicDialog(Context context, int themeResId) {
@@ -41,9 +46,12 @@ public class MusicDialog extends Dialog implements View.OnClickListener {
         mBtnStop = (ImageButton) findViewById(R.id.btn_stop);
         musicName = (TextView) findViewById(R.id.music_name);
         ivClose = (ImageView) findViewById(R.id.iv_close);
-        
+        ivMusicIcon = (ImageView) findViewById(R.id.iv_music_icon);
         
         musicName.setText(title);
+        
+        ImageLoaderUtils.display(context, imgPath, R.mipmap.mine_two, ivMusicIcon);
+        
         ivClose.setOnClickListener(this);
         mBtnStop.setOnClickListener(this);
         mBtnListener.setOnClickListener(this);
@@ -57,10 +65,10 @@ public class MusicDialog extends Dialog implements View.OnClickListener {
     }
     
     
-    
-    public void initMusicData(String path, String title) {
+    public void initMusicData(String imgPath, String path, String title) {
         this.path = path;
         this.title = title;
+        this.imgPath = imgPath;
     }
     
     

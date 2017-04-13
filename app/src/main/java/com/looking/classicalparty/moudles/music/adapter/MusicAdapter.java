@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.looking.classicalparty.R;
@@ -19,6 +20,7 @@ import java.util.List;
 
 public class MusicAdapter extends BaseAdapter {
     private Context context;
+    private MusicListener listener;
     
     private List<MusicDetailBean.ActivityEntity> musicDatas;
     
@@ -55,6 +57,8 @@ public class MusicAdapter extends BaseAdapter {
             mViewHolder.iv_music = (ImageView) convertView.findViewById(R.id.iv_music);
             mViewHolder.tv_musicName = (TextView) convertView.findViewById(R.id.tv_musicName);
             mViewHolder.tv_singer = (TextView) convertView.findViewById(R.id.tv_singer);
+            mViewHolder.iv_more = (ImageView) convertView.findViewById(R.id.iv_more);
+            mViewHolder.ll_listener_music = (LinearLayout) convertView.findViewById(R.id.ll_listener_music);
             
             convertView.setTag(mViewHolder);
         } else {
@@ -64,9 +68,34 @@ public class MusicAdapter extends BaseAdapter {
                 mViewHolder.iv_music);
         mViewHolder.tv_musicName.setText(musicDatas.get(position).getTitle());
         mViewHolder.tv_singer.setText(musicDatas.get(position).getDirector());
+        mViewHolder.ll_listener_music.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.showListenerDialog(position);
+                
+            }
+        });
+        mViewHolder.iv_more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.showMusicDetail(position);
+                
+            }
+        });
         
         
         return convertView;
+    }
+    
+    public void setMusicListener(MusicListener listener) {
+        this.listener = listener;
+        
+    }
+    
+    public interface MusicListener {
+        public void showListenerDialog(int position);
+        
+        public void showMusicDetail(int position);
     }
     
     static class ViewHolder {
@@ -74,6 +103,8 @@ public class MusicAdapter extends BaseAdapter {
         public TextView tv_musicName;
         public TextView tv_singer;
         public ImageView iv_music;
+        public ImageView iv_more;
+        public LinearLayout ll_listener_music;
         
     }
 }

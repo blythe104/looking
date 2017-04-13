@@ -135,7 +135,7 @@ public class FindFragment extends BaseFragment {
             @Override
             public void onItemClick(View view, int positon) {
                 
-                musicDialog.initMusicData(musicdatas.get(positon).getV_path(), musicdatas.get(positon).getTitle());
+                musicDialog.initMusicData(musicdatas.get(positon).getCover_path(),musicdatas.get(positon).getV_path(), musicdatas.get(positon).getTitle());
                 musicDialog.show();
             }
         });
