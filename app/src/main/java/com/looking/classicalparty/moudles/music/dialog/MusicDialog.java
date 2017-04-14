@@ -89,9 +89,9 @@ public class MusicDialog extends Dialog implements View.OnClickListener {
                 getContext().startService(intent);
             }
             break;
-            case R.id.iv_close:
-                dismiss();
-                break;
+            //            case R.id.iv_close:
+            //                dismiss();
+            //                break;
         }
         
     }

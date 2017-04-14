@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -30,7 +31,7 @@ import java.util.List;
 /**
  * Created by xin on 2016/10/19.
  */
-public class MusicFragment extends BaseFragment implements View.OnClickListener {
+public class MusicFragment extends BaseFragment implements View.OnClickListener{
     
     private ListView lv_music;
     private List<MusicDetailBean.ActivityEntity> musicDatas;
@@ -40,6 +41,8 @@ public class MusicFragment extends BaseFragment implements View.OnClickListener 
     private LinearLayout loadMore;
     private TextView mTvDesc;
     private int totalPage;
+    private ImageButton btnListener;
+    private TextView music_name;
     
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,6 +50,9 @@ public class MusicFragment extends BaseFragment implements View.OnClickListener 
         
         
         lv_music = (ListView) view.findViewById(R.id.listview_music);
+        music_name = (TextView) view.findViewById(R.id.music_name);
+        
+        btnListener = (ImageButton) view.findViewById(R.id.btn_listener);
         loadMoreFoot = View.inflate(getActivity(), R.layout.ll_foot_layout, null);
         loadMore = (LinearLayout) loadMoreFoot.findViewById(R.id.ll_load_more);
         mTvDesc = (TextView) loadMoreFoot.findViewById(R.id.tv_desc);
@@ -60,9 +66,11 @@ public class MusicFragment extends BaseFragment implements View.OnClickListener 
         musicAdapter.setMusicListener(new MusicAdapter.MusicListener() {
             @Override
             public void showListenerDialog(int position) {
-                musicDialog("http://www.jingdian.party/" + musicDatas.get(position).getCover_path(), "http://www" +
-                        "" + ".jingdian.party/" + musicDatas.get(position).getV_path(), musicDatas.get(position)
-                        .getTitle(), musicDatas.get(position).getDirector());
+                                musicDialog("http://www.jingdian.party/" + musicDatas.get(position).getCover_path()
+                 , "http://www" +
+                                        "" + ".jingdian.party/" + musicDatas.get(position).getV_path(), musicDatas
+                 .get(position)
+                                        .getTitle(), musicDatas.get(position).getDirector());
             }
             
             @Override
