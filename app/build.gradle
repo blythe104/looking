@@ -125,6 +125,7 @@ dependencies {
     compile 'com.bugtags.library:bugtags-lib:latest.integration'
     compile 'me.wcy:lrcview:1.4.1'
     compile 'com.android.support:appcompat-v7:25.1.0'
+    compile 'com.github.userswlwork:pull-to-refresh:1.0.0'
 }
 //配置lambda表达式
 buildscript {

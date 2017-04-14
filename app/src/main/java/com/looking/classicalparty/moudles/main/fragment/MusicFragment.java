@@ -1,7 +1,9 @@
 package com.looking.classicalparty.moudles.main.fragment;
 
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.looking.classicalparty.R;
 import com.looking.classicalparty.lib.base.fragment.BaseFragment;
 import com.looking.classicalparty.lib.constants.ConstantApi;
@@ -31,7 +35,7 @@ import java.util.List;
 /**
  * Created by xin on 2016/10/19.
  */
-public class MusicFragment extends BaseFragment implements View.OnClickListener{
+public class MusicFragment extends BaseFragment implements View.OnClickListener {
     
     private ListView lv_music;
     private List<MusicDetailBean.ActivityEntity> musicDatas;
@@ -43,6 +47,7 @@ public class MusicFragment extends BaseFragment implements View.OnClickListener{
     private int totalPage;
     private ImageButton btnListener;
     private TextView music_name;
+    private PullToRefreshListView plistview_music;
     
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,6 +55,9 @@ public class MusicFragment extends BaseFragment implements View.OnClickListener{
         
         
         lv_music = (ListView) view.findViewById(R.id.listview_music);
+        
+        plistview_music = (PullToRefreshListView) view.findViewById(R.id.plistview_music);
+        
         music_name = (TextView) view.findViewById(R.id.music_name);
         
         btnListener = (ImageButton) view.findViewById(R.id.btn_listener);
@@ -62,15 +70,34 @@ public class MusicFragment extends BaseFragment implements View.OnClickListener{
         musicDatas = new ArrayList<>();
         musicAdapter = new MusicAdapter(getActivity(), musicDatas);
         lv_music.setAdapter(musicAdapter);
+        
+        plistview_music.setAdapter(musicAdapter);
+        plistview_music.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> pullToRefreshBase) {
+                musicDatas.clear();
+                getMusicDatas(1);
+                new FinishRefresh().execute();
+            }
+            
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> pullToRefreshBase) {
+                if (curPage < totalPage) {
+                    getMusicDatas(++curPage);
+                }
+                musicAdapter.notifyDataSetChanged();
+                
+                new FinishRefresh().execute();
+                
+            }
+        });
         loadMore.setOnClickListener(this);
         musicAdapter.setMusicListener(new MusicAdapter.MusicListener() {
             @Override
             public void showListenerDialog(int position) {
-                                musicDialog("http://www.jingdian.party/" + musicDatas.get(position).getCover_path()
-                 , "http://www" +
-                                        "" + ".jingdian.party/" + musicDatas.get(position).getV_path(), musicDatas
-                 .get(position)
-                                        .getTitle(), musicDatas.get(position).getDirector());
+                musicDialog("http://www.jingdian.party/" + musicDatas.get(position).getCover_path(), "http://www" +
+                        "" + ".jingdian.party/" + musicDatas.get(position).getV_path(), musicDatas.get(position)
+                        .getTitle(), musicDatas.get(position).getDirector());
             }
             
             @Override
@@ -98,16 +125,17 @@ public class MusicFragment extends BaseFragment implements View.OnClickListener{
     @Override
     public void loadData() {
         super.loadData();
-        getMusicDatas(curPage);
+        //首次加载第一页的数据
+        getMusicDatas(1);
     }
     
     /**
      * 获取音乐列表数据
      */
-    private void getMusicDatas(int curPage) {
+    private void getMusicDatas(int curPages) {
         List<Param> paramList = new ArrayList<>();
         Param key = new Param("key", SharedPreUtils.getString(StringContants.KEY));
-        Param page = new Param("page", curPage + "");
+        Param page = new Param("page", curPages + "");
         Param pageCount = new Param("pageCount", 10 + "");
         paramList.add(key);
         paramList.add(page);
@@ -116,11 +144,15 @@ public class MusicFragment extends BaseFragment implements View.OnClickListener{
             @Override
             public void onSuccess(Object response) {
                 MusicDetailBean musicDetailBean = new Gson().fromJson(response.toString(), MusicDetailBean.class);
+                Log.d("musicDetail---", musicDetailBean.toString());
                 if (musicDetailBean.getResult() == 200) {
                     musicDatas.addAll(musicDetailBean.getActivity());
                 }
                 totalPage = musicDetailBean.getTotalPage();
+                curPage = Integer.parseInt(musicDetailBean.getCurrPage());
+                
                 musicAdapter.notifyDataSetChanged();
+                plistview_music.onRefreshComplete();
                 
             }
             
@@ -152,5 +184,16 @@ public class MusicFragment extends BaseFragment implements View.OnClickListener{
         
     }
     
-    
+    private class FinishRefresh extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            return null;
+        }
+        
+        @Override
+        protected void onPreExecute() {
+            plistview_music.onRefreshComplete();
+            super.onPreExecute();
+        }
+    }
 }
