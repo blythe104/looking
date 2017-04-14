@@ -23,6 +23,16 @@
                   android:textColor="@color/themeTextBlack"
                   android:textSize="20sp"
         />
+        <TextView android:id="@+id/tv_singer"
+                  android:layout_width="match_parent"
+                  android:layout_height="47dp"
+                  android:layout_gravity="center"
+                  android:layout_marginLeft="20dp"
+                  android:gravity="left"
+                  android:text="--"
+                  android:textColor="@color/themeTextBlack"
+                  android:textSize="20sp"
+        />
         <TextView android:id="@+id/look_detail"
                   android:layout_width="match_parent"
                   android:layout_height="47dp"

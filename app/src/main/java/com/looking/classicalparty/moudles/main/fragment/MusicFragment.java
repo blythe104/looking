@@ -103,17 +103,17 @@ public class MusicFragment extends BaseFragment implements View.OnClickListener 
             @Override
             public void showMusicDetail(int position) {
                 
-                musicDetail(musicDatas.get(position).getTitle());
+                musicDetail(musicDatas.get(position).getTitle(),musicDatas.get(position).getDirector(),musicDatas.get(position).getSummary());
                 
             }
         });
         return view;
     }
     
-    private void musicDetail(String title) {
+    private void musicDetail(String title,String singer,String summary) {
         MusicDetailDialog musicDetailDialog = new MusicDetailDialog(getActivity());
         musicDetailDialog.show();
-        musicDetailDialog.initMusicData(title);
+        musicDetailDialog.initMusicData(title,singer,summary);
     }
     
     private void musicDialog(String imgPath, String path, String title, String singer) {

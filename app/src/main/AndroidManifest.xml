@@ -8,7 +8,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
 
-
     <application
         android:name=".ClassicalApplication"
         android:allowBackup="true"
@@ -16,46 +15,64 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/ThemeActivity">
-        <activity android:name=".moudles.main.MainActivity"
-                  android:screenOrientation="portrait"
-        >
+        <activity
+            android:name=".moudles.main.MainActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".moudles.launch.LaunchActivity"
-                  android:screenOrientation="portrait">
+        <activity
+            android:name=".moudles.launch.LaunchActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".moudles.login.view.LoginActivity"
-                  android:screenOrientation="portrait"/>
-        <activity android:name=".moudles.register.view.RegisterActivity"
-                  android:screenOrientation="portrait"/>
-        <activity android:name=".moudles.register.view.RegisterDetailActivity"
-                  android:screenOrientation="portrait"/>
-        <activity android:name=".moudles.security.ChangeLoginPwdActivity"
-                  android:screenOrientation="portrait"/>
-        <activity android:name=".moudles.security.SecuritySettingActivity"
-                  android:screenOrientation="portrait"/>
-        <activity android:name=".moudles.feedback.FeedBackActivity"
-                  android:screenOrientation="portrait"/>
-        <activity android:name=".moudles.mine.view.PersonalActivity"
-                  android:screenOrientation="portrait">
+        <activity
+            android:name=".moudles.login.view.LoginActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".moudles.register.view.RegisterActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".moudles.register.view.RegisterDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".moudles.security.ChangeLoginPwdActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".moudles.security.SecuritySettingActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".moudles.feedback.FeedBackActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".moudles.mine.view.PersonalActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".moudles.about.view.AboutUsActivity"
-                  android:screenOrientation="portrait">
+        <activity
+            android:name=".moudles.about.view.AboutUsActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".moudles.movie.view.MovieDetailActivity"
-                  android:screenOrientation="portrait">
+        <activity
+            android:name=".moudles.movie.view.MovieDetailActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".moudles.mine.view.SignActivity"
-                  android:screenOrientation="portrait">
+        <activity
+            android:name=".moudles.mine.view.SignActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".moudles.movie.view.MovieScoreActivity"
-                  android:screenOrientation="portrait">
+        <activity
+            android:name=".moudles.movie.view.MovieScoreActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <service android:name=".moudles.music.service.PlayerService" android:exported="true"></service>
+
+        <service
+            android:name=".moudles.music.service.PlayerService"
+            android:exported="true"/>
+
+        <activity android:name=".moudles.music.view.SummaryActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -107,18 +107,17 @@ def getDebugApkName() {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
-    compile 'com.squareup.okhttp:okhttp:2.7.0'
-    compile 'com.google.code.gson:gson:2.6.2'
     compile('de.keyboardsurfer.android.widget:crouton:1.8.4@aar') {
         exclude group: 'com.google.android', module: 'support-v4'
     }
-    compile 'com.android.support:design:25.1.0'
     //时间选择控件
-    compile 'com.github.flavienlaurent.datetimepicker:library:0.0.2'
     //二维码生成
     compile files('libs/zxing.jar')
     //banner依赖库
+    compile 'com.squareup.okhttp:okhttp:2.7.0'
+    compile 'com.google.code.gson:gson:2.6.2'
+    compile 'com.android.support:design:25.1.0'
+    compile 'com.github.flavienlaurent.datetimepicker:library:0.0.2'
     compile 'com.youth.banner:banner:1.4.9'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.github.tgioihan:imageloader:1.0.3'
@@ -126,6 +125,8 @@ dependencies {
     compile 'me.wcy:lrcview:1.4.1'
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.github.userswlwork:pull-to-refresh:1.0.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
 }
 //配置lambda表达式
 buildscript {
