@@ -19,13 +19,60 @@
                 android:layout_marginLeft="@dimen/layout_margin"
                 android:layout_marginRight="@dimen/layout_margin"
             />
-            <include layout="@layout/theme_desc_layout"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="6px"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="14dp"
+                    android:background="@color/themeColor"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:layout_weight="1"
+                    android:text="电影"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="14sp"/>
+            </LinearLayout>
+
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycle_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
             />
-            <include layout="@layout/theme_desc_layout"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="6px"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="14dp"
+                    android:background="@color/themeColor"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:layout_weight="1"
+                    android:text="音乐"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="14sp"/>
+            </LinearLayout>
+
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_music"
                 android:layout_width="match_parent"
