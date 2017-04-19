@@ -32,6 +32,7 @@
     <dimen name="layout_margin">10dp</dimen>
     <dimen name="textview_height">30dp</dimen>
     <dimen name="tv_item_width">40dp</dimen>
+    <dimen name="line_space">4dp</dimen>
 
 
 </resources>

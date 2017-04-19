@@ -1,70 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/theme_gray"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:fitsSystemWindows="true"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+    <!--<android.support.design.widget.AppBarLayout-->
+    <!--android:id="@+id/appbar"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="200dp"-->
+    <!--android:fitsSystemWindows="true"-->
+    <!--android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">-->
 
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/collapsing_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMarginEnd="70dp"
-            app:expandedTitleMarginStart="30dp"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-        >
+    <!--<android.support.design.widget.CollapsingToolbarLayout-->
+    <!--android:id="@+id/collapsing_toolbar"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:fitsSystemWindows="true"-->
+    <!--app:contentScrim="?attr/colorPrimary"-->
+    <!--app:expandedTitleMarginEnd="70dp"-->
+    <!--app:expandedTitleMarginStart="30dp"-->
+    <!--app:layout_scrollFlags="scroll|exitUntilCollapsed"-->
+    <!--&gt;-->
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="200dp"
+                  android:background="@mipmap/mine_two"
+                  android:gravity="center_horizontal"
+                  android:orientation="vertical"
+                  android:scaleType="centerCrop"
+    >
 
-            <ImageView
-                android:id="@+id/backdrop"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/mine_two"
-                app:layout_collapseMode="parallax"
-            />
+        <com.looking.classicalparty.lib.widget.CircleImageView
+            android:id="@+id/circle_image"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="60dp"
+            android:foregroundGravity="center"
+            android:src="@mipmap/ic_launcher"
+            app:layout_collapseMode="pin"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:theme="@style/AppTheme.ToolBar">
+        <TextView
+            android:id="@+id/tick_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="hello"
+            android:textColor="@color/colorWhite"
+            android:textSize="20sp"/>
+        <TextView
+            android:id="@+id/tv_sign"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="hello this is my world"
+            android:textColor="@color/colorWhite"
+            android:textSize="18sp"/>
 
-                <!--添加自定义头像，然后根据自定义Behavior实现动画效果 -->
-                <com.looking.classicalparty.lib.widget.CircleImageView
-                    android:id="@+id/circle_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="44sp"
-                    android:foregroundGravity="center"
-                    android:src="@mipmap/mine_two"
-                    android:visibility="gone"
-                    app:layout_collapseMode="pin"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+    </LinearLayout>
 
 
-            </android.support.v7.widget.Toolbar>
-        </android.support.design.widget.CollapsingToolbarLayout>
-    </android.support.design.widget.AppBarLayout>
+    <!--<android.support.v7.widget.Toolbar-->
+    <!--android:id="@+id/toolbar"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="80dp"-->
+    <!--app:layout_collapseMode="pin"-->
+    <!--app:popupTheme="@style/ThemeOverlay.AppCompat.Light"-->
+    <!--app:theme="@style/AppTheme.ToolBar">-->
+
+    <!--&lt;!&ndash;添加自定义头像，然后根据自定义Behavior实现动画效果 &ndash;&gt;-->
+
+
+    <!--</android.support.v7.widget.Toolbar>-->
+    <!--</android.support.design.widget.CollapsingToolbarLayout>-->
+    <!--</android.support.design.widget.AppBarLayout>-->
     <!--NestedScrollView 可以实现自定义部分滑动实现效果
     -->
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/nes_scroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context="com.looking.classicalparty.moudles.main.ScrollingActivity"
         tools:showIn="@layout/mine_layout">
@@ -77,4 +97,4 @@
     </android.support.v4.widget.NestedScrollView>
 
 
-</android.support.design.widget.CoordinatorLayout>
+</LinearLayout>

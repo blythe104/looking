@@ -1,13 +1,13 @@
 package com.looking.classicalparty.moudles.mine.fragment;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -18,14 +18,17 @@ import com.looking.classicalparty.lib.constants.StringContants;
 import com.looking.classicalparty.lib.http.HttpUtils;
 import com.looking.classicalparty.lib.http.Param;
 import com.looking.classicalparty.lib.http.ResultCallback;
+import com.looking.classicalparty.lib.utils.ImageLoaderUtils;
 import com.looking.classicalparty.lib.utils.PackageManagerUtils;
 import com.looking.classicalparty.lib.utils.SharedPreUtils;
+import com.looking.classicalparty.lib.widget.CircleImageView;
 import com.looking.classicalparty.lib.widget.CustomerMenuView;
 import com.looking.classicalparty.lib.widget.ItemData;
 import com.looking.classicalparty.moudles.about.view.AboutUsActivity;
 import com.looking.classicalparty.moudles.feedback.FeedBackActivity;
 import com.looking.classicalparty.moudles.login.observer.ObserverListener;
 import com.looking.classicalparty.moudles.login.observer.ObserverManager;
+import com.looking.classicalparty.moudles.mine.PersonBean;
 import com.looking.classicalparty.moudles.mine.bean.VersionBean;
 import com.looking.classicalparty.moudles.mine.bean.VersionResponse;
 import com.looking.classicalparty.moudles.mine.view.PersonalActivity;
@@ -34,7 +37,9 @@ import com.squareup.okhttp.Request;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.looking.classicalparty.R.id.toolbar;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
+
 
 /**
  * Created by xin on 2016/10/19.
@@ -45,6 +50,9 @@ public class MineFragment extends BaseFragment implements ObserverListener {
     private CustomerMenuView mCustomMenu;
     private Toolbar mToolBar;
     private VersionBean mVersion;
+    private TextView tickName;
+    private CircleImageView circleImageView;
+    private TextView tvSign;
     
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,10 +60,13 @@ public class MineFragment extends BaseFragment implements ObserverListener {
         
         ObserverManager.getInstance().add(this);
         
-        mToolBar = (Toolbar) view.findViewById(toolbar);
         String version = PackageManagerUtils.getVersionName(getActivity());
         
         mCustomMenu = (CustomerMenuView) view.findViewById(R.id.custom_menu);
+        
+        circleImageView = (CircleImageView) view.findViewById(R.id.circle_image);
+        tvSign = (TextView) view.findViewById(R.id.tv_sign);
+        tickName = (TextView) view.findViewById(R.id.tick_name);
         mCustomMenu.addDivider().addItem(R.mipmap.ic_person_msg, "个人信息", "personmsg")//
                 //                .addItem(R.mipmap.ic_secure_setting, "安全设置", "security")//
                 .addDivider()//
@@ -94,6 +105,44 @@ public class MineFragment extends BaseFragment implements ObserverListener {
         });
         
         return view;
+        
+    }
+    
+    /**
+     * 获取用户详情
+     */
+    private void getPersonDetail() {
+        List<Param> paramList = new ArrayList<>();
+        Param key = new Param("key", SharedPreUtils.getString(StringContants.KEY));
+        Param token = new Param("Token", SharedPreUtils.getString(StringContants.TOKEN));
+        paramList.add(key);
+        paramList.add(token);
+        HttpUtils.post(ConstantApi.DETAIL, paramList, new ResultCallback() {
+            @Override
+            public void onSuccess(Object response) {
+                PersonBean personBean = new Gson().fromJson(response.toString(), PersonBean.class);
+                if (personBean.getResult() == 200) {
+                    // TODO: 2017/3/27 获取用户信息填充
+                    tickName.setText(personBean.getContent().get(0).getMusername());
+                    tvSign.setText(personBean.getContent().get(0).getMsignature());
+                    ImageLoaderUtils.display(getActivity(), personBean.getContent().get(0).getMavatar(), R.mipmap
+                            .mine_two, circleImageView);
+                } else {
+                    Crouton.makeText(getActivity(), personBean.getResultMsg(), Style.CONFIRM).show();
+                }
+            }
+            
+            @Override
+            public void onFailure(Request request, Exception e) {
+                
+            }
+            
+            @Override
+            public void onNoNetWork(String resultMsg) {
+                
+            }
+        });
+        
         
     }
     
@@ -143,8 +192,7 @@ public class MineFragment extends BaseFragment implements ObserverListener {
     @Override
     protected void loadData() {
         super.loadData();
-        mToolBar.setTitle("Classical");
-        mToolBar.setTitleTextColor(Color.parseColor("#FFFFFF"));
+        getPersonDetail();
     }
     
     

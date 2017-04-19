@@ -33,6 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/layout_margin"
         android:layout_marginRight="@dimen/layout_margin"
+        android:lineSpacingExtra="@dimen/line_space"
         android:text="
         经典party（创建者：不安分的年轻人），一个追求精致的网站，一个千里之行始于足下的典范，一个不怕你敢想就怕你不做的开端。网站的宗旨，致力于收集和存放好听的歌曲和经典视频。"
         android:textSize="@dimen/mid_textsize"/>
@@ -42,6 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/layout_margin"
         android:layout_marginRight="@dimen/layout_margin"
+        android:lineSpacingExtra="@dimen/line_space"
         android:text="
         从而与大家一起分享经典！如果你也喜欢，那么欢迎你的加入，让我们一起分享自己喜欢的东西给更多的人看！"
         android:textSize="@dimen/mid_textsize"/>
