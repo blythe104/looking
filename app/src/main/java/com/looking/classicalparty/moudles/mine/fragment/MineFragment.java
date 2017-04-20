@@ -68,7 +68,7 @@ public class MineFragment extends BaseFragment implements ObserverListener {
         tvSign = (TextView) view.findViewById(R.id.tv_sign);
         tickName = (TextView) view.findViewById(R.id.tick_name);
         mCustomMenu.addDivider().addItem(R.mipmap.ic_person_msg, "个人信息", "personmsg")//
-                //                .addItem(R.mipmap.ic_secure_setting, "安全设置", "security")//
+                // .addItem(R.mipmap.ic_secure_setting, "安全设置", "security")//
                 .addDivider()//
                 .addItem(R.mipmap.ic_feedback, "意见反馈", "feedback")//
                 .addItem(R.mipmap.ic_about_us, "关于我们", "aboutus")//

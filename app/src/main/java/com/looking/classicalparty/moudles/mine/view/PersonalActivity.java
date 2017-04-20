@@ -45,8 +45,8 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class PersonalActivity extends BaseActivity {
-
-
+    
+    
     private int CAMERA_REQUEST_CODE = 1001;
     private int PHOTO_REQUEST_CODE = 1002;
     private FrameLayout mFrBack;
@@ -62,7 +62,7 @@ public class PersonalActivity extends BaseActivity {
     private TextView tvSexy;
     private TextView tvSign;
     private TextView tvBirthday;
-
+    
     @Override
     public void initView() {
         setContentView(R.layout.activity_person);
@@ -84,29 +84,29 @@ public class PersonalActivity extends BaseActivity {
             public void takePhoto() {
                 requstPermission(CAMERA_REQUEST_CODE);
             }
-
+            
             @Override
             public void chooisePhoto() {
                 requstPermission(PHOTO_REQUEST_CODE);
             }
         });
     }
-
+    
     private void nicknameDialog() {
         nicknameDialog.show();
     }
-
+    
     @Override
     protected void onDestroy() {
         ConcreteSubject.getInstance().unRegister(changeDescObserver);
         super.onDestroy();
-
+        
     }
-
+    
     private void loadAvatarImg(String res) {
         ImageLoaderUtils.display(getApplication(), res, R.mipmap.mine_two, circleImageView);
     }
-
+    
     /**
      * 获取用户详情
      */
@@ -130,36 +130,36 @@ public class PersonalActivity extends BaseActivity {
                     Crouton.makeText(PersonalActivity.this, personBean.getResultMsg(), Style.CONFIRM).show();
                 }
             }
-
+            
             @Override
             public void onFailure(Request request, Exception e) {
-
+                
             }
-
+            
             @Override
             public void onNoNetWork(String resultMsg) {
-
+                
             }
         });
-
-
+        
+        
     }
-
+    
     /**
      * 选择性别
      */
     private void chooiseGender() {
         genderDialog.show();
     }
-
+    
     /**
      * 选择出生日期
      */
     private void chooiseBirthday() {
         datePickerDialog.setYearRange(1985, 2028);
-
+        
     }
-
+    
     private void requstPermission(int code) {
         switch (code) {
             case 1001:
@@ -187,7 +187,7 @@ public class PersonalActivity extends BaseActivity {
                     }
                 } else {
                     //调用相机拍照
-                    //                    Toast.makeText(this, "相机权限已经开启", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(this, "相机权限已经开启", Toast.LENGTH_SHORT).show();
                     Intent camareIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     camareIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment
                             .getExternalStorageDirectory(), "head.jpg")));
@@ -198,9 +198,9 @@ public class PersonalActivity extends BaseActivity {
                 Crouton.makeText(PersonalActivity.this, "获取系统相册", Style.CONFIRM).show();
                 break;
         }
-
+        
     }
-
+    
     /**
      * 出来权限申请成功或者失败的操作
      *
@@ -225,7 +225,7 @@ public class PersonalActivity extends BaseActivity {
             }
         }
     }
-
+    
     private void initTitle() {
         mFrBack = (FrameLayout) findViewById(R.id.fr_back);
         mTvTitle = (TextView) findViewById(R.id.tv_title);
@@ -233,38 +233,38 @@ public class PersonalActivity extends BaseActivity {
         circleImageView = (CircleImageView) findViewById(R.id.circle_image);
         mLlChangePhoto = (LinearLayout) findViewById(R.id.ll_change_photo);
         mTvTitle.setText("个人资料");
-
+        
     }
-
+    
     @Override
     public void initListener() {
         mFrBack.setOnClickListener(this);
         mLlChangePhoto.setOnClickListener(this);
         circleImageView.setOnClickListener(this);
     }
-
+    
     @Override
     public void initData() {
         getPersonDetail();
     }
-
-
+    
+    
     @Override
     public void processClick(View v) {
         switch (v.getId()) {
             case R.id.fr_back:
                 finish();
                 break;
-            case R.id.ll_change_photo:
+            case R.id.circle_image:
                 chooisePhotoDialog.show();
                 break;
         }
-
+        
     }
-
+    
     private class ChangeDescObserver implements Observer {
         private String getDesc;
-
+        
         @Override
         public void update(String desc) {
             getDesc = desc;
