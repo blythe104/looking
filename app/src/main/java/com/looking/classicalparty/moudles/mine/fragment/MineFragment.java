@@ -19,6 +19,7 @@ import com.looking.classicalparty.lib.http.HttpUtils;
 import com.looking.classicalparty.lib.http.Param;
 import com.looking.classicalparty.lib.http.ResultCallback;
 import com.looking.classicalparty.lib.utils.ImageLoaderUtils;
+import com.looking.classicalparty.lib.utils.LogUtils;
 import com.looking.classicalparty.lib.utils.PackageManagerUtils;
 import com.looking.classicalparty.lib.utils.SharedPreUtils;
 import com.looking.classicalparty.lib.widget.CircleImageView;
@@ -53,6 +54,12 @@ public class MineFragment extends BaseFragment implements ObserverListener {
     private TextView tickName;
     private CircleImageView circleImageView;
     private TextView tvSign;
+    private String nickName;
+    private String sign;
+    private String avSrc;
+    private String birthday;
+    private String mobile;
+    private PersonBean.User user;
     
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -79,7 +86,11 @@ public class MineFragment extends BaseFragment implements ObserverListener {
             public void itemClick(View v) {
                 switch (((ItemData) v.getTag()).flag) {
                     case "personmsg":
-                        startActivity(new Intent(getActivity(), PersonalActivity.class));
+                        Intent intent = new Intent(getActivity(), PersonalActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("user", user);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
                         break;
                     //                    case "security":
                     //                        startActivity(new Intent(getActivity(), SecuritySettingActivity.class));
@@ -121,12 +132,14 @@ public class MineFragment extends BaseFragment implements ObserverListener {
             @Override
             public void onSuccess(Object response) {
                 PersonBean personBean = new Gson().fromJson(response.toString(), PersonBean.class);
+                LogUtils.d("MineFragment--", response.toString());
                 if (personBean.getResult() == 200) {
+                    user = personBean.getContent().get(0);
                     // TODO: 2017/3/27 获取用户信息填充
-                    tickName.setText(personBean.getContent().get(0).getMusername());
-                    tvSign.setText(personBean.getContent().get(0).getMsignature());
-                    ImageLoaderUtils.display(getActivity(), personBean.getContent().get(0).getMavatar(), R.mipmap
-                            .mine_two, circleImageView);
+                    
+                    tickName.setText(user.getMusername());
+                    tvSign.setText(user.getMsignature());
+                    ImageLoaderUtils.display(getActivity(), user.getMavatar(), R.mipmap.mine_two, circleImageView);
                 } else {
                     Crouton.makeText(getActivity(), personBean.getResultMsg(), Style.CONFIRM).show();
                 }
@@ -195,6 +208,11 @@ public class MineFragment extends BaseFragment implements ObserverListener {
         getPersonDetail();
     }
     
+    @Override
+    public void onResume() {
+        super.onResume();
+        getPersonDetail();
+    }
     
     @Override
     public void observerIsLogin(int isLogin) {

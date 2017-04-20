@@ -11,9 +11,11 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fourmob.datetimepicker.date.DatePickerDialog;
 import com.google.gson.Gson;
@@ -29,6 +31,7 @@ import com.looking.classicalparty.lib.utils.LogUtils;
 import com.looking.classicalparty.lib.utils.SharedPreUtils;
 import com.looking.classicalparty.lib.widget.CircleImageView;
 import com.looking.classicalparty.moudles.mine.PersonBean;
+import com.looking.classicalparty.moudles.mine.bean.MemberBean;
 import com.looking.classicalparty.moudles.mine.dialog.ChooiseGenderDialog;
 import com.looking.classicalparty.moudles.mine.dialog.ChooisePhotoDialog;
 import com.looking.classicalparty.moudles.mine.dialog.NicknameDialog;
@@ -58,24 +61,30 @@ public class PersonalActivity extends BaseActivity {
     private ChooiseGenderDialog genderDialog;
     private ChangeDescObserver changeDescObserver;
     private NicknameDialog nicknameDialog;
-    private TextView tvNickname;
-    private TextView tvSexy;
-    private TextView tvSign;
-    private TextView tvBirthday;
+    private EditText etNickName;
+    private EditText etSexy;
+    private EditText etSign;
+    private EditText etBirthday;
+    private PersonBean.User user;
+    private TextView updatePerson;
     
     @Override
     public void initView() {
         setContentView(R.layout.activity_person);
         initTitle();
+        user = (PersonBean.User) getIntent().getSerializableExtra("user");
         final Calendar calendar = Calendar.getInstance();
-        tvNickname = (TextView) findViewById(R.id.tv_nickname);
-        tvSexy = (TextView) findViewById(R.id.tv_sexy);
-        tvSign = (TextView) findViewById(R.id.tv_sign);
-        tvBirthday = (TextView) findViewById(R.id.tv_birthday);
+        etNickName = (EditText) findViewById(R.id.et_nickname);
+        etSexy = (EditText) findViewById(R.id.et_sexy);
+        etSign = (EditText) findViewById(R.id.et_sign);
+        etBirthday = (EditText) findViewById(R.id.et_birthday);
+        updatePerson = (TextView) findViewById(R.id.tv_update_person);
         genderDialog = new ChooiseGenderDialog(this);
         nicknameDialog = new NicknameDialog(this);
         changeDescObserver = new ChangeDescObserver();
         ConcreteSubject.getInstance().register(changeDescObserver);
+        updatePerson.setOnClickListener(this);
+        
         datePickerDialog = DatePickerDialog.newInstance((ddg, year, month, day) -> {
                 }, //
                 calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
@@ -108,27 +117,32 @@ public class PersonalActivity extends BaseActivity {
     }
     
     /**
-     * 获取用户详情
+     * 提交用户更新信息
      */
-    private void getPersonDetail() {
+    private void updatePersonInfo() {
         List<Param> paramList = new ArrayList<>();
         Param key = new Param("key", SharedPreUtils.getString(StringContants.KEY));
         Param token = new Param("Token", SharedPreUtils.getString(StringContants.TOKEN));
+        Param nickname = new Param("mnickname", etNickName.getText().toString().trim());
+        Param birthday = new Param("mbirthday", etBirthday.getText().toString().trim());
+        Param gender = new Param("mgender", etSexy.getText().toString().trim());
+        Param sign = new Param("msignature", etSign.getText().toString().trim());
         paramList.add(key);
         paramList.add(token);
-        HttpUtils.post(ConstantApi.DETAIL, paramList, new ResultCallback() {
+        paramList.add(nickname);
+        paramList.add(birthday);
+        paramList.add(gender);
+        paramList.add(sign);
+        HttpUtils.post(ConstantApi.UPDATEINFO, paramList, new ResultCallback() {
             @Override
             public void onSuccess(Object response) {
-                PersonBean personBean = new Gson().fromJson(response.toString(), PersonBean.class);
-                if (personBean.getResult() == 200) {
-                    // TODO: 2017/3/27 获取用户信息填充
-                    tvNickname.setText(personBean.getContent().get(0).getMusername());
-                    tvSexy.setText(personBean.getContent().get(0).getMsex() == "1" ? "男" : "女");
-                    tvSign.setText(personBean.getContent().get(0).getMsignature());
-                    loadAvatarImg(personBean.getContent().get(0).getMavatar());
+                MemberBean memberBean = new Gson().fromJson(response.toString(), MemberBean.class);
+                if (200 == memberBean.getResult()) {
+                    Toast.makeText(PersonalActivity.this, "更新个人信息成功", Toast.LENGTH_SHORT).show();
                 } else {
-                    Crouton.makeText(PersonalActivity.this, personBean.getResultMsg(), Style.CONFIRM).show();
+                    Toast.makeText(PersonalActivity.this, "信息更新失败", Toast.LENGTH_SHORT).show();
                 }
+                
             }
             
             @Override
@@ -245,7 +259,11 @@ public class PersonalActivity extends BaseActivity {
     
     @Override
     public void initData() {
-        getPersonDetail();
+        //        getPersonDetail();
+        etNickName.setText(user.getMusername());
+        etSexy.setText(user.getMsex() == "1" ? "男" : "女");
+        etSign.setText(user.getMsignature());
+        loadAvatarImg(user.getMavatar());
     }
     
     
@@ -257,6 +275,9 @@ public class PersonalActivity extends BaseActivity {
                 break;
             case R.id.circle_image:
                 chooisePhotoDialog.show();
+                break;
+            case R.id.tv_update_person:
+                updatePersonInfo();
                 break;
         }
         

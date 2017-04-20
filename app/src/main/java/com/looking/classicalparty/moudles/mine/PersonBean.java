@@ -2,6 +2,7 @@ package com.looking.classicalparty.moudles.mine;
 
 import com.looking.classicalparty.lib.base.Bean.BaseBean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -11,17 +12,17 @@ import java.util.List;
 public class PersonBean extends BaseBean {
 
 
-    private List<ContentEntity> content;
+    private List<User> content;
 
-    public List<ContentEntity> getContent() {
+    public List<User> getContent() {
         return content;
     }
 
-    public void setContent(List<ContentEntity> content) {
+    public void setContent(List<User> content) {
         this.content = content;
     }
 
-    public static class ContentEntity {
+    public static class User implements Serializable {
         /**
          * mid : 11
          * musername : blythe
