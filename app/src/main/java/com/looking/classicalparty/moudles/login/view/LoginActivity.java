@@ -81,13 +81,13 @@ public class LoginActivity extends BaseActivity implements ObserverListener {
                 goRegister();
                 break;
             case R.id.fr_back:
-//                setResult(4000);
+                //                setResult(4000);
                 ObserverManager.getInstance().notifyObserver(4000);
                 finish();
                 break;
-            //            case R.id.tv_title_tag:
-            //                Crouton.makeText(this, "找回密码", Style.ALERT).show();
-            //                break;
+            //  case R.id.tv_title_tag:
+            // Crouton.makeText(this, "找回密码", Style.ALERT).show();
+            //  break;
         }
         
     }
