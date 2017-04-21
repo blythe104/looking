@@ -9,6 +9,9 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.EditText;
@@ -19,6 +22,9 @@ import android.widget.Toast;
 
 import com.fourmob.datetimepicker.date.DatePickerDialog;
 import com.google.gson.Gson;
+import com.joybar.librarycalendar.data.CalendarDate;
+import com.joybar.librarycalendar.fragment.CalendarViewFragment;
+import com.joybar.librarycalendar.fragment.CalendarViewPagerFragment;
 import com.looking.classicalparty.R;
 import com.looking.classicalparty.lib.base.activity.BaseActivity;
 import com.looking.classicalparty.lib.constants.ConstantApi;
@@ -32,6 +38,7 @@ import com.looking.classicalparty.lib.utils.SharedPreUtils;
 import com.looking.classicalparty.lib.widget.CircleImageView;
 import com.looking.classicalparty.moudles.mine.PersonBean;
 import com.looking.classicalparty.moudles.mine.bean.MemberBean;
+import com.looking.classicalparty.moudles.mine.dialog.ChooiseDateDialog;
 import com.looking.classicalparty.moudles.mine.dialog.ChooiseGenderDialog;
 import com.looking.classicalparty.moudles.mine.dialog.ChooisePhotoDialog;
 import com.looking.classicalparty.moudles.mine.dialog.NicknameDialog;
@@ -47,7 +54,8 @@ import java.util.List;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class PersonalActivity extends BaseActivity {
+public class PersonalActivity extends BaseActivity implements CalendarViewPagerFragment.OnPageChangeListener,
+        CalendarViewFragment.OnDateClickListener, CalendarViewFragment.OnDateCancelListener {
     
     
     private int CAMERA_REQUEST_CODE = 1001;
@@ -64,27 +72,40 @@ public class PersonalActivity extends BaseActivity {
     private EditText etNickName;
     private EditText etSexy;
     private EditText etSign;
-    private EditText etBirthday;
+    private TextView tvBirthday;
     private PersonBean.User user;
     private TextView updatePerson;
+    private ChooiseDateDialog chooiseDateDialog;
+    private boolean isChoiceModelSingle = true;
+    private List<CalendarDate> mListDate = new ArrayList<>();
+    
+    private static String listToString(List<CalendarDate> list) {
+        StringBuffer stringBuffer = new StringBuffer();
+        for (CalendarDate date : list) {
+            stringBuffer.append(date.getSolar().solarYear + "-" + date.getSolar().solarMonth + "-" + date.getSolar()
+                    .solarDay).append(" ");
+        }
+        return stringBuffer.toString();
+    }
     
     @Override
     public void initView() {
         setContentView(R.layout.activity_person);
         initTitle();
+//        initFragment();
         user = (PersonBean.User) getIntent().getSerializableExtra("user");
         final Calendar calendar = Calendar.getInstance();
         etNickName = (EditText) findViewById(R.id.et_nickname);
         etSexy = (EditText) findViewById(R.id.et_sexy);
         etSign = (EditText) findViewById(R.id.et_sign);
-        etBirthday = (EditText) findViewById(R.id.et_birthday);
+        tvBirthday = (TextView) findViewById(R.id.tv_birthday);
         updatePerson = (TextView) findViewById(R.id.tv_update_person);
         genderDialog = new ChooiseGenderDialog(this);
         nicknameDialog = new NicknameDialog(this);
         changeDescObserver = new ChangeDescObserver();
         ConcreteSubject.getInstance().register(changeDescObserver);
         updatePerson.setOnClickListener(this);
-        
+        tvBirthday.setOnClickListener(this);
         datePickerDialog = DatePickerDialog.newInstance((ddg, year, month, day) -> {
                 }, //
                 calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
@@ -124,7 +145,7 @@ public class PersonalActivity extends BaseActivity {
         Param key = new Param("key", SharedPreUtils.getString(StringContants.KEY));
         Param token = new Param("Token", SharedPreUtils.getString(StringContants.TOKEN));
         Param nickname = new Param("mnickname", etNickName.getText().toString().trim());
-        Param birthday = new Param("mbirthday", etBirthday.getText().toString().trim());
+        Param birthday = new Param("mbirthday", tvBirthday.getText().toString().trim());
         Param gender = new Param("mgender", etSexy.getText().toString().trim());
         Param sign = new Param("msignature", etSign.getText().toString().trim());
         paramList.add(key);
@@ -244,6 +265,7 @@ public class PersonalActivity extends BaseActivity {
         mFrBack = (FrameLayout) findViewById(R.id.fr_back);
         mTvTitle = (TextView) findViewById(R.id.tv_title);
         chooisePhotoDialog = new ChooisePhotoDialog(this);
+        chooiseDateDialog = new ChooiseDateDialog(this);
         circleImageView = (CircleImageView) findViewById(R.id.circle_image);
         mLlChangePhoto = (LinearLayout) findViewById(R.id.ll_change_photo);
         mTvTitle.setText("个人资料");
@@ -266,7 +288,6 @@ public class PersonalActivity extends BaseActivity {
         loadAvatarImg(user.getMavatar());
     }
     
-    
     @Override
     public void processClick(View v) {
         switch (v.getId()) {
@@ -279,8 +300,56 @@ public class PersonalActivity extends BaseActivity {
             case R.id.tv_update_person:
                 updatePersonInfo();
                 break;
+            case R.id.tv_birthday:
+//                isChoiceModelSingle = true;
+//                initFragment();
+                //                chooiseDateDialog.show();
+                break;
         }
         
+    }
+    
+    private void initFragment() {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction tx = fm.beginTransaction();
+        Fragment fragment = CalendarViewPagerFragment.newInstance(isChoiceModelSingle);
+        tx.replace(R.id.fl_content, fragment);
+        tx.commit();
+    }
+    
+    @Override
+    public void onDateCancel(CalendarDate calendarDate) {
+        int count = mListDate.size();
+        for (int i = 0; i < count; i++) {
+            CalendarDate date = mListDate.get(i);
+            if (date.getSolar().solarDay == calendarDate.getSolar().solarDay) {
+                mListDate.remove(i);
+                break;
+            }
+        }
+        tvBirthday.setText(listToString(mListDate));
+        
+    }
+    
+    @Override
+    public void onDateClick(CalendarDate calendarDate) {
+        int year = calendarDate.getSolar().solarYear;
+        int month = calendarDate.getSolar().solarMonth;
+        int day = calendarDate.getSolar().solarDay;
+        if (isChoiceModelSingle) {
+            tvBirthday.setText(year + "-" + month + "-" + day);
+        } else {
+            //System.out.println(calendarDate.getSolar().solarDay);
+            mListDate.add(calendarDate);
+            tvBirthday.setText(listToString(mListDate));
+        }
+        
+    }
+    
+    @Override
+    public void onPageChange(int year, int month) {
+        tvBirthday.setText(year + "-" + month);
+        mListDate.clear();
     }
     
     private class ChangeDescObserver implements Observer {

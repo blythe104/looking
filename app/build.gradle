@@ -126,7 +126,10 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.github.userswlwork:pull-to-refresh:1.0.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    //日历控件
+    compile 'com.joybar.calendar:librarycalendar:1.0.5'
     testCompile 'junit:junit:4.12'
+
 }
 //配置lambda表达式
 buildscript {

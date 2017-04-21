@@ -101,8 +101,11 @@
             android:textColor="#626571"
             android:textSize="14sp"/>
     </LinearLayout>
-    <View android:layout_width="match_parent" android:layout_height="1px"
+
+    <View android:layout_width="match_parent"
+          android:layout_height="1px"
           android:background="@color/themeColor"></View>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="45dp"
@@ -125,8 +128,8 @@
             android:textColor="#626571"
             android:textSize="14sp"/>
 
-        <EditText
-            android:id="@+id/et_birthday"
+        <TextView
+            android:id="@+id/tv_birthday"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="11dp"
