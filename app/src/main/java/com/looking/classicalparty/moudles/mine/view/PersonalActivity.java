@@ -2,9 +2,13 @@ package com.looking.classicalparty.moudles.mine.view;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.hardware.Camera;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -13,6 +17,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -32,12 +37,16 @@ import com.looking.classicalparty.lib.constants.StringContants;
 import com.looking.classicalparty.lib.http.HttpUtils;
 import com.looking.classicalparty.lib.http.Param;
 import com.looking.classicalparty.lib.http.ResultCallback;
+import com.looking.classicalparty.lib.utils.FileSizeUtil;
+import com.looking.classicalparty.lib.utils.GetPathUri4kitk;
 import com.looking.classicalparty.lib.utils.ImageLoaderUtils;
 import com.looking.classicalparty.lib.utils.LogUtils;
+import com.looking.classicalparty.lib.utils.SDCardUtils;
 import com.looking.classicalparty.lib.utils.SharedPreUtils;
 import com.looking.classicalparty.lib.widget.CircleImageView;
 import com.looking.classicalparty.moudles.mine.PersonBean;
 import com.looking.classicalparty.moudles.mine.bean.MemberBean;
+import com.looking.classicalparty.moudles.mine.bean.UploadAvaBean;
 import com.looking.classicalparty.moudles.mine.dialog.ChooiseDateDialog;
 import com.looking.classicalparty.moudles.mine.dialog.ChooiseGenderDialog;
 import com.looking.classicalparty.moudles.mine.dialog.ChooisePhotoDialog;
@@ -47,6 +56,9 @@ import com.looking.classicalparty.moudles.mine.observer.Observer;
 import com.squareup.okhttp.Request;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -54,12 +66,14 @@ import java.util.List;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
-public class PersonalActivity extends BaseActivity implements CalendarViewPagerFragment.OnPageChangeListener,
+public class PersonalActivity extends BaseActivity implements CalendarViewPagerFragment.OnPageChangeListener, 
         CalendarViewFragment.OnDateClickListener, CalendarViewFragment.OnDateCancelListener {
     
     
-    private int CAMERA_REQUEST_CODE = 1001;
-    private int PHOTO_REQUEST_CODE = 1002;
+    private static final int CAMERA_REQUEST_CODE = 1001;
+    private static final int PHOTO_REQUEST_CODE = 1002;
+    private static final int CROPPHOTO = 1003;
+    private static String path = "/sdcard/myHead/";
     private FrameLayout mFrBack;
     private TextView mTvTitle;
     private CircleImageView circleImageView;
@@ -78,6 +92,9 @@ public class PersonalActivity extends BaseActivity implements CalendarViewPagerF
     private ChooiseDateDialog chooiseDateDialog;
     private boolean isChoiceModelSingle = true;
     private List<CalendarDate> mListDate = new ArrayList<>();
+    private File updatefile;
+    private File file;
+    private File filepath;
     
     private static String listToString(List<CalendarDate> list) {
         StringBuffer stringBuffer = new StringBuffer();
@@ -92,7 +109,7 @@ public class PersonalActivity extends BaseActivity implements CalendarViewPagerF
     public void initView() {
         setContentView(R.layout.activity_person);
         initTitle();
-//        initFragment();
+        //        initFragment();
         user = (PersonBean.User) getIntent().getSerializableExtra("user");
         final Calendar calendar = Calendar.getInstance();
         etNickName = (EditText) findViewById(R.id.et_nickname);
@@ -203,7 +220,7 @@ public class PersonalActivity extends BaseActivity implements CalendarViewPagerF
                         .permission.CAMERA)) {
                     if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                        builder.setTitle(R.string.app_name).setMessage("申请相机权限").setPositiveButton("确定", (dialog, v)
+                        builder.setTitle(R.string.app_name).setMessage("申请相机权限").setPositiveButton("确定", (dialog, v) 
                                 -> {
                             //申请相机权限
                             ActivityCompat.requestPermissions(PersonalActivity.this, new String[]{Manifest.permission
@@ -223,17 +240,197 @@ public class PersonalActivity extends BaseActivity implements CalendarViewPagerF
                 } else {
                     //调用相机拍照
                     // Toast.makeText(this, "相机权限已经开启", Toast.LENGTH_SHORT).show();
-                    Intent camareIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    camareIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment
-                            .getExternalStorageDirectory(), "head.jpg")));
-                    startActivityForResult(camareIntent, CAMERA_REQUEST_CODE);
+                    if (isCameraCanUse()) {
+                        Intent camareIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        camareIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment
+                                .getExternalStorageDirectory(), "head.jpg")));
+                        startActivityForResult(camareIntent, CAMERA_REQUEST_CODE);
+                    }
+                    
                 }
                 break;
             case 1002:
-                Crouton.makeText(PersonalActivity.this, "获取系统相册", Style.CONFIRM).show();
+                if (PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(this, Manifest.permission
+                        .WRITE_EXTERNAL_STORAGE)) {
+                    Intent choiceIntent = new Intent(Intent.ACTION_PICK, null);
+                    choiceIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                    startActivityForResult(choiceIntent, PHOTO_REQUEST_CODE);
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(PersonalActivity.this);
+                    builder.setTitle(R.string.app_name).setMessage("当前无读写权限").setPositiveButton("去设置", new 
+                            DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // 跳转到系统的设置界面
+                            Intent intent = new Intent();
+                            intent.setAction("android.intent.action.MAIN");
+                            intent.setClassName("com.android.settings", "com.android.settings.ManageApplications");
+                            startActivity(intent);
+                        }
+                    }).setNegativeButton("暂不设置", null).show();
+                }
                 break;
         }
         
+    }
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case CAMERA_REQUEST_CODE:
+                if (SDCardUtils.isSDCardEnable()) {
+                    updatefile = new File(Environment.getExternalStorageDirectory() + "/head.jpg");
+                    //裁剪图片
+                    cropPhoto(Uri.fromFile(updatefile));
+                    LogUtils.d("updatefile----TAKEPHOTOCODE-", updatefile + "");
+                } else {
+                    Toast.makeText(PersonalActivity.this, "未找到SD卡", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case CROPPHOTO:
+                Bundle extras = data.getExtras();
+                if (extras != null) {
+                    Bitmap head = (Bitmap) extras.get("data");
+                    LogUtils.d("--head-", head + "--");
+                    if (head != null) {
+                        setPicToView(head);//保存在SD卡中
+                        // TODO: 2016/7/1 上传裁剪过后的图片
+                        // mAvatarImg.setImageBitmap(head);
+                        upUserHeader(filepath);
+                        //用ImageView显示出来
+                        if (chooisePhotoDialog != null) {
+                            chooisePhotoDialog.dismiss();
+                        }
+                    }
+                }
+                break;
+            //在本地选择图片
+            case PHOTO_REQUEST_CODE:
+                if (null == data) {
+                    return;
+                }
+                Uri uri = data.getData();
+                if (null != uri) {
+                    //将图片发送到服务器
+                    String ImgData = GetPathUri4kitk.getPath(PersonalActivity.this, uri);
+                    double mFileSize = FileSizeUtil.getFileOrFilesSize(ImgData, 3);
+                    LogUtils.d("---filesize-", mFileSize + "");
+                    if (mFileSize > 5) {
+                        Toast.makeText(PersonalActivity.this, "请选择5M以内的图片", Toast.LENGTH_SHORT).show();
+                    } else {
+                        cropPhoto(uri);//裁剪图片
+                    }
+                }
+                break;
+            
+        }
+        
+        
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+    
+    
+    /**
+     * 更新头像
+     */
+    // TODO: 2017/4/26 还需要修改，有问题，需要调试 
+    private void upUserHeader(File updatefile) {
+        List<Param> paramList = new ArrayList<>();
+        Param key = new Param("key", SharedPreUtils.getString(StringContants.KEY));
+        Param token = new Param("Token", SharedPreUtils.getString(StringContants.TOKEN));
+        Param file = new Param("file", updatefile);
+        paramList.add(key);
+        paramList.add(token);
+        paramList.add(file);
+        HttpUtils.post(ConstantApi.UPLOADAVA, paramList, new ResultCallback() {
+            @Override
+            public void onSuccess(Object response) {
+                UploadAvaBean uploadAvaBean = new Gson().fromJson(response.toString(), UploadAvaBean.class);
+                Log.d("updateAva---", uploadAvaBean.toString());
+                if (uploadAvaBean.getResult() == 200) {
+                    Toast.makeText(PersonalActivity.this, "头像上传成功", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(PersonalActivity.this, "头像上传失败", Toast.LENGTH_SHORT).show();
+                }
+                
+            }
+            
+            @Override
+            public void onFailure(Request request, Exception e) {
+                
+            }
+            
+            @Override
+            public void onNoNetWork(String resultMsg) {
+                
+            }
+        });
+    }
+    
+    
+    //将图片设置到视图
+    private void setPicToView(Bitmap mBitmap) {
+        String sdStatus = Environment.getExternalStorageState();
+        if (!sdStatus.equals(Environment.MEDIA_MOUNTED)) {
+            // 检测sd是否可用
+            return;
+        }
+        FileOutputStream b = null;
+        file = new File(path);
+        file.mkdirs();// 创建文件夹
+        String fileName = path + "head.jpg";//图片名字
+        filepath = new File(fileName);
+        try {
+            b = new FileOutputStream(filepath);
+            mBitmap.compress(Bitmap.CompressFormat.JPEG, 80, b);
+            // 把数据写入文件
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {//关闭流
+                if (b != null) {
+                    b.flush();
+                    b.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    private void cropPhoto(Uri uri) {
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, "image/*");
+        intent.putExtra("crop", "true");
+        // aspectX aspectY 是宽高的比例
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        // outputX outputY 是裁剪图片宽高
+        intent.putExtra("outputX", 150);
+        intent.putExtra("outputY", 150);
+        intent.putExtra("return-data", true);
+        startActivityForResult(intent, CROPPHOTO);
+    }
+    
+    /**
+     * 测试当前摄像头能否被使用
+     *
+     * @return
+     */
+    public boolean isCameraCanUse() {
+        boolean canUse = true;
+        Camera mCamera = null;
+        try {
+            mCamera = Camera.open(0);
+            mCamera.setDisplayOrientation(90);
+        } catch (Exception e) {
+            canUse = false;
+        }
+        if (canUse) {
+            mCamera.release();
+            mCamera = null;
+        }
+        return canUse;
     }
     
     /**
@@ -244,7 +441,7 @@ public class PersonalActivity extends BaseActivity implements CalendarViewPagerF
      * @param grantResults
      */
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[]
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] 
             grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == CAMERA_REQUEST_CODE) {
@@ -301,8 +498,8 @@ public class PersonalActivity extends BaseActivity implements CalendarViewPagerF
                 updatePersonInfo();
                 break;
             case R.id.tv_birthday:
-//                isChoiceModelSingle = true;
-//                initFragment();
+                //                isChoiceModelSingle = true;
+                //                initFragment();
                 //                chooiseDateDialog.show();
                 break;
         }
