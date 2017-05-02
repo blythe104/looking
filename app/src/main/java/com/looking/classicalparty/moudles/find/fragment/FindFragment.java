@@ -16,6 +16,7 @@ import android.widget.ImageView;
 
 import com.google.gson.Gson;
 import com.looking.classicalparty.R;
+import com.looking.classicalparty.lib.base.dialog.LoadingDialog;
 import com.looking.classicalparty.lib.base.fragment.BaseFragment;
 import com.looking.classicalparty.lib.constants.ConstantApi;
 import com.looking.classicalparty.lib.constants.StringContants;
@@ -72,10 +73,12 @@ public class FindFragment extends BaseFragment {
         }
     };
     private BannerAdapter bannerAdapter;
+    private LoadingDialog loadingDialog;
     
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.find_fragment_layout, null);
+        loadingDialog = new LoadingDialog(getContext());
         recyclerView = (RecyclerView) view.findViewById(R.id.recycle_view);
         rvMusic = (RecyclerView) view.findViewById(R.id.rv_music);
         
@@ -87,6 +90,10 @@ public class FindFragment extends BaseFragment {
         
         bannerAdapter = new BannerAdapter(getActivity(), bannerDatas);
         findViewPager.setAdapter(bannerAdapter);
+        
+        if (loadingDialog != null && !loadingDialog.isShowing()) {
+            loadingDialog.show();
+        }
         return view;
     }
     
@@ -199,6 +206,9 @@ public class FindFragment extends BaseFragment {
                 LogUtils.d("find data---" + response.toString());
                 FindBean findBean = new Gson().fromJson(response.toString(), FindBean.class);
                 if (200 == findBean.getResult()) {
+                    if (loadingDialog != null && loadingDialog.isShowing()) {
+                        loadingDialog.dismiss();
+                    }
                     datas.clear();
                     musicdatas.clear();
                     bannerDatas.clear();
@@ -212,6 +222,10 @@ public class FindFragment extends BaseFragment {
                 musicAdapter.notifyDataSetChanged();
                 isRunning = true;
                 mHandler.sendEmptyMessageDelayed(0, 5000);
+                
+                if (loadingDialog != null && loadingDialog.isShowing()) {
+                    loadingDialog.dismiss();
+                }
             }
             
             @Override
